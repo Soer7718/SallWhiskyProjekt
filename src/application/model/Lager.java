@@ -8,10 +8,22 @@ public class Lager {
     private int pladser;
     private String adresse;
     private List<Gang> gangList = new ArrayList<>();
+    private List<Fad> fadList = new ArrayList<>();
 
     public Lager(String navn, String adresse) {
         this.navn = navn;
         this.adresse = adresse;
+        this.fadList = new ArrayList<>();
+    }
+
+    public Fad registrerFad(int antalGangeBrugt, String type, String leverandør, String historik) {
+        Fad fad = new Fad(antalGangeBrugt, type, leverandør, historik);
+        fadList.add(fad);
+        return fad;
+    }
+
+    public List<Fad> getFadList(){
+        return new ArrayList<>(fadList);
     }
 
     public String getNavn() {

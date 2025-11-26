@@ -11,7 +11,43 @@ public class Fad {
     private String historik;
     private List<Påfyldning> påfyldninger;
 
-    public Fad(int antalGangeBrugt, String type, String leverandør, String historik, List påfyldninger){
+    public int getAntalGangeBrugt() {
+        return antalGangeBrugt;
+    }
+
+    public void setAntalGangeBrugt(int antalGangeBrugt) {
+        this.antalGangeBrugt = antalGangeBrugt;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLeverandør() {
+        return leverandør;
+    }
+
+    public void setLeverandør(String leverandør) {
+        this.leverandør = leverandør;
+    }
+
+    public String getHistorik() {
+        return historik;
+    }
+
+    public void setHistorik(String historik) {
+        this.historik = historik;
+    }
+
+    public void setPåfyldninger(List<Påfyldning> påfyldninger) {
+        this.påfyldninger = påfyldninger;
+    }
+
+    public Fad(int antalGangeBrugt, String type, String leverandør, String historik){
         this.antalGangeBrugt = antalGangeBrugt;
         this.type = type;
         this.leverandør = leverandør;
