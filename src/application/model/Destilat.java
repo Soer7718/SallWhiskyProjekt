@@ -125,7 +125,8 @@ public class Destilat {
     }
 
 
-    public Påfyldning opretPåfyldning() {
-
+    public Påfyldning opretPåfyldning(LocalDate localDate) {
+        Påfyldning påfyldning = new Påfyldning(localDate,this);
+        return påfyldning;
     }
 }
