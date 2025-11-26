@@ -11,6 +11,23 @@ public class Tapning {
     private double mængde;
     private List<Flaske> flasker;
 
+
+    public List<Flaske> getFlasker() {
+        return new ArrayList<>(flasker);
+    }
+
+    public void addFlaske(Flaske flaske) {
+        if (!flasker.contains(flaske)) {
+            flasker.add(flaske);
+        }
+    }
+
+
+    public void removeFlaske(Flaske flaske) {
+        flasker.remove(flaske);
+    }
+
+
     public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde){
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
