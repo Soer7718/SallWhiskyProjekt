@@ -20,11 +20,11 @@ public class Tapning {
         this.flasker = new ArrayList<>();
     }
 
-    public Flaske opretFlaske(double mængde, String navn, int nummer, double alkoholProcent, String label, WhiskyType type){
+/*    public Flaske opretFlaske(double mængde, String navn, int nummer, double alkoholProcent, String label, WhiskyType type){
         Flaske flaske = new Flaske(mængde, navn, nummer, alkoholProcent, label, type);
         flasker.add(flaske);
         return flaske;
-    }
+    }*/
 
     public void addVand(double liter){
         this.mængdeVand += liter;
