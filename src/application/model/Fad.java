@@ -1,4 +1,50 @@
 package application.model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fad {
+    private int antalGangeBrugt;
+    private String type;
+    private String leverandør;
+    private String historik;
+    private List<Påfyldning> påfyldninger;
+
+    public Fad(int antalGangeBrugt, String type, String leverandør, String historik, List påfyldninger){
+        this.antalGangeBrugt = antalGangeBrugt;
+        this.type = type;
+        this.leverandør = leverandør;
+        this.historik = historik;
+        this.påfyldninger = new ArrayList<>();
+    }
+
+    public Påfyldning opretPåfyldning(LocalDate dato, Destilat destilat){
+        Påfyldning p = new Påfyldning(dato, destilat);
+        påfyldninger.add(p);
+        return p;
+    }
+
+    public double beregnAlkoholProcent(){
+        return 0.0;
+    }
+
+    public double beregnMængde(){
+        return 0.0;
+    }
+
+    public List<Påfyldning> getPåfyldninger(){
+        return new ArrayList<>(påfyldninger);
+    }
+
+    @Override
+    public String toString(){
+
+        return "Fad{" +
+                "antalGangeBrugt=" + antalGangeBrugt +
+                ", type='" + type + '\'' +
+                ", leverandør='" + leverandør + '\'' +
+                ", historik='" + historik + '\'' +
+                '}';
+    }
 }
