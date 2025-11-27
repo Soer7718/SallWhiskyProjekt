@@ -1,8 +1,8 @@
 package application.controller;
 
 import application.model.Destilat;
-import application.model.WhiskyType;
 import storage.Storage;
+import application.model.WhiskyType;
 
 import java.time.LocalDate;
 
