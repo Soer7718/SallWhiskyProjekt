@@ -93,8 +93,8 @@ public class DestilatTab {
         box2.setStyle("-fx-border-color: black; -fx-padding: 5;");
 
         Label label2 = new Label("Destilat liste");
-        ListView destilatLW = new ListView();
-        destilatLW.getItems();
+        ListView<application.model.Destilat> destilatLW = new ListView<>();
+        destilatLW.setItems(javafx.collections.FXCollections.observableArrayList(Controller.getDestillatListe()));
 
         box2.getChildren().addAll(label2,destilatLW);
         HBox.setHgrow(box2, Priority.ALWAYS);
@@ -117,6 +117,7 @@ public class DestilatTab {
 
         return layout;
     }
+
 
     private void opretDestilat() {
         String kornSort = kornSortInput.getText().toLowerCase();
@@ -185,6 +186,8 @@ public class DestilatTab {
             System.out.println("FEJL:\n" + fejl);
             return;
         }
+
+
 
         System.out.println("=== Opretter Destillat ===");
         System.out.println("Kornsort: " + kornSort);

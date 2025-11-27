@@ -1,3 +1,4 @@
+
 package application.model;
 
 import java.util.ArrayList;
@@ -9,23 +10,34 @@ public class Lager {
     private String adresse;
     private List<Gang> gangList = new ArrayList<>();
     private List<Fad> fadList = new ArrayList<>();
+    private List<Destilat> destillatListe = new ArrayList<>();
 
     public Lager(String navn, String adresse) {
         this.navn = navn;
         this.adresse = adresse;
-        this.fadList = new ArrayList<>();
     }
 
+    // === Destillat ===
+    public List<Destilat> getDestillatListe() {
+        return new ArrayList<>(destillatListe);
+    }
+
+    public void addDestillat(Destilat d) {
+        destillatListe.add(d);
+    }
+
+    // === Fad ===
     public Fad registrerFad(int antalGangeBrugt, String type, String leverandør, String historik) {
         Fad fad = new Fad(antalGangeBrugt, type, leverandør, historik);
         fadList.add(fad);
         return fad;
     }
 
-    public List<Fad> getFadList(){
+    public List<Fad> getFadList() {
         return new ArrayList<>(fadList);
     }
 
+    // === Getters og Setters ===
     public String getNavn() {
         return navn;
     }
@@ -53,7 +65,4 @@ public class Lager {
     public List<Gang> getGangList() {
         return new ArrayList<>(gangList);
     }
-
-
-
 }

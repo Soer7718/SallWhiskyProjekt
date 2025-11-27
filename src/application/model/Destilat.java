@@ -119,4 +119,10 @@ public class Destilat {
         Påfyldning påfyldning = new Påfyldning(localDate,this);
         return påfyldning;
     }
+
+    @Override
+    public String toString() {
+        return kornSort + " (" + alkoholProcent + "%, " + mængde + "L)";
+    }
+
 }
