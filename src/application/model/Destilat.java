@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Destilat {
-    private WhiskyType type;
     private double alkoholProcent;
     private double mængde;
     private String mark;
@@ -17,8 +16,7 @@ public class Destilat {
     private String kommentar;
     private List<Påfyldning> påfyldningList = new ArrayList<Påfyldning>();
 
-    public Destilat(WhiskyType type, double alkoholProcent, double mængde, String mark, String kornSort, int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
-        this.type = type;
+    public Destilat(double alkoholProcent, double mængde, String mark, String kornSort, int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
         this.alkoholProcent = alkoholProcent;
         this.mængde = mængde;
         this.mark = mark;
@@ -28,14 +26,6 @@ public class Destilat {
         this.slutDato = slutDato;
         this.rygeMateriale = rygeMateriale;
         this.kommentar = kommentar;
-    }
-
-    public WhiskyType getType() {
-        return type;
-    }
-
-    public void setType(WhiskyType type) {
-        this.type = type;
     }
 
     public double getAlkoholProcent() {

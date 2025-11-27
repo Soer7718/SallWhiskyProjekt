@@ -1,6 +1,16 @@
 package application.controller;
 
-public class Controller {
+import application.model.Destilat;
+import application.model.WhiskyType;
+import storage.Storage;
 
+import java.time.LocalDate;
+
+public class Controller {
+    public static Destilat createDestilat(double alkoholProcent, double mængde, String mark, String kornSort, int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
+        Destilat objektDestilat = new Destilat(alkoholProcent,mængde,mark,kornSort,maltBatch,slutDato,rygeMateriale,kommentar);
+        Storage.addDestilat(objektDestilat);
+        return objektDestilat;
+    }
 
 }
