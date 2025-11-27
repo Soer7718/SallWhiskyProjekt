@@ -1,6 +1,6 @@
 package application.model;
 
-public class Flaske {
+public class Whisky {
     private double mængde;
     private String navn;
     private int nummer;
@@ -8,7 +8,7 @@ public class Flaske {
     private String label;
     private WhiskyType type;
 
-    public Flaske(double mængde, String navn, int nummer, double alkoholProcent, String label, WhiskyType type){
+    public Whisky(double mængde, String navn, int nummer, double alkoholProcent, String label, WhiskyType type){
         this.mængde = mængde;
         this.navn = navn;
         this.nummer = nummer;
