@@ -24,27 +24,15 @@ public class Gui extends Application{
         Tab fadTab = new Tab("Fad");
         fadTab.setContent(new FadTab().getContent());
 
+        Tab destilleriTab = new Tab("Destilleri");
+        destilleriTab.setContent(new DestilatTab().getContent());
 
-        tabPane.getTabs().add(fadTab);
-
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        tabPane.getTabs().addAll(fadTab, destilleriTab);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
 
         Scene scene = new Scene(tabPane, 1200, 800);
         stage.setScene(scene);
         stage.setTitle("Multi-tab App");
         stage.show();
-        // Tab destilleriTab = new Tab("Destilleri");
-       // destilleriTab.setContent(new DestilatTab().getContent());
-
-        // tabPane.getTabs().addAll(fadTab, destilleriTab);
-
-        // tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
-
-        // Scene scene = new Scene(tabPane, 600, 400);
-        // stage.setScene(scene);
-        // stage.setTitle("Multi-tab App");
-        // stage.show();
-
-
     }
 }
