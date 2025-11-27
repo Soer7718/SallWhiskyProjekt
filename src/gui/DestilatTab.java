@@ -94,7 +94,7 @@ public class DestilatTab {
 
         Label label2 = new Label("Destilat liste");
         ListView destilatLW = new ListView();
-        destilatLW.getItems()
+        destilatLW.getItems();
 
         box2.getChildren().addAll(label2,destilatLW);
         HBox.setHgrow(box2, Priority.ALWAYS);
