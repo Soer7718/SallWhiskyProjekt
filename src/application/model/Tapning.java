@@ -9,7 +9,7 @@ public class Tapning {
     private double mængdeVand;
     private String vandOprindelse;
     private double mængde;
-    private List<Flaske> flasker;
+    private List<Whisky> whiskyList;
 
     public double getAlkoholProcent() {
         return alkoholProcent;
@@ -51,23 +51,23 @@ public class Tapning {
         this.mængde = mængde;
     }
 
-    public void setFlasker(List<Flaske> flasker) {
-        this.flasker = flasker;
+    public void setWhiskyList(List<Whisky> flasker) {
+        this.whiskyList = whiskyList;
     }
 
-    public List<Flaske> getFlasker() {
-        return new ArrayList<>(flasker);
+    public List<Whisky> getWhiskyList() {
+        return new ArrayList<>(whiskyList);
     }
 
-    public void addFlaske(Flaske flaske) {
-        if (!flasker.contains(flaske)) {
-            flasker.add(flaske);
+    public void tilføjWhisky(Whisky whisky) {
+        if (!whiskyList.contains(whisky)) {
+            whiskyList.add(whisky);
         }
     }
 
 
-    public void removeFlaske(Flaske flaske) {
-        flasker.remove(flaske);
+    public void fjernWhisky(Whisky whisky) {
+        whiskyList.remove(whisky);
     }
 
 
@@ -77,20 +77,17 @@ public class Tapning {
         this.mængdeVand = mængdeVand;
         this.vandOprindelse = vandOprindelse;
         this.mængde = mængde;
-        this.flasker = new ArrayList<>();
+        this.whiskyList = new ArrayList<>();
     }
 
-/*    public Flaske opretFlaske(double mængde, String navn, int nummer, double alkoholProcent, String label, WhiskyType type){
-        Flaske flaske = new Flaske(mængde, navn, nummer, alkoholProcent, label, type);
-        flasker.add(flaske);
-        return flaske;
+/*    public Whisky opretWhisky(double mængde, String navn, int nummer, double alkoholProcent, String label, WhiskyType type){
+        Whisky whisky = new Whisky(mængde, navn, nummer, alkoholProcent, label, type);
+        whiskyList.add(whisky);
+        return whisky;
     }*/
 
-    public void addVand(double liter){
-        this.mængdeVand += liter;
-    }
 
-    public int udregnFlasker(double væskemængde, double flaskeStørrelse){
+    public int udregnWhiskyBeholdere(double væskemængde, double flaskeStørrelse){
         return (int) Math.floor(væskemængde / flaskeStørrelse);
     }
 
@@ -98,7 +95,7 @@ public class Tapning {
         return fadIndhold + mængdeVand;
     }
 
-    public int tælFlaske(){
-        return flasker.size();
+    public int tælProdukt(){
+        return 0;
     }
 }
