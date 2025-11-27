@@ -1,3 +1,20 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+
+# IntelliJ/IDEA output
+out/
+/out/production/
+
+# Java/Maven
+target/
+
+# Gradle
+build/
+
+# IntelliJ project files
+.idea/
+*.iml
+
+# OS- og editor-støj
+.DS_Store
