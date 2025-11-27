@@ -1,5 +1,6 @@
 package gui;
 
+
 import application.model.Fad;
 import application.model.Lager;
 
@@ -14,7 +15,6 @@ public class App {
     public static void initStorage() {
         lager = new Lager("Sall Whisky Lager", "Sallvej 123");
 
-        // UC1: Registrer et par fade
         lager.registrerFad(0, "Bourbon", "Jim Beam", "Nyt fad oprettet");
         lager.registrerFad(1, "Sherry", "Andalusien", "Brugt én gang");
     }
