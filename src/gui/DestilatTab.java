@@ -1,12 +1,15 @@
     package gui;
 
+    import application.controller.Controller;
     import javafx.scene.control.Button;
+    import javafx.scene.control.DatePicker;
     import javafx.scene.control.Label;
     import javafx.scene.control.TextField;
     import javafx.scene.layout.HBox;
     import javafx.scene.layout.Priority;
     import javafx.scene.layout.VBox;
 
+    import java.time.LocalDate;
 
 
     public class DestilatTab{
@@ -20,7 +23,7 @@
         Label rygeMaterialeLabel = new Label("Ryge materiale:");
         Label kommentarLabel = new Label("Kommentar:");
         TextField kornSortInput = new TextField();
-        TextField slutDatoInput = new TextField();
+        DatePicker slutDatoInput = new DatePicker();
         TextField alkoholProcentInput = new TextField();
         TextField mængdeInput = new TextField();
         TextField markInput = new TextField();
@@ -28,6 +31,7 @@
         TextField rygeMaterialeInput = new TextField();
         TextField kommentarInput = new TextField();
         Button opretDestilatKnap = new Button("Opret Destilat");
+
 
         public VBox getContent() {
             VBox layout = new VBox();
@@ -46,12 +50,9 @@
             Label label1 = new Label("Opret Destilat");
             box1.getChildren().add(label1);
             HBox.setHgrow(box1, Priority.ALWAYS);
-            VBox.setVgrow(box1, Priority.ALWAYS);
             box1.getChildren().addAll(
                     kornSortLabel,
                     kornSortInput,
-                    slutDatoLabel,
-                    slutDatoInput,
                     alkoholProcentLabel,
                     alkoholProcentInput,
                     mængdeLabel,
@@ -64,8 +65,12 @@
                     rygeMaterialeInput,
                     kommentarLabel,
                     kommentarInput,
-                    opretDestilatKnap);
-
+                    slutDatoLabel,
+                    slutDatoInput,
+                    opretDestilatKnap
+            );
+            VBox.setVgrow(box1, Priority.ALWAYS);
+            opretDestilatKnap.setOnAction(e -> opretDestilat());
             // --- Kasse 2:
             VBox box2 = new VBox();
             box2.setSpacing(5);
@@ -91,5 +96,36 @@
 
 
             return layout;
+        }
+
+        private void opretDestilat() {
+            String kornSort = kornSortInput.getText();
+            LocalDate slutDato = slutDatoInput.getValue();
+            double alkoholProcent = Double.parseDouble(alkoholProcentInput.getText());
+            double mængde = Double.parseDouble(mængdeInput.getText());
+            String mark = markInput.getText();
+            int maltBatch = Integer.parseInt(maltBatchInput.getText());
+            String rygeMateriale = rygeMaterialeInput.getText();
+            String kommentar = kommentarInput.getText();
+
+            System.out.println("=== Opretter Destillat ===");
+            System.out.println("Kornsort: " + kornSort);
+            System.out.println("Slutdato: " + slutDato);
+            System.out.println("Alkohol%: " + alkoholProcent);
+            System.out.println("Mængde: " + mængde);
+            System.out.println("Mark: " + mark);
+            System.out.println("Malt batch: " + maltBatch);
+            System.out.println("Ryge materiale: " + rygeMateriale);
+            System.out.println("Kommentar: " + kommentar);
+
+            Controller.createDestilat(alkoholProcent,mængde,mark,kornSort,maltBatch,slutDato,rygeMateriale,kommentar);
+
+            kornSortInput.clear();
+            alkoholProcentInput.clear();
+            mængdeInput.clear();
+            markInput.clear();
+            maltBatchInput.clear();
+            rygeMaterialeInput.clear();
+            kommentarInput.clear();
         }
     }
