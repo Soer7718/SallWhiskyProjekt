@@ -8,7 +8,7 @@ public class Lager {
     private int pladser;
     private String adresse;
     private List<Gang> gangList = new ArrayList<>();
-    private List<Fad> fadList = new ArrayList<>();
+    private List<Fad> fadList;
 
     public Lager(String navn, String adresse) {
         this.navn = navn;

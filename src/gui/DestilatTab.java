@@ -1,6 +1,8 @@
 package gui;
 
 import application.controller.Controller;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -93,8 +95,8 @@ public class DestilatTab {
         box2.setStyle("-fx-border-color: black; -fx-padding: 5;");
 
         Label label2 = new Label("Destilat liste");
-        ListView destilatLW = new ListView();
-        destilatLW.getItems();
+        ObservableList<String> destilater = FXCollections.observableArrayList();
+        ListView<String> destilatLW = new ListView<>(destilater);
 
         box2.getChildren().addAll(label2,destilatLW);
         HBox.setHgrow(box2, Priority.ALWAYS);
@@ -105,6 +107,16 @@ public class DestilatTab {
         box3.setSpacing(5);
         box3.setStyle("-fx-border-color: black; -fx-padding: 5;");
         Label label3 = new Label("Destilat info");
+
+        destilatLW.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                // Opdater kasse 3 med detaljer
+                box3.getChildren().clear();
+                box3.getChildren().add(new Label("Valgt destilat: " + newVal));
+
+            }
+        });
+
         box3.getChildren().add(label3);
         HBox.setHgrow(box3, Priority.ALWAYS);
         VBox.setVgrow(box3, Priority.ALWAYS);
