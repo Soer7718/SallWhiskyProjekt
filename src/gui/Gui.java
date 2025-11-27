@@ -23,7 +23,7 @@ public class Gui extends Application{
 
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
 
-        Scene scene = new Scene(tabPane, 600, 400);
+        Scene scene = new Scene(tabPane, 1200, 800);
         stage.setScene(scene);
         stage.setTitle("Multi-tab App");
         stage.show();
