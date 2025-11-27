@@ -85,11 +85,18 @@ public class DestilatTab {
         VBox.setVgrow(box1, Priority.ALWAYS);
         opretDestilatKnap.setOnAction(e -> opretDestilat());
         // --- Kasse 2:
+
+
+
         VBox box2 = new VBox();
         box2.setSpacing(5);
         box2.setStyle("-fx-border-color: black; -fx-padding: 5;");
+
         Label label2 = new Label("Destilat liste");
-        box2.getChildren().add(label2);
+        ListView destilatLW = new ListView();
+        destilatLW.getItems()
+
+        box2.getChildren().addAll(label2,destilatLW);
         HBox.setHgrow(box2, Priority.ALWAYS);
         VBox.setVgrow(box2, Priority.ALWAYS);
 
