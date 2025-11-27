@@ -18,3 +18,20 @@ build/
 
 # OS- og editor-støj
 .DS_Store
+
+git rm -r --cached out
+git rm -r --cached target
+git rm -r --cached build
+
+git add .gitignore
+git commit -m "Ignore build output and IDE files (.gitignore); remove out/ target/ build/ from tracking"
+
+# Ryd KUN out (sikkert valg)
+git clean -fd out
+
+# Eller mere bredt (vær varsom — sletter ALLE untracked filer/mapper)
+
+git fetch origin
+git merge origin/main
+# eller
+git pull
