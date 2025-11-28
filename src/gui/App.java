@@ -1,7 +1,5 @@
 package gui;
 
-
-import application.model.Fad;
 import application.model.Lager;
 
 public class App {
@@ -17,6 +15,7 @@ public class App {
 
         lager.registrerFad(0, "Bourbon", "Jim Beam", "Nyt fad oprettet");
         lager.registrerFad(1, "Sherry", "Andalusien", "Brugt én gang");
+
     }
 
     public static Lager getLager() {
