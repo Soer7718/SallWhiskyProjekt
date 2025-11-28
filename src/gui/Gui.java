@@ -5,14 +5,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import javafx.application.Application;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import application.model.Fad;
-import application.controller.Controller;
-
 
 public class Gui extends Application{
 
@@ -20,15 +12,18 @@ public class Gui extends Application{
     public void start(Stage stage) {
         TabPane tabPane = new TabPane();
 
-        // Lav tabs fra dine egne klasser
+
         Tab fadTab = new Tab("Fad");
         fadTab.setContent(new FadTab().getContent());
 
         Tab destilleriTab = new Tab("Destilleri");
         destilleriTab.setContent(new DestilatTab().getContent());
 
-        tabPane.getTabs().addAll(fadTab, destilleriTab);
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
+        Tab LagerTap = new Tab("Lager");
+        LagerTap.setContent(new LagerTab().getContent());
+
+        tabPane.getTabs().addAll(fadTab, destilleriTab, LagerTap);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //fjerner lukning fra tab
 
         Scene scene = new Scene(tabPane, 1200, 800);
         stage.setScene(scene);

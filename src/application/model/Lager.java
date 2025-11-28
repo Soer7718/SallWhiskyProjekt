@@ -16,11 +16,7 @@ public class Lager {
         this.fadList = new ArrayList<>();
     }
 
-    public Fad registrerFad(int antalGangeBrugt, String type, String leverandør, String historik) {
-        Fad fad = new Fad(antalGangeBrugt, type, leverandør, historik);
-        fadList.add(fad);
-        return fad;
-    }
+
 
     public List<Fad> getFadList(){
         return new ArrayList<>(fadList);
@@ -54,6 +50,11 @@ public class Lager {
         return new ArrayList<>(gangList);
     }
 
-
+    public void createGang(int antal) {
+        for (int i = 0; i < antal; i++) {
+            Gang gang = new Gang(this,gangList.size()+1);
+            gangList.add(gang);
+        }
+    }
 
 }

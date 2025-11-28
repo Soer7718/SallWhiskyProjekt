@@ -3,11 +3,13 @@ package application.model;
 import java.util.Arrays;
 
 public class Palle {
+    private int palleNummer;
     private Fad[] pallePlads = new Fad[2];
     private Hylde hylde;
 
-    public Palle(Hylde hylde) {
+    public Palle(Hylde hylde, int palleNummer) {
         this.hylde = hylde;
+        this.palleNummer = palleNummer;
     }
 
     public Hylde getHylde() {
@@ -21,6 +23,4 @@ public class Palle {
     public void setPallePlads(Fad[] pallePlads) {
         this.pallePlads = pallePlads;
     }
-
-
 }

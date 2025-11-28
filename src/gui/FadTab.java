@@ -1,6 +1,7 @@
 
 package gui;
 
+import application.controller.Controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -66,7 +67,7 @@ public class FadTab {
         colAntal.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getAntalGangeBrugt())));
 
         fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
-        fadTable.setItems(FXCollections.observableArrayList(App.getLager().getFadList()));
+        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
 
         root.setCenter(fadTable);
 
@@ -103,10 +104,10 @@ public class FadTab {
             }
 
             // Opret fad
-            App.getLager().registrerFad(antal, type, leverandør, historik);
+            Controller.createFad(antal, type, leverandør, historik);
 
             // Opdater tabel
-            fadTable.setItems(FXCollections.observableArrayList(App.getLager().getFadList()));
+            fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
 
             // Ryd felter
             txtAntal.clear();

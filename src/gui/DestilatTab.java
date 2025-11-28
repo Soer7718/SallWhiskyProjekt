@@ -33,7 +33,8 @@ public class DestilatTab {
     Button opretDestilatKnap = new Button("Opret Destilat");
 
     // --- ListView og ObservableList som felter ---
-    private ObservableList<Destilat> destilater = FXCollections.observableArrayList();
+    private ObservableList<Destilat> destilater =
+            FXCollections.observableArrayList(Controller.getDestilatList());
     private ListView<Destilat> destilatLW = new ListView<>(destilater);
 
     // --- VBox for detaljer (kasse 3) ---
@@ -69,7 +70,7 @@ public class DestilatTab {
                 opretDestilatKnap
         );
 
-        // --- dato 3 år frem---
+        // ---vælger dato 3 år frem og låser før 3 år frem---
         LocalDate today = LocalDate.now();
         slutDatoInput.setValue(today.plusYears(3));
         slutDatoInput.setDayCellFactory(picker -> new DateCell() {
@@ -114,10 +115,12 @@ public class DestilatTab {
 
         // --- Listener til at vise detaljer i kasse 3 ---
         destilatLW.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            box3.getChildren().clear();
+            box3.getChildren().add(label3);
             if (newVal != null) {
-                box3.getChildren().clear();
                 box3.getChildren().add(new Label("Kornsort: " + newVal.getKornSort()));
                 box3.getChildren().add(new Label("Slutdato: " + newVal.getSlutDato()));
+                box3.getChildren().add(new Label("Startdato: " + newVal.getStartDato()));
                 box3.getChildren().add(new Label("Alkohol%: " + newVal.getAlkoholProcent()));
                 box3.getChildren().add(new Label("Mængde: " + newVal.getMængde()));
                 box3.getChildren().add(new Label("Mark: " + newVal.getMark()));

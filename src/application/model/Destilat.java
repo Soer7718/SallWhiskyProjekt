@@ -119,4 +119,19 @@ public class Destilat {
         Påfyldning påfyldning = new Påfyldning(localDate,this);
         return påfyldning;
     }
+
+    @Override
+    public String toString() {
+        return "Destilat{" +
+                "kommentar='" + kommentar + '\'' +
+                ", rygeMateriale='" + rygeMateriale + '\'' +
+                ", slutDato=" + slutDato +
+                ", startDato=" + startDato +
+                ", maltBatch=" + maltBatch +
+                ", kornSort='" + kornSort + '\'' +
+                ", mark='" + mark + '\'' +
+                ", mængde=" + mængde +
+                ", alkoholProcent=" + alkoholProcent +
+                '}';
+    }
 }
