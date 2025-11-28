@@ -13,7 +13,6 @@ import java.time.LocalDate;
 
 public class DestilatTab {
 
-    // --- Labels og inputfelter ---
     Label kornSortLabel = new Label("Korn Sort:");
     Label slutDatoLabel = new Label("Slut Dato:");
     Label alkoholProcentLabel = new Label("Alkohol Procent:");
@@ -32,11 +31,9 @@ public class DestilatTab {
     TextField kommentarInput = new TextField();
     Button opretDestilatKnap = new Button("Opret Destilat");
 
-    // --- ListView og ObservableList som felter ---
     private ObservableList<Destilat> destilater = FXCollections.observableArrayList();
     private ListView<Destilat> destilatLW = new ListView<>(destilater);
 
-    // --- VBox for detaljer (kasse 3) ---
     private VBox box3 = new VBox();
 
     public VBox getContent() {
@@ -49,7 +46,6 @@ public class DestilatTab {
         HBox.setHgrow(row, Priority.ALWAYS);
         VBox.setVgrow(row, Priority.ALWAYS);
 
-        // --- Kasse 1: Opret destilat ---
         VBox box1 = new VBox();
         box1.setSpacing(5);
         box1.setStyle("-fx-border-color: black; -fx-padding: 5;");
@@ -69,7 +65,6 @@ public class DestilatTab {
                 opretDestilatKnap
         );
 
-        // --- dato 3 år frem---
         LocalDate today = LocalDate.now();
         slutDatoInput.setValue(today.plusYears(3));
         slutDatoInput.setDayCellFactory(picker -> new DateCell() {
@@ -87,7 +82,6 @@ public class DestilatTab {
         VBox.setVgrow(box1, Priority.ALWAYS);
         opretDestilatKnap.setOnAction(e -> opretDestilat());
 
-        // --- Kasse 2: ListView ---
         VBox box2 = new VBox();
         box2.setSpacing(5);
         box2.setStyle("-fx-border-color: black; -fx-padding: 5;");
@@ -104,7 +98,6 @@ public class DestilatTab {
         HBox.setHgrow(box2, Priority.ALWAYS);
         VBox.setVgrow(box2, Priority.ALWAYS);
 
-        // --- Kasse 3: Detaljer ---
         box3.setSpacing(5);
         box3.setStyle("-fx-border-color: black; -fx-padding: 5;");
         Label label3 = new Label("Destilat info");
@@ -112,7 +105,6 @@ public class DestilatTab {
         HBox.setHgrow(box3, Priority.ALWAYS);
         VBox.setVgrow(box3, Priority.ALWAYS);
 
-        // --- Listener til at vise detaljer i kasse 3 ---
         destilatLW.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 box3.getChildren().clear();
@@ -127,15 +119,12 @@ public class DestilatTab {
             }
         });
 
-
-        // --- Tilføj alle bokse til row ---
         row.getChildren().addAll(box1, box2, box3);
         layout.getChildren().add(row);
 
         return layout;
     }
 
-    // --- Opret destilat metode ---
     private void opretDestilat() {
         String kornSort = kornSortInput.getText().toLowerCase();
         LocalDate slutDato = slutDatoInput.getValue();
@@ -148,7 +137,6 @@ public class DestilatTab {
 
         StringBuilder fejl = new StringBuilder();
 
-        // --- Validering ---
         if (kornSort.isBlank()) fejl.append("- Kornsort må ikke være tom.\n");
         if (slutDato.isBefore(LocalDate.now().plusYears(3))) fejl.append("- Slutdato må ikke være før i dag.\n");
 
@@ -175,15 +163,10 @@ public class DestilatTab {
             return;
         }
 
-        // --- Opret destilat via controller ---
-
         Destilat destilat = Controller.createDestilat(
                 alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar
         );
-        // Tilføj direkte til ObservableList
         destilater.add(destilat);
-
-        // --- Ryd inputfelter ---
         kornSortInput.clear();
         alkoholProcentInput.clear();
         mængdeInput.clear();
