@@ -27,7 +27,10 @@ public class Gui extends Application{
         Tab destilleriTab = new Tab("Destilleri");
         destilleriTab.setContent(new DestilatTab().getContent());
 
-        tabPane.getTabs().addAll(fadTab, destilleriTab);
+        Tab TapningTab = new Tab("Tapning");
+        TapningTab.setContent(new TapningTab().getContent());
+
+        tabPane.getTabs().addAll(fadTab, destilleriTab, TapningTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
 
         Scene scene = new Scene(tabPane, 1200, 800);

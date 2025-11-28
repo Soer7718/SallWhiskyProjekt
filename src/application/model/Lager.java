@@ -65,4 +65,15 @@ public class Lager {
     public List<Gang> getGangList() {
         return new ArrayList<>(gangList);
     }
+
+    private List<Tapning> tapningList = new ArrayList<>();
+
+    public void addTapning(Tapning tapning) {
+        tapningList.add(tapning);
+    }
+
+    public List<Tapning> getTapningList() {
+        return new ArrayList<>(tapningList);
+    }
+
 }

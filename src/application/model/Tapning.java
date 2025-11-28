@@ -8,7 +8,7 @@ public class Tapning {
     private String historik;
     private double mængdeVand;
     private String vandOprindelse;
-    private double fuldMængde;
+    private double mængde;
     private List<Whisky> whiskyList;
 
     public double getAlkoholProcent() {
@@ -43,12 +43,12 @@ public class Tapning {
         this.vandOprindelse = vandOprindelse;
     }
 
-    public double getFuldMængde() {
-        return fuldMængde;
+    public double getMængde() {
+        return mængde;
     }
 
-    public void setFuldMængde(double fuldMængde) {
-        this.fuldMængde = fuldMængde;
+    public void setMængde(double mængde) {
+        this.mængde = mængde;
     }
 
     public void setWhiskyList(List<Whisky> flasker) {
@@ -71,12 +71,12 @@ public class Tapning {
     }
 
 
-    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double fuldMængde){
+    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde){
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
         this.mængdeVand = mængdeVand;
         this.vandOprindelse = vandOprindelse;
-        this.fuldMængde = fuldMængde;
+        this.mængde = mængde;
         this.whiskyList = new ArrayList<>();
     }
 
