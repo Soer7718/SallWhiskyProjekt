@@ -122,16 +122,7 @@ public class Destilat {
 
     @Override
     public String toString() {
-        return "Destilat{" +
-                "kommentar='" + kommentar + '\'' +
-                ", rygeMateriale='" + rygeMateriale + '\'' +
-                ", slutDato=" + slutDato +
-                ", startDato=" + startDato +
-                ", maltBatch=" + maltBatch +
-                ", kornSort='" + kornSort + '\'' +
-                ", mark='" + mark + '\'' +
-                ", mængde=" + mængde +
-                ", alkoholProcent=" + alkoholProcent +
-                '}';
+        return kornSort + " (" + alkoholProcent + "%, " + mængde + "L)";
     }
+
 }
