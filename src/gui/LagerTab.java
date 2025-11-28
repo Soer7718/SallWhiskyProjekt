@@ -1,17 +1,16 @@
 package gui;
 
 import application.controller.Controller;
-import application.model.Fad;
+import application.model.Lager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 
 public class LagerTab {
-    private TableView<Fad> fadTable;
+    private TableView<Lager> lagerTable;
 
     public Node getContent() {
         BorderPane root = new BorderPane();
@@ -23,74 +22,62 @@ public class LagerTab {
         formPane.setVgap(10);
         formPane.setPadding(new Insets(10));
 
-        Label lblAntal = new Label("Lager NavnPenis");
-        TextField txtAntal = new TextField();
+        Label lblNavn = new Label("Lager navn:");
+        TextField txtNavn = new TextField();
 
-        Label lblType = new Label("Adresse:");
-        TextField txtType = new TextField();
+        Label lblAdresse = new Label("Adresse:");
+        TextField txtAdresse = new TextField();
 
-/*
-        Label lblLeverandør = new Label("Leverandør:");
-        TextField txtLeverandør = new TextField();
-
-        Label lblHistorik = new Label("Historik:");
-        TextField txtHistorik = new TextField();
-*/
+        Label lblPladser = new Label("Antal pladser:");
+        TextField txtPladser = new TextField();
 
         Button btnOpret = new Button("Opret Lager");
 
-        // Tilføj felter til GridPane
-        formPane.add(lblAntal, 0, 0);
-        formPane.add(txtAntal, 1, 0);
-        formPane.add(lblType, 0, 1);
-        formPane.add(txtType, 1, 1);
-/*        formPane.add(lblLeverandør, 0, 2);
-        formPane.add(txtLeverandør, 1, 2);
-        formPane.add(lblHistorik, 0, 3);
-        formPane.add(txtHistorik, 1, 3);*/
-        formPane.add(btnOpret, 1, 4);
+        formPane.add(lblNavn, 0, 0);
+        formPane.add(txtNavn, 1, 0);
+        formPane.add(lblAdresse, 0, 1);
+        formPane.add(txtAdresse, 1, 1);
+        formPane.add(lblPladser, 0, 2);
+        formPane.add(txtPladser, 1, 2);
+        formPane.add(btnOpret, 1, 3);
 
         root.setTop(formPane);
 
         // === TableView til liste ===
-        fadTable = new TableView<>();
-        fadTable.setPrefHeight(300);
+        lagerTable = new TableView<>();
+        lagerTable.setPrefHeight(300);
 
-        TableColumn<Fad, String> colType = new TableColumn<>("Type");
-        colType.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getType()));
+        TableColumn<Lager, String> colNavn = new TableColumn<>("Navn");
+        colNavn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNavn()));
 
-        TableColumn<Fad, String> colLeverandør = new TableColumn<>("Leverandør");
-        colLeverandør.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLeverandør()));
+        TableColumn<Lager, String> colAdresse = new TableColumn<>("Adresse");
+        colAdresse.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAdresse()));
 
-        TableColumn<Fad, String> colHistorik = new TableColumn<>("Historik");
-        colHistorik.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHistorik()));
+        TableColumn<Lager, String> colPladser = new TableColumn<>("Pladser");
+        colPladser.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getPladser())));
 
-        TableColumn<Fad, String> colAntal = new TableColumn<>("Antal gange brugt");
-        colAntal.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getAntalGangeBrugt())));
+        lagerTable.getColumns().addAll(colNavn, colAdresse, colPladser);
+        lagerTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getLagerList()));
 
-        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
-        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
-
-        root.setCenter(fadTable);
+        root.setCenter(lagerTable);
 
         // === Eventhandler til knappen ===
         btnOpret.setOnAction(e -> {
-            String type = txtType.getText().trim();
-            String antalStr = txtAntal.getText().trim();
+            String navn = txtNavn.getText().trim();
+            String adresse = txtAdresse.getText().trim();
+            String pladserStr = txtPladser.getText().trim();
 
             StringBuilder fejl = new StringBuilder();
-
-            int antal = 0;
+            int pladser = 0;
             try {
-                antal = Integer.parseInt(antalStr);
-                if (antal <= 0) {
-                    fejl.append("- Antal gange brugt skal være større end 0.\n");
-                }
+                pladser = Integer.parseInt(pladserStr);
+                if (pladser <= 0) fejl.append("- Antal pladser skal være større end 0.\n");
             } catch (NumberFormatException ex) {
-                fejl.append("- Antal gange brugt skal være et helt tal.\n");
+                fejl.append("- Antal pladser skal være et helt tal.\n");
             }
 
-            if (type.isEmpty()) fejl.append("- Type skal udfyldes.\n");
+            if (navn.isEmpty()) fejl.append("- Navn skal udfyldes.\n");
+            if (adresse.isEmpty()) fejl.append("- Adresse skal udfyldes.\n");
 
             if (fejl.length() > 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -101,15 +88,17 @@ public class LagerTab {
                 return;
             }
 
-            // Opret fad
+            // Opret lager via Controller
+            Lager lager = Controller.getInstance().createLager(navn, adresse);
+            lager.setPladser(pladser);
 
             // Opdater tabel
-            fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+            lagerTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getLagerList()));
 
             // Ryd felter
-            txtAntal.clear();
-            txtType.clear();
-
+            txtNavn.clear();
+            txtAdresse.clear();
+            txtPladser.clear();
         });
 
         return root;

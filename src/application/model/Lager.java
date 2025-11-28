@@ -1,6 +1,5 @@
 
 package application.model;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +73,24 @@ public class Lager {
 
     public List<Tapning> getTapningList() {
         return new ArrayList<>(tapningList);
+    }
+
+    public void createGang(int antal) {
+        for (int i = 0; i < antal; i++) {
+            //Gang gang = new Gang(this,gangList.size() + 1);
+           // gangList.add(gang);
+            //TODO
+        }
+    }
+
+    public int udregnAntalPladser() {
+        //TODO
+        return -1;
+    }
+
+    public int udregnLedigePladser() {
+        //TODO
+        return -1;
     }
 
 }

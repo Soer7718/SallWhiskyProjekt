@@ -33,8 +33,11 @@ public class DestilatTab {
     Button opretDestilatKnap = new Button("Opret Destilat");
 
     // --- ListView og ObservableList som felter ---
+
+
     private ObservableList<Destilat> destilater =
-            FXCollections.observableArrayList(Controller.getDestilatList());
+            FXCollections.observableArrayList(storage.Storage.getDestilatList());
+
     private ListView<Destilat> destilatLW = new ListView<>(destilater);
 
     // --- VBox for detaljer (kasse 3) ---

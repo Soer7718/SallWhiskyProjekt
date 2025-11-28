@@ -76,7 +76,7 @@ public class TapningTab {
                 String vandOprindelse = txtVandOprindelse.getText();
                 double mængde = Double.parseDouble(txtMængde.getText());
 
-                Controller.getInstance().registrerTapning(alkohol, historik, vand, vandOprindelse, mængde);
+                Controller.getInstance().createTapning(alkohol, historik, vand, vandOprindelse, mængde);
                 tapningTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getTapningList()));
 
                 txtAlkohol.clear();
