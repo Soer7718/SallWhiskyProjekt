@@ -8,9 +8,13 @@ public class Reol {
     private List<Hylde> hyldeList = new ArrayList<>();
     private Gang gang;
 
-    public Reol(Gang gang, int reolNummer) {
+    public Reol(Gang gang, int reolNummer, int antalHylder) {
         this.gang = gang;
         this.reolNummer = reolNummer;
+
+        for (int i = 0; i < antalHylder; i++) {
+            hyldeList.add(new Hylde(this,i+1));
+        }
     }
 
     public int getReolNummer() {

@@ -7,7 +7,7 @@ public class Palle {
     private Fad[] pallePlads = new Fad[2];
     private Hylde hylde;
 
-    public Palle(Hylde hylde, int palleNummer) {
+    public Palle(Hylde hylde) {
         this.hylde = hylde;
         this.palleNummer = palleNummer;
     }
