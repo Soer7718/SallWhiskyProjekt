@@ -75,12 +75,11 @@ public class Lager {
         return new ArrayList<>(tapningList);
     }
 
-    public void createGang(int antal) {
-        for (int i = 0; i < antal; i++) {
-            //Gang gang = new Gang(this,gangList.size() + 1);
-           // gangList.add(gang);
-            //TODO
-        }
+    public void createGang(int antalReoler, int antalHylder) {
+            Gang gang = new Gang(this,gangList.size() + 1);
+            gang.createReol(antalReoler, antalHylder);
+
+            gangList.add(gang);
     }
 
     public int udregnAntalPladser() {

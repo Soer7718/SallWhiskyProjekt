@@ -11,6 +11,7 @@ public class Gang {
     public Gang(Lager lager, int gangNummer) {
         this.lager = lager;
         this.gangNummer = gangNummer;
+
     }
 
     public int getGangNummer() {
@@ -25,10 +26,12 @@ public class Gang {
         return lager;
     }
 
-    public void createReol(int antal) {
-        for (int i = 0; i < antal; i++) {
-            Reol reol = new Reol(this, reolList.size()+1);
+    public void createReol(int antalReoler, int antalHylder) {
+        for (int i = 0; i < antalReoler; i++) {
+            Reol reol = new Reol(this, reolList.size()+1, antalHylder);
             reolList.add(reol);
         }
     }
+
+
 }
