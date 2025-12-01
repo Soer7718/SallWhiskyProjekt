@@ -63,7 +63,7 @@ public class Tapning {
     }
 
     public void setWhiskyList(List<Whisky> flasker) {
-        this.whiskyList = whiskyList;
+        this.whiskyList = flasker;
     }
 
     public List<Whisky> getWhiskyList() {

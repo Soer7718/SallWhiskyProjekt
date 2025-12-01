@@ -26,8 +26,8 @@ public class Lager {
     }
 
     // === Fad ===
-    public Fad registrerFad(int antalGangeBrugt, String type, String leverandør, String historik) {
-        Fad fad = new Fad(antalGangeBrugt, type, leverandør, historik);
+    public Fad registrerFad(int id, int antalGangeBrugt, String type, String leverandør, String historik) {
+        Fad fad = new Fad(id, antalGangeBrugt, type, leverandør, historik);
         fadList.add(fad);
         return fad;
     }
@@ -75,12 +75,11 @@ public class Lager {
         return new ArrayList<>(tapningList);
     }
 
-    public void createGang(int antal) {
-        for (int i = 0; i < antal; i++) {
-            //Gang gang = new Gang(this,gangList.size() + 1);
-           // gangList.add(gang);
-            //TODO
-        }
+    public void createGang(int antalReoler, int antalHylder) {
+            Gang gang = new Gang(this,gangList.size() + 1);
+            gang.createReol(antalReoler, antalHylder);
+
+            gangList.add(gang);
     }
 
     public int udregnAntalPladser() {
