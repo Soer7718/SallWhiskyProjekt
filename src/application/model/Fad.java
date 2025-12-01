@@ -10,6 +10,21 @@ public class Fad {
     private String leverandør;
     private String historik;
     private List<Påfyldning> påfyldninger;
+    private List<Tapning> tidligereIndhold;
+
+    public List<Tapning> getTidligereIndhold() {
+        return new ArrayList<>(tidligereIndhold);
+    }
+
+    public void setTidligereIndhold(List<Tapning> tidligereIndhold) {
+        this.tidligereIndhold = tidligereIndhold;
+    }
+
+    public void addTapning(Tapning tapning){
+        if (!tidligereIndhold.contains(tapning)){
+            tidligereIndhold.add(tapning);
+        }
+    }
 
     public int getAntalGangeBrugt() {
         return antalGangeBrugt;
@@ -47,6 +62,20 @@ public class Fad {
         this.påfyldninger = påfyldninger;
     }
 
+    public Tapning opretTapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
+        Tapning tapning = new Tapning( alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
+        tidligereIndhold.add(tapning);
+        påfyldninger.clear();
+        return tapning;
+    }
+
+    public Tapning opretTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
+        Tapning tapning = new Tapning( alkoholProcent, historik, mængde, typer);
+        tidligereIndhold.add(tapning);
+        påfyldninger.clear();
+        return tapning;
+    }
+
     public Fad(int antalGangeBrugt, String type, String leverandør, String historik){
         this.antalGangeBrugt = antalGangeBrugt;
         this.type = type;
@@ -59,6 +88,11 @@ public class Fad {
         Påfyldning p = new Påfyldning(dato, destilat);
         påfyldninger.add(p);
         return p;
+    }
+
+    public double udregnLagringsÅr(){
+
+        return 0;
     }
 
     public double beregnAlkoholProcent(){

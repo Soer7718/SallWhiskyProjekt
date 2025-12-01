@@ -1,10 +1,7 @@
 
 package application.controller;
 
-import application.model.Destilat;
-import application.model.Fad;
-import application.model.Lager;
-import application.model.Tapning;
+import application.model.*;
 import storage.Storage;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,11 +46,19 @@ public class Controller {
     }
 
 
-    public static Tapning createTapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde){
-        Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde);
+
+    public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
+        Tapning tapning = fad.opretTapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
         Storage.addTapning(tapning);
         return tapning;
     }
+
+    public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
+        Tapning tapning = fad.opretTapning(alkoholProcent, historik, mængde, typer);
+        Storage.addTapning(tapning);
+        return tapning;
+    }
+
     public static List<Tapning> getTapningList(){
         return new ArrayList<>( Storage.getTapningList());
     }

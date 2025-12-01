@@ -8,8 +8,19 @@ public class Tapning {
     private String historik;
     private double mængdeVand;
     private String vandOprindelse;
-    private double mængde;
+    private double fuldMængde;
+    private List<WhiskyType> typer;
     private List<Whisky> whiskyList;
+
+    public List<WhiskyType> getTyper() {
+        return new ArrayList<>(typer);
+    }
+
+    public void setTyper(List<WhiskyType> typer) {
+        this.typer = typer;
+    }
+
+
 
     public double getAlkoholProcent() {
         return alkoholProcent;
@@ -43,12 +54,12 @@ public class Tapning {
         this.vandOprindelse = vandOprindelse;
     }
 
-    public double getMængde() {
-        return mængde;
+    public double getFuldMængde() {
+        return fuldMængde;
     }
 
-    public void setMængde(double mængde) {
-        this.mængde = mængde;
+    public void setFuldMængde(double mængde) {
+        this.fuldMængde = mængde;
     }
 
     public void setWhiskyList(List<Whisky> flasker) {
@@ -71,13 +82,20 @@ public class Tapning {
     }
 
 
-    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde){
+    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
         this.mængdeVand = mængdeVand;
         this.vandOprindelse = vandOprindelse;
-        this.mængde = mængde;
-        this.whiskyList = new ArrayList<>();
+        this.fuldMængde = mængde;
+        this.typer = new ArrayList<>();
+    }
+
+    public Tapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
+        this.alkoholProcent = alkoholProcent;
+        this.historik = historik;
+        this.fuldMængde = mængde;
+        this.typer = new ArrayList<>();
     }
 
 /*    public Whisky opretWhisky(double mængde, String navn, int nummer, double alkoholProcent, String label, WhiskyType type){
