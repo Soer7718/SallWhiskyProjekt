@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fad {
+    private final int id;
     private int antalGangeBrugt;
     private String type;
     private String leverandør;
     private String historik;
     private List<Påfyldning> påfyldninger;
+    private double liter;
+    private double fyldt;
 
     public int getAntalGangeBrugt() {
         return antalGangeBrugt;
@@ -47,12 +50,17 @@ public class Fad {
         this.påfyldninger = påfyldninger;
     }
 
-    public Fad(int antalGangeBrugt, String type, String leverandør, String historik){
+    public Fad( int id, int antalGangeBrugt, String type, String leverandør, String historik){
+        this.id = id;
         this.antalGangeBrugt = antalGangeBrugt;
         this.type = type;
         this.leverandør = leverandør;
         this.historik = historik;
         this.påfyldninger = new ArrayList<>();
+    }
+
+    public int getId(){
+        return id;
     }
 
     public Påfyldning opretPåfyldning(LocalDate dato, Destilat destilat){
@@ -63,10 +71,20 @@ public class Fad {
 
     public double beregnAlkoholProcent(){
         return 0.0;
+        //TODO
     }
 
     public double beregnMængde(){
         return 0.0;
+        //TODO
+    }
+
+    public boolean erTomt() {
+        return liter == 0.0;
+    }
+
+    public void setLiter(double liter) {
+        this.liter = liter;
     }
 
     public List<Påfyldning> getPåfyldninger(){

@@ -1,10 +1,5 @@
-
 package application.controller;
-
-import application.model.Destilat;
-import application.model.Fad;
-import application.model.Lager;
-import application.model.Tapning;
+import application.model.*;
 import storage.Storage;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,11 +20,8 @@ public class Controller {
         return new ArrayList<>(Storage.getDestilatList()) ;
     }
 
-    public static Destilat createDestilat(double alkoholProcent, double mængde, String mark, String kornSort,
-                                          int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
-        Destilat objektDestilat = new Destilat(alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar);
-        Storage.addDestilat(objektDestilat);
-        return objektDestilat;
+    public static Destilat createDestilat(double alkoholProcent, double mængde, String mark, String kornSort, int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
+        return Storage.addDestilat(alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale,kommentar);
     }
 
     public static List<Fad> getFadList() {
@@ -37,9 +29,7 @@ public class Controller {
     }
 
     public static Fad createFad(int antal, String type, String leverandør, String historik) {
-        Fad fad = new Fad(antal,type,leverandør,historik);
-        Storage.addFad(fad);
-        return fad;
+        return Storage.addFad(antal, type, leverandør, historik);
     }
 
     public static Lager createLager(String navn, String adresse) {
@@ -60,5 +50,21 @@ public class Controller {
 
     public static List<Lager> getLagerList() {
         return new ArrayList<>(Storage.getLagerList());
+    }
+
+    public static Påfyldning påfyldDestillatPåFad(int fadID, int destillatID, LocalDate dato){
+        Fad fad = Storage.findFadById(fadID);
+        Destilat destilat = Storage.findDestilatById(destillatID);
+
+        if (!fad.erTomt()){
+            throw new IllegalStateException("Fadet er allerede fyldt og kan ikke påfyldes igen.");
+        }
+
+        Påfyldning påfyldning = fad.opretPåfyldning(dato, destilat);
+        destilat.addPåfyldning(påfyldning);
+
+        fad.setLiter(destilat.getMængde());
+
+        return påfyldning;
     }
 }

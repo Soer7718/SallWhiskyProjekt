@@ -26,8 +26,8 @@ public class Lager {
     }
 
     // === Fad ===
-    public Fad registrerFad(int antalGangeBrugt, String type, String leverandør, String historik) {
-        Fad fad = new Fad(antalGangeBrugt, type, leverandør, historik);
+    public Fad registrerFad(int id, int antalGangeBrugt, String type, String leverandør, String historik) {
+        Fad fad = new Fad(id, antalGangeBrugt, type, leverandør, historik);
         fadList.add(fad);
         return fad;
     }
