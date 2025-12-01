@@ -5,6 +5,7 @@ import application.model.Fad;
 import application.model.Lager;
 import application.model.Tapning;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +15,22 @@ public class Storage {
     private static List<Fad> fadList = new ArrayList<>();
     private static List<Lager> lagerList = new ArrayList<>();
     private static List<Tapning> tapningList = new ArrayList<>();
+    private static int destilatSeq = 1;
+    private static int fadSeq = 1;
+
 
     //----Destilat----
-    public static void addDestilat(Destilat destilat) {
-        destilatList.add(destilat);
+    // public static void addDestilat(Destilat destilat) {
+       // destilatList.add(destilat);
+    //}
+    public static Destilat addDestilat(double alkoholProcent, double mængde, String mark, String kornSort, int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar){
+        Destilat d = new Destilat(destilatSeq++, alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar);
+        destilatList.add(d);
+        return d;
+    }
+
+    public static Destilat findDestilatById(int id){
+        return destilatList.stream().filter(d -> d.getId() == id).findFirst().orElseThrow(()-> new IllegalArgumentException("Destillat ikke fundet: " + id));
     }
 
     public static List<Destilat> getDestilatList() {
@@ -25,8 +38,16 @@ public class Storage {
     }
 
     //----FAD----
-    public static void addFad(Fad fad) {
-        fadList.add(fad);
+
+    public static Fad addFad(int antalGangeBrugt, String type, String leverandør, String historik) {
+        Fad f = new Fad(fadSeq++, antalGangeBrugt, type, leverandør, historik);
+        fadList.add(f);
+        return f;
+    }
+
+    public static Fad findFadById(int id) {
+        return fadList.stream().filter(f -> f.getId() == id).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Fad ikke fundet: " + id));
     }
 
     public static List<Fad> getFadList() {
