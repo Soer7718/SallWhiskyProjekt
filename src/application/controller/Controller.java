@@ -22,9 +22,9 @@ public class Controller {
         return new ArrayList<>(Storage.getDestilatList()) ;
     }
 
-    public static Destilat createDestilat(double alkoholProcent, double mængde, String mark, String kornSort,
+    public static Destilat createDestilat(int id, double alkoholProcent, double mængde, String mark, String kornSort,
                                           int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
-        Destilat objektDestilat = new Destilat(alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar);
+        Destilat objektDestilat = new Destilat(id, alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar);
         Storage.addDestilat(objektDestilat);
         return objektDestilat;
     }
@@ -48,13 +48,13 @@ public class Controller {
 
 
     public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
-        Tapning tapning = fad.opretTapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
+        Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
         Storage.addTapning(tapning);
         return tapning;
     }
 
     public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
-        Tapning tapning = fad.opretTapning(alkoholProcent, historik, mængde, typer);
+        Tapning tapning = new Tapning(alkoholProcent, historik, mængde, typer);
         Storage.addTapning(tapning);
         return tapning;
     }
@@ -75,7 +75,7 @@ public class Controller {
             throw new IllegalStateException("Fadet er allerede fyldt og kan ikke påfyldes igen.");
         }
 
-        Påfyldning påfyldning = fad.opretPåfyldning(dato, destilat);
+        Påfyldning påfyldning = destilat.opretPåfyldning(dato);
         destilat.addPåfyldning(påfyldning);
 
         fad.setStørrelseLiter(destilat.getMængde());

@@ -98,19 +98,6 @@ public class Fad {
         this.påfyldning = påfyldning;
     }
 
-    public Tapning opretTapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
-        Tapning tapning = new Tapning( alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
-        tidligereIndhold.add(tapning);
-        this.setPåfyldning(null);
-        return tapning;
-    }
-
-    public Tapning opretTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
-        Tapning tapning = new Tapning( alkoholProcent, historik, mængde, typer);
-        tidligereIndhold.add(tapning);
-        this.setPåfyldning(null);
-        return tapning;
-    }
 
     public int getId(){
         return id;

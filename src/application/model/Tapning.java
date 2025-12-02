@@ -11,6 +11,7 @@ public class Tapning {
     private double fuldMængde;
     private List<WhiskyType> typer;
     private List<Whisky> whiskyList;
+    private List
 
     public List<WhiskyType> getTyper() {
         return new ArrayList<>(typer);
