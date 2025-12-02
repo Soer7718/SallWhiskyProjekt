@@ -1,0 +1,40 @@
+package gui;
+
+
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.collections.FXCollections;
+import application.model.Fad;
+import application.controller.Controller;
+
+
+
+public class FadOversigtTab {
+    public Node getContent() {
+        TableView<Fad> table = new TableView<>();
+        table.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+
+        TableColumn<Fad, String> colId = new TableColumn<>("ID");
+        colId.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getId())));
+
+        TableColumn<Fad, String> colType = new TableColumn<>("Type");
+        colType.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getType()));
+
+        TableColumn<Fad, String> colLiter = new TableColumn<>("Liter");
+        colLiter.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getLiter())));
+
+        TableColumn<Fad, String> colLeverandør = new TableColumn<>("Leverandør");
+        colLeverandør.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLeverandør()));
+
+        TableColumn<Fad, String> colHistorik = new TableColumn<>("Historik");
+        colHistorik.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getHistorik()));
+
+        table.getColumns().addAll(colId, colType, colLiter, colLeverandør, colHistorik);
+
+        VBox layout = new VBox(table);
+        layout.setSpacing(        layout.setSpacing(10);
+        layout.setPadding(new javafx.geometry.Insets(10));
+        return layout;
+    }
+}

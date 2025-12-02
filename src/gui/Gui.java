@@ -33,7 +33,10 @@ public class Gui extends Application{
         Tab PåfyldningTab = new Tab("Påfyldning");
         PåfyldningTab.setContent(new PåfyldningTab().getContent());
 
-        tabPane.getTabs().addAll(fadTab, destilleriTab,lagerTap, PåfyldningTab);
+        Tab FadOversigtTab = new Tab("Oversigt");
+        FadOversigtTab.setContent(new FadOversigtTab().getContent());
+
+        tabPane.getTabs().addAll(fadTab, destilleriTab,lagerTap, PåfyldningTab, FadOversigtTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
 
         Scene scene = new Scene(tabPane, 1200, 800);
