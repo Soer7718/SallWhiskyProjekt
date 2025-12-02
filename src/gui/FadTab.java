@@ -6,9 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import application.model.Fad;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class FadTab {
     private TableView<Fad> fadTable;
@@ -38,6 +42,9 @@ public class FadTab {
 
         Button btnOpret = new Button("Opret Fad");
 
+        Button btnTapFad = new Button("Tap Fad");
+        btnTapFad.setDisable(true);
+
         // Tilføj felter til GridPane
         formPane.add(lblAntal, 0, 0);
         formPane.add(txtAntal, 1, 0);
@@ -48,6 +55,7 @@ public class FadTab {
         formPane.add(lblHistorik, 0, 3);
         formPane.add(txtHistorik, 1, 3);
         formPane.add(btnOpret, 1, 4);
+        formPane.add(btnTapFad, 1, 5);
 
         root.setTop(formPane);
 
@@ -78,8 +86,25 @@ public class FadTab {
         colFyldt.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getFyldt())));
 
         fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+//        TableColumn<Fad, String> colAar = new TableColumn<>("Lagringsår");
+//        colAar.setCellValueFactory(data ->
+//                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
+
+        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
+        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
 
         root.setCenter(fadTable);
+
+//        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
+//            if (selected == null) {
+//                btnTapFad.setDisable(true);
+//            } else {
+//                btnTapFad.setDisable(selected.getLagringsAar() < 3); // <--- KRAV: minimum 3 år
+//            }
+//        });
+
+
+        btnTapFad.setOnAction(e -> openTapningsVindue());
 
         // === Eventhandler til knappen ===
         btnOpret.setOnAction(e -> {
@@ -130,5 +155,17 @@ public class FadTab {
         });
 
         return root;
+    }
+    private void openTapningsVindue() {
+        Stage stage = new Stage();
+        stage.setTitle("Tapning");
+
+        TapningTab tapningTab = new TapningTab();
+
+        Scene scene = new Scene((Parent) tapningTab.getContent(), 600, 500);
+        stage.setScene(scene);
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 }

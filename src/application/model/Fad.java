@@ -16,8 +16,38 @@ public class Fad {
     private double størrelseLiter;
     private double fyldt;
     private ObservableList<Fad> fadListe;
+    private List<Tapning> tidligereIndhold;
+    private Påfyldning påfyldning;
 
+    public double getFyldt() {
+        return fyldt;
+    }
 
+    public void setFyldt(double fyldt) {
+        this.fyldt = fyldt;
+    }
+
+    public Påfyldning getPåfyldning() {
+        return påfyldning;
+    }
+
+    public void setPåfyldning(Påfyldning påfyldning) {
+        this.påfyldning = påfyldning;
+    }
+
+    public List<Tapning> getTidligereIndhold() {
+        return new ArrayList<>(tidligereIndhold);
+    }
+
+    public void setTidligereIndhold(List<Tapning> tidligereIndhold) {
+        this.tidligereIndhold = tidligereIndhold;
+    }
+
+    public void addTapning(Tapning tapning){
+        if (!tidligereIndhold.contains(tapning)){
+            tidligereIndhold.add(tapning);
+        }
+    }
     public int getAntalGangeBrugt() {
         return antalGangeBrugt;
     }
@@ -38,9 +68,6 @@ public class Fad {
         return leverandør;
     }
 
-    public double getFyldt() {
-        return fyldt;
-    }
 
     public void setLeverandør(String leverandør) {
         this.leverandør = leverandør;
@@ -67,6 +94,18 @@ public class Fad {
         this.påfyldninger = new ArrayList<>();
     }
 
+    public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter, double fyldt, List<Tapning> tidligereIndhold, Påfyldning påfyldning) {
+        this.id = id;
+        this.antalGangeBrugt = antalGangeBrugt;
+        this.type = type;
+        this.leverandør = leverandør;
+        this.historik = historik;
+        this.størrelseLiter = liter;
+        this.fyldt = fyldt;
+        this.tidligereIndhold = tidligereIndhold;
+        this.påfyldning = påfyldning;
+    }
+
     public int getId(){
         return id;
     }
@@ -75,6 +114,11 @@ public class Fad {
         Påfyldning p = new Påfyldning(dato, destilat);
         påfyldninger.add(p);
         return p;
+    }
+
+    public double udregnLagringsÅr(){
+
+        return 0;
     }
 
     public double beregnAlkoholProcent(){
@@ -99,13 +143,6 @@ public class Fad {
         this.størrelseLiter = størrelseLiter;
     }
 
-    public void setFyldt(double fyldt) {
-        this.fyldt = fyldt;
-    }
-
-    public List<Påfyldning> getPåfyldninger(){
-        return new ArrayList<>(påfyldninger);
-    }
 
     @Override
     public String toString(){

@@ -23,10 +23,8 @@ public class Storage {
     // public static void addDestilat(Destilat destilat) {
        // destilatList.add(destilat);
     //}
-    public static Destilat addDestilat(double alkoholProcent, double mængde, String mark, String kornSort, int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar){
-        Destilat d = new Destilat(destilatSeq++, alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar);
+    public static void addDestilat(Destilat d){
         destilatList.add(d);
-        return d;
     }
 
     public static Destilat findDestilatById(int id){
@@ -39,10 +37,8 @@ public class Storage {
 
     //----FAD----
 
-    public static Fad addFad(int antalGangeBrugt, String type, String leverandør, String historik) {
-        Fad f = new Fad(fadSeq++, antalGangeBrugt, type, leverandør, historik);
+    public static void addFad(Fad f) {
         fadList.add(f);
-        return f;
     }
 
     public static Fad findFadById(int id) {

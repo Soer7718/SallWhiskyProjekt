@@ -1,6 +1,7 @@
 
 package gui;
 
+import application.model.WhiskyType;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -8,6 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import application.model.Tapning;
 import application.controller.Controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TapningTab {
     private TableView<Tapning> tapningTable;
@@ -36,6 +40,12 @@ public class TapningTab {
         Label lblMængde = new Label("Mængde:");
         TextField txtMængde = new TextField();
 
+        Label lblTyper = new Label("Typer:");
+        ListView<WhiskyType> lstTyper = new ListView<>();
+        lstTyper.setItems(FXCollections.observableArrayList(WhiskyType.values()));
+        lstTyper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lstTyper.setPrefHeight(100);
+
         Button btnOpret = new Button("Opret Tapning");
 
         formPane.add(lblAlkohol, 0, 0);
@@ -48,7 +58,9 @@ public class TapningTab {
         formPane.add(txtVandOprindelse, 1, 3);
         formPane.add(lblMængde, 0, 4);
         formPane.add(txtMængde, 1, 4);
-        formPane.add(btnOpret, 1, 5);
+        formPane.add(lblTyper, 0, 5);
+        formPane.add(lstTyper, 1, 5);
+        formPane.add(btnOpret, 1, 6);
 
         root.setTop(formPane);
 
@@ -60,9 +72,18 @@ public class TapningTab {
         colHistorik.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getHistorik()));
 
         TableColumn<Tapning, String> colMængde = new TableColumn<>("Mængde");
-        colMængde.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getMængde())));
+        colMængde.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getFuldMængde())));
 
-        tapningTable.getColumns().addAll(colAlkohol, colHistorik, colMængde);
+        TableColumn<Tapning, String> colTyper = new TableColumn<>("Typer");
+        colTyper.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getTyper()
+                                .stream()
+                                .map(Enum::name)
+                                .collect(Collectors.joining(", "))
+                ));
+
+        tapningTable.getColumns().addAll(colAlkohol, colHistorik, colMængde, colTyper);
         tapningTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getTapningList()));
         tapningTable.setPrefHeight(300);
 
@@ -75,8 +96,12 @@ public class TapningTab {
                 double vand = Double.parseDouble(txtVand.getText());
                 String vandOprindelse = txtVandOprindelse.getText();
                 double mængde = Double.parseDouble(txtMængde.getText());
+                List<WhiskyType> typer =
+                        lstTyper.getSelectionModel().getSelectedItems()
+                                .stream().collect(Collectors.toList());
 
-                Controller.getInstance().createTapning(alkohol, historik, vand, vandOprindelse, mængde);
+
+                Controller.getInstance().createTapning(alkohol, historik, vand, vandOprindelse, mængde, typer);
                 tapningTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getTapningList()));
 
                 txtAlkohol.clear();
@@ -84,6 +109,7 @@ public class TapningTab {
                 txtVand.clear();
                 txtVandOprindelse.clear();
                 txtMængde.clear();
+                lstTyper.getSelectionModel().clearSelection();
             } catch (NumberFormatException ex) {
                 new Alert(Alert.AlertType.ERROR, "Alle talfelter skal være gyldige tal!").showAndWait();
             }
