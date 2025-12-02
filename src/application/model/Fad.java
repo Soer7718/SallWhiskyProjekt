@@ -1,5 +1,7 @@
 package application.model;
 
+import javafx.collections.ObservableList;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class Fad {
     private String historik;
     private double størrelseLiter;
     private double fyldt;
+    private ObservableList<Fad> fadListe;
     private List<Tapning> tidligereIndhold;
     private Påfyldning påfyldning;
 
