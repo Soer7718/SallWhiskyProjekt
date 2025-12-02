@@ -1,9 +1,9 @@
-
 package gui;
 
 import application.controller.Controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -12,6 +12,7 @@ import application.model.Fad;
 
 public class FadTab {
     private TableView<Fad> fadTable;
+    private ObservableList<Fad> fadListe;
 
     public Node getContent() {
         BorderPane root = new BorderPane();
@@ -51,8 +52,12 @@ public class FadTab {
         root.setTop(formPane);
 
         // === TableView til liste ===
-        fadTable = new TableView<>();
+        fadListe = FXCollections.observableArrayList(Controller.getFadList());
+        fadTable = new TableView<>(fadListe);
         fadTable.setPrefHeight(300);
+
+        TableColumn<Fad, String> colId = new TableColumn<>("ID");
+        colId.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getId())));
 
         TableColumn<Fad, String> colType = new TableColumn<>("Type");
         colType.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getType()));
@@ -66,8 +71,13 @@ public class FadTab {
         TableColumn<Fad, String> colAntal = new TableColumn<>("Antal gange brugt");
         colAntal.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getAntalGangeBrugt())));
 
-        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
-        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+        TableColumn<Fad, String> colStørrelse = new TableColumn<>("Størrelse (L)");
+        colStørrelse.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getStørrelseLiter())));
+
+        TableColumn<Fad, String> colFyldt = new TableColumn<>("Fyldt (L)");
+        colFyldt.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getFyldt())));
+
+        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
 
         root.setCenter(fadTable);
 
@@ -103,11 +113,14 @@ public class FadTab {
                 return;
             }
 
-            // Opret fad
-            Controller.createFad(antal, type, leverandør, historik);
+            fadListe = FXCollections.observableArrayList(Controller.getFadList());
+            fadTable = new TableView<>(fadListe);
 
-            // Opdater tabel
-            fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+            // Opret fad
+            Fad nytFad = Controller.createFad(antal, type, leverandør, historik);
+
+            // Opdater oversigt
+            fadListe.add(nytFad);
 
             // Ryd felter
             txtAntal.clear();

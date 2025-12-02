@@ -1,5 +1,7 @@
 package application.model;
 
+import javafx.collections.ObservableList;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ public class Fad {
     private List<Påfyldning> påfyldninger;
     private double størrelseLiter;
     private double fyldt;
+    private ObservableList<Fad> fadListe;
+
 
     public int getAntalGangeBrugt() {
         return antalGangeBrugt;
@@ -32,6 +36,10 @@ public class Fad {
 
     public String getLeverandør() {
         return leverandør;
+    }
+
+    public double getFyldt() {
+        return fyldt;
     }
 
     public void setLeverandør(String leverandør) {

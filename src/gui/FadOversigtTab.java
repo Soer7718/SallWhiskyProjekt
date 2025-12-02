@@ -22,7 +22,7 @@ public class FadOversigtTab {
         colType.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getType()));
 
         TableColumn<Fad, String> colLiter = new TableColumn<>("Liter");
-        colLiter.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getLiter())));
+        colLiter.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getStørrelseLiter())));
 
         TableColumn<Fad, String> colLeverandør = new TableColumn<>("Leverandør");
         colLeverandør.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLeverandør()));
@@ -33,7 +33,7 @@ public class FadOversigtTab {
         table.getColumns().addAll(colId, colType, colLiter, colLeverandør, colHistorik);
 
         VBox layout = new VBox(table);
-        layout.setSpacing(        layout.setSpacing(10);
+        layout.setSpacing(10);
         layout.setPadding(new javafx.geometry.Insets(10));
         return layout;
     }
