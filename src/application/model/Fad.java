@@ -10,14 +10,10 @@ public class Fad {
     private String type;
     private String leverandør;
     private String historik;
-    private double liter;
+    private double størrelseLiter;
     private double fyldt;
     private List<Tapning> tidligereIndhold;
     private Påfyldning påfyldning;
-
-    public double getLiter() {
-        return liter;
-    }
 
     public double getFyldt() {
         return fyldt;
@@ -87,7 +83,7 @@ public class Fad {
         this.type = type;
         this.leverandør = leverandør;
         this.historik = historik;
-        this.liter = liter;
+        this.størrelseLiter = liter;
     }
 
     public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter, double fyldt, List<Tapning> tidligereIndhold, Påfyldning påfyldning) {
@@ -96,7 +92,7 @@ public class Fad {
         this.type = type;
         this.leverandør = leverandør;
         this.historik = historik;
-        this.liter = liter;
+        this.størrelseLiter = liter;
         this.fyldt = fyldt;
         this.tidligereIndhold = tidligereIndhold;
         this.påfyldning = påfyldning;
@@ -137,12 +133,18 @@ public class Fad {
     }
 
     public boolean erTomt() {
-        return liter == 0.0;
+        return fyldt == 0.0;
     }
 
-    public void setLiter(double liter) {
-        this.liter = liter;
+    public double getStørrelseLiter() {
+        return størrelseLiter;
     }
+
+    public void setStørrelseLiter(double størrelseLiter) {
+        this.størrelseLiter = størrelseLiter;
+    }
+
+
 
     @Override
     public String toString(){

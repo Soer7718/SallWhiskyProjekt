@@ -66,4 +66,47 @@ public class Controller {
     public static List<Lager> getLagerList() {
         return new ArrayList<>(Storage.getLagerList());
     }
+
+    public static Påfyldning påfyldDestillatPåFad(int fadID, int destillatID, LocalDate dato){
+        Fad fad = Storage.findFadById(fadID);
+        Destilat destilat = Storage.findDestilatById(destillatID);
+
+        if (!fad.erTomt()){
+            throw new IllegalStateException("Fadet er allerede fyldt og kan ikke påfyldes igen.");
+        }
+
+        Påfyldning påfyldning = fad.opretPåfyldning(dato, destilat);
+        destilat.addPåfyldning(påfyldning);
+
+        fad.setStørrelseLiter(destilat.getMængde());
+
+        return påfyldning;
+    }
+
+    public static Palle findLedigPalle(Fad fad) {
+        int krævedePladser = fad.getStørrelseLiter() < 51 ? 1 : 2;
+
+        for (Lager lager : getInstance().getLagerList()) {
+            for (Gang gang : lager.getGangList()) {
+                for (Reol reol : gang.getReolList()) {
+                    for (Hylde hylde : reol.getHyldeList()) {
+                        for (Palle palle : hylde.getPalleList()) {
+
+                            int ledige = 0;
+                            for (Fad f : palle.getPallePlads()) {
+                                if (f == null) {
+                                    ledige++;
+                                }
+                            }
+
+                            if (ledige >= krævedePladser) {
+                                return palle; // Den første der passer
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null; // Ingen paller ledige
+    }
 }
