@@ -11,7 +11,7 @@ public class Fad {
     private String leverandør;
     private String historik;
     private List<Påfyldning> påfyldninger;
-    private double liter;
+    private double størrelseLiter;
     private double fyldt;
 
     public int getAntalGangeBrugt() {
@@ -80,11 +80,19 @@ public class Fad {
     }
 
     public boolean erTomt() {
-        return liter == 0.0;
+        return fyldt == 0.0;
     }
 
-    public void setLiter(double liter) {
-        this.liter = liter;
+    public double getStørrelseLiter() {
+        return størrelseLiter;
+    }
+
+    public void setStørrelseLiter(double størrelseLiter) {
+        this.størrelseLiter = størrelseLiter;
+    }
+
+    public void setFyldt(double fyldt) {
+        this.fyldt = fyldt;
     }
 
     public List<Påfyldning> getPåfyldninger(){

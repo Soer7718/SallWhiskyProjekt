@@ -63,8 +63,35 @@ public class Controller {
         Påfyldning påfyldning = fad.opretPåfyldning(dato, destilat);
         destilat.addPåfyldning(påfyldning);
 
-        fad.setLiter(destilat.getMængde());
+        fad.setStørrelseLiter(destilat.getMængde());
 
         return påfyldning;
+    }
+
+    public static Palle findLedigPalle(Fad fad) {
+        int krævedePladser = fad.get() < 51 ? 1 : 2;
+
+        for (Lager lager : getInstance().getLagerList()) {
+            for (Gang gang : lager.getGangList()) {
+                for (Reol reol : gang.getReolList()) {
+                    for (Hylde hylde : reol.getHyldeList()) {
+                        for (Palle palle : hylde.getPalleList()) {
+
+                            int ledige = 0;
+                            for (Fad f : palle.getPallePlads()) {
+                                if (f == null) {
+                                    ledige++;
+                                }
+                            }
+
+                            if (ledige >= krævedePladser) {
+                                return palle; // Den første der passer
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null; // Ingen paller ledige
     }
 }
