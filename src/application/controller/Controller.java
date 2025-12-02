@@ -69,7 +69,7 @@ public class Controller {
     }
 
     public static Palle findLedigPalle(Fad fad) {
-        int krævedePladser = fad.get() < 51 ? 1 : 2;
+        int krævedePladser = fad.getStørrelseLiter() < 51 ? 1 : 2;
 
         for (Lager lager : getInstance().getLagerList()) {
             for (Gang gang : lager.getGangList()) {
