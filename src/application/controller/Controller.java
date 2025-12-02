@@ -33,8 +33,8 @@ public class Controller {
         return new ArrayList<Fad>(Storage.getFadList());
     }
 
-    public static Fad createFad(int antal, String type, String leverandør, String historik) {
-        Fad fad = new Fad(antal,type,leverandør,historik);
+    public static Fad createFad(int id, int antal, String type, String leverandør, String historik, double størrelseLiter) {
+        Fad fad = new Fad(id, antal,type,leverandør,historik, størrelseLiter);
         Storage.addFad(fad);
         return fad;
     }

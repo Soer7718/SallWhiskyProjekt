@@ -10,10 +10,30 @@ public class Fad {
     private String type;
     private String leverandør;
     private String historik;
-    private List<Påfyldning> påfyldninger;
     private double liter;
     private double fyldt;
     private List<Tapning> tidligereIndhold;
+    private Påfyldning påfyldning;
+
+    public double getLiter() {
+        return liter;
+    }
+
+    public double getFyldt() {
+        return fyldt;
+    }
+
+    public void setFyldt(double fyldt) {
+        this.fyldt = fyldt;
+    }
+
+    public Påfyldning getPåfyldning() {
+        return påfyldning;
+    }
+
+    public void setPåfyldning(Påfyldning påfyldning) {
+        this.påfyldning = påfyldning;
+    }
 
     public List<Tapning> getTidligereIndhold() {
         return new ArrayList<>(tidligereIndhold);
@@ -61,43 +81,45 @@ public class Fad {
         this.historik = historik;
     }
 
-    public void setPåfyldninger(List<Påfyldning> påfyldninger) {
-        this.påfyldninger = påfyldninger;
+    public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter) {
+        this.id = id;
+        this.antalGangeBrugt = antalGangeBrugt;
+        this.type = type;
+        this.leverandør = leverandør;
+        this.historik = historik;
+        this.liter = liter;
     }
 
-    public Fad( int id, int antalGangeBrugt, String type, String leverandør, String historik){
+    public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter, double fyldt, List<Tapning> tidligereIndhold, Påfyldning påfyldning) {
         this.id = id;
+        this.antalGangeBrugt = antalGangeBrugt;
+        this.type = type;
+        this.leverandør = leverandør;
+        this.historik = historik;
+        this.liter = liter;
+        this.fyldt = fyldt;
+        this.tidligereIndhold = tidligereIndhold;
+        this.påfyldning = påfyldning;
+    }
+
     public Tapning opretTapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
         Tapning tapning = new Tapning( alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
         tidligereIndhold.add(tapning);
-        påfyldninger.clear();
+        this.setPåfyldning(null);
         return tapning;
     }
 
     public Tapning opretTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
         Tapning tapning = new Tapning( alkoholProcent, historik, mængde, typer);
         tidligereIndhold.add(tapning);
-        påfyldninger.clear();
+        this.setPåfyldning(null);
         return tapning;
-    }
-
-    public Fad(int antalGangeBrugt, String type, String leverandør, String historik){
-        this.antalGangeBrugt = antalGangeBrugt;
-        this.type = type;
-        this.leverandør = leverandør;
-        this.historik = historik;
-        this.påfyldninger = new ArrayList<>();
     }
 
     public int getId(){
         return id;
     }
 
-    public Påfyldning opretPåfyldning(LocalDate dato, Destilat destilat){
-        Påfyldning p = new Påfyldning(dato, destilat);
-        påfyldninger.add(p);
-        return p;
-    }
 
     public double udregnLagringsÅr(){
 
@@ -120,10 +142,6 @@ public class Fad {
 
     public void setLiter(double liter) {
         this.liter = liter;
-    }
-
-    public List<Påfyldning> getPåfyldninger(){
-        return new ArrayList<>(påfyldninger);
     }
 
     @Override
