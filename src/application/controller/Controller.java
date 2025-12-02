@@ -47,13 +47,13 @@ public class Controller {
 
 
 
-    public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
+    public static Tapning createTapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
         Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
         Storage.addTapning(tapning);
         return tapning;
     }
 
-    public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
+    public static Tapning createTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
         Tapning tapning = new Tapning(alkoholProcent, historik, mængde, typer);
         Storage.addTapning(tapning);
         return tapning;
