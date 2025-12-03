@@ -5,7 +5,6 @@ import application.model.Fad;
 import application.model.Lager;
 import application.model.Tapning;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

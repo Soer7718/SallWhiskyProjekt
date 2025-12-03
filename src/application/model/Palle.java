@@ -23,4 +23,12 @@ public class Palle {
     public void setPallePlads(Fad[] pallePlads) {
         this.pallePlads = pallePlads;
     }
+
+    public int getLedigePladser() {
+        int count = 0;
+        for (Fad f : pallePlads) {
+            if (f == null) count++;
+        }
+        return count;
+    }
 }

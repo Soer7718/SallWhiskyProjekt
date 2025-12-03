@@ -1,6 +1,7 @@
 package gui;
 
 import application.controller.Controller;
+import application.model.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,6 +46,9 @@ public class FadTab {
         Button btnTapFad = new Button("Tap Fad");
         btnTapFad.setDisable(true);
 
+        Button btnFlytTilLager = new Button("Flyt til Lager");
+        btnFlytTilLager.setDisable(true); // deaktiveret indtil et fad er valgt
+
         // Tilføj felter til GridPane
         formPane.add(lblAntal, 0, 0);
         formPane.add(txtAntal, 1, 0);
@@ -56,6 +60,8 @@ public class FadTab {
         formPane.add(txtHistorik, 1, 3);
         formPane.add(btnOpret, 1, 4);
         formPane.add(btnTapFad, 1, 5);
+
+        formPane.add(btnFlytTilLager, 1, 6);
 
         root.setTop(formPane);
 
@@ -103,6 +109,9 @@ public class FadTab {
 //            }
 //        });
 
+        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
+            btnFlytTilLager.setDisable(selected == null);
+        });
 
         btnTapFad.setOnAction(e -> openTapningsVindue());
 
@@ -142,7 +151,7 @@ public class FadTab {
             fadTable = new TableView<>(fadListe);
 
             // Opret fad
-            Fad nytFad = Controller.createFad(antal, type, leverandør, historik);
+            Fad nytFad = Controller.createFad(-1, antal, type, leverandør, historik, -1);
 
             // Opdater oversigt
             fadListe.add(nytFad);
@@ -154,8 +163,53 @@ public class FadTab {
             txtHistorik.clear();
         });
 
+        btnFlytTilLager.setOnAction(e -> {
+            Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
+            if (placerFad(valgtFad)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fad placeret på lager!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Ingen ledige paller til fadet!");
+                alert.showAndWait();
+            }
+        });
+
         return root;
     }
+
+    private boolean placerFad(Fad fad) {
+        Palle ledigPalle = findLedigPalle(fad);
+        if (ledigPalle != null) {
+            for (int i = 0; i < ledigPalle.getPallePlads().length; i++) {
+                if (ledigPalle.getPallePlads()[i] == null) {
+                    ledigPalle.getPallePlads()[i] = fad;
+                    return true; // fad placeret
+                }
+            }
+        }
+        return false; // ingen plads
+    }
+
+    private Palle findLedigPalle(Fad fad) {
+        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
+
+        for (Lager lager : Controller.getLagerList()) {
+            for (Gang gang : lager.getGangList()) {
+                for (Reol reol : gang.getReolList()) {
+                    for (Hylde hylde : reol.getHyldeList()) {
+                        for (Palle palle : hylde.getPalleList()) {
+                            int ledigePladser = palle.getLedigePladser();
+                            if (ledigePladser >= pladserBehov) {
+                                return palle;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private void openTapningsVindue() {
         Stage stage = new Stage();
         stage.setTitle("Tapning");
@@ -168,4 +222,6 @@ public class FadTab {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
+
+
 }
