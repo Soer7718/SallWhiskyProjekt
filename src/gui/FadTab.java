@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import application.model.Fad;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -150,7 +151,7 @@ public class FadTab {
             fadTable = new TableView<>(fadListe);
 
             // Opret fad
-            Fad nytFad = Controller.createFad(-1, antal,type, leverandør, historik,-1);
+            Fad nytFad = Controller.createFad(antal, type, leverandør, historik, stør);
 
             // Opdater oversigt
             fadListe.add(nytFad);
