@@ -211,7 +211,9 @@ public class LagerTab {
 
             // --- Opdater tabel ---
             lagerTable.refresh();
+
         });
+
 
 
 
