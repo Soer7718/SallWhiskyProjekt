@@ -151,7 +151,7 @@ public class FadTab {
             fadTable = new TableView<>(fadListe);
 
             // Opret fad
-            Fad nytFad = Controller.createFad(antal, type, leverandør, historik, stør);
+            Fad nytFad = Controller.createFad(-1, antal, type, leverandør, historik, -1);
 
             // Opdater oversigt
             fadListe.add(nytFad);
