@@ -15,9 +15,9 @@ import application.model.Fad;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class FadTab{
+public class FadTab {
 
-    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadListe());
+    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadList());
     private TableView<Fad> fadTable = new TableView<>(fadListe);
 
 
@@ -96,8 +96,8 @@ public class FadTab{
 //        colAar.setCellValueFactory(data ->
 //                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
-        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
-        fadTable.setItems(Controller.getFadListe());
+        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+        // fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
 
         root.setCenter(fadTable);
 
@@ -111,6 +111,7 @@ public class FadTab{
 
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             btnFlytTilLager.setDisable(selected == null);
+            btnTapFad.setDisable(selected == null);
         });
 
         btnTapFad.setOnAction(e -> openTapningsVindue());
@@ -173,7 +174,6 @@ public class FadTab{
                 alert.showAndWait();
             }
         });
-
 
         return root;
     }
