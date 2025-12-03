@@ -96,7 +96,7 @@ public class FadTab {
 //        colAar.setCellValueFactory(data ->
 //                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
-        //fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
+        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
         // fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
 
         root.setCenter(fadTable);
