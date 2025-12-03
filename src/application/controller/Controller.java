@@ -110,13 +110,4 @@ public class Controller {
         return null; // Ingen paller ledige
     }
 
-    public static boolean placerFadPåFørsteLedigeLager(Fad fad) {
-        for (Lager lager : getLagerList()) {
-            if (lager.placerFad(fad)) {
-                return true; // fad placeret på første lager med plads
-            }
-        }
-        return false; // ingen lager har plads
-    }
-
 }

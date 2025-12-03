@@ -39,6 +39,6 @@ public class Palle {
                 return true;
             }
         }
-        return false;
+        return false; // ingen ledige pladser
     }
 }

@@ -166,21 +166,36 @@ public class FadTab {
         });
 
         btnFlytTilLager.setOnAction(e -> {
+            // Hent det valgte fad fra TableView
             Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
-            if (valgtFad == null) return;
+            if (valgtFad == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Vælg venligst et fad først!");
+                alert.showAndWait();
+                return;
+            }
 
-            boolean succes = Controller.placerFadPåFørsteLedigeLager(valgtFad);
+            // Gennemløb alle lagre og placer fadet
+            boolean succes = false;
+            for (Lager lager : Controller.getLagerList()) {
+                succes = lager.placerFad(valgtFad);
+                if (succes) break; // Stop når fadet er placeret
+            }
+
+            // Popup baseret på resultat
             if (succes) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fadet er placeret på lager!");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        "Fadet er placeret på lager! Ledige pladser nu: " +
+                                Controller.getLagerList().get(0).getLedigePladser());
                 alert.showAndWait();
 
-                // opdater FadTable, evt. LagerTable i LagerTab
+                // Opdater TableView hvis du vil reflektere ændringer
                 fadTable.refresh();
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Ingen ledige paller i nogen lager!");
                 alert.showAndWait();
             }
         });
+
         return root;
     }
 

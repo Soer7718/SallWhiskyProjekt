@@ -22,35 +22,25 @@ class LagerTest {
         assertEquals(expected,actual);
     }
 
-
     @Test
-    void testLedigePaller() {
-        // Arrange
-        Lager lagerTest = new Lager("Test", "Adresse");
-        lagerTest.createGang(1, 1); // 1 gang, 1 reol, 1 hylde → 1 palle med 2 pladser
+    void testLedigePallerEfterEnPlacering() {
+        // Opret lager
+        Lager lagerTest = new Lager("Test Lager", "Test Adresse");
 
-        // Act
-        int actual = lagerTest.getLedigePaller();
+        // Opret 1 gang, 1 reol med 1 hylde → hver hylde har 3 paller med 2 pladser hver
+        lagerTest.createGang(1, 1);
+        System.out.println(lagerTest.getLedigePladser());
+        // Placer et fad på første ledige palle
+        Fad fad = new Fad(1, 1, "TestFad", "Leverandør", "Historik", 1);
+        boolean succes = lagerTest.placerFad(fad);
+        if (!succes) throw new RuntimeException("Kunne ikke placere fad!");
 
-        // Beregn expected: pallen har 2 pladser, begge tomme
-        int expected = 0;
-        for (Gang gang : lagerTest.getGangList()) {
-            for (Reol reol : gang.getReolList()) {
-                for (Hylde hylde : reol.getHyldeList()) {
-                    for (Palle palle : hylde.getPalleList()) {
-                        for (Fad fad : palle.getPallePlads()) {
-                            if (fad == null) expected++;
-                        }
-                    }
-                }
-            }
-        }
+        // Hent antal ledige paller efter placering
+        int ledigeEfterPlacering = lagerTest.getLedigePladser();
+        System.out.println(ledigeEfterPlacering);
 
-        System.out.println("Expected ledige pladser: " + expected);
-        System.out.println("Actual ledige pladser: " + actual);
-
-        // Assert
-        assertEquals(expected, actual);
+        // Forvent at der er 5 ledige paller tilbage (1 plads brugt på en palle ud af 6 pladser)
+        assertEquals(5, ledigeEfterPlacering, "Der skal være 5 ledige paller tilbage efter at have placeret 1 fad");
     }
 
 }

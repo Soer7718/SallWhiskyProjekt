@@ -90,7 +90,7 @@ public class LagerTab {
 
         TableColumn<Lager, String> colLedigePladser = new TableColumn<>("Ledige Paller");
         colLedigePladser.setCellValueFactory(data ->
-                new SimpleStringProperty(String.valueOf(data.getValue().getLedigePaller()))
+                new SimpleStringProperty(String.valueOf(data.getValue().getLedigePladser()))
         );
 
         lagerTable.getColumns().addAll(colNavn, colAdresse, colGange ,colPladser, colLedigePladser);

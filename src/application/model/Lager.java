@@ -1,6 +1,5 @@
 
 package application.model;
-import application.controller.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,23 +95,20 @@ public class Lager {
         return totalPladser;
     }
 
-    public int getLedigePaller() {
+    public int getLedigePladser() {
         int ledigePaller = 0;
 
         for (Gang gang : gangList) {
             for (Reol reol : gang.getReolList()) {
                 for (Hylde hylde : reol.getHyldeList()) {
                     for (Palle palle : hylde.getPalleList()) {
-                        boolean erLedig = true;
                         for (Fad fad : palle.getPallePlads()) {
-                            if (fad != null) erLedig = false;
+                            if (fad == null) ledigePaller++;
                         }
-                        if (erLedig) ledigePaller++;
                     }
                 }
             }
         }
-
         return ledigePaller;
     }
 
