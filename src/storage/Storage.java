@@ -1,9 +1,6 @@
 package storage;
 
-import application.model.Destilat;
-import application.model.Fad;
-import application.model.Lager;
-import application.model.Tapning;
+import application.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ public class Storage {
     private static List<Fad> fadList = new ArrayList<>();
     private static List<Lager> lagerList = new ArrayList<>();
     private static List<Tapning> tapningList = new ArrayList<>();
+    private static List<Påfyldning> påfyldningList = new ArrayList<>();
     private static int destilatSeq = 1;
     private static int fadSeq = 1;
 
@@ -24,6 +22,9 @@ public class Storage {
     //}
     public static void addDestilat(Destilat d){
         destilatList.add(d);
+    }
+    public static void addPåfyldning(Påfyldning p){
+        påfyldningList.add(p);
     }
 
     public static Destilat findDestilatById(int id){

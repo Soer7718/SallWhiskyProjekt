@@ -104,11 +104,12 @@ public class FadTab {
 
         root.setCenter(fadTable);
 
+
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
             if (selected == null) {
                 btnTapFad.setDisable(true);
             } else {
-                btnTapFad.setDisable(selected.getLagringsAar() < 3); // <--- KRAV: minimum 3 år
+                btnTapFad.setDisable(selected.udregnLagringsÅr() < 3); // <--- KRAV: minimum 3 år
             }
         });
 
@@ -120,6 +121,7 @@ public class FadTab {
 
         // === Eventhandler til knappen ===
         btnOpret.setOnAction(e -> {
+
             String type = txtType.getText().trim();
             String leverandør = txtLeverandør.getText().trim();
             String historik = txtHistorik.getText().trim();
@@ -168,8 +170,8 @@ public class FadTab {
         btnFlytTilLager.setOnAction(e -> {
             // Hent det valgte fad fra TableView
             Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
-            if (valgtFad == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Vælg venligst et fad først!");
+            if (placerFad(valgtFad)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fad placeret på lager!");
                 alert.showAndWait();
                 return;
             }
@@ -191,7 +193,7 @@ public class FadTab {
                 // Opdater TableView hvis du vil reflektere ændringer
                 fadTable.refresh();
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Ingen ledige paller i nogen lager!");
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Ingen ledige paller til fadet!");
                 alert.showAndWait();
             }
         });

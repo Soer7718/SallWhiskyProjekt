@@ -47,6 +47,8 @@ public class PåfyldningTab {
                                 + " • Destillat #" + valgtDestilat.getId()
                                 + " • Dato: " + valgtDato
                 );
+                //Controller.getFadListe();
+
             } catch (IllegalStateException ex) {
                 // Kommer fra Controller, når fadet ikke er tomt
                 feedbackLabel.setText(ex.getMessage());

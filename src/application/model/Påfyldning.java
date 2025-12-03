@@ -10,8 +10,9 @@ public class Påfyldning {
     private Destilat destilat;
     private List<Fad> fadList = new ArrayList<Fad>();
 
+
     public Påfyldning(LocalDate slutDato, Destilat destilat) {
-        this.startDato = LocalDate.now();
+        this.startDato = destilat.getSlutDato();
         this.slutDato = slutDato;
         this.destilat = destilat;
     }
