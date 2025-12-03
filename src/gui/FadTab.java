@@ -71,6 +71,7 @@ public class FadTab {
         fadListe = FXCollections.observableArrayList(Controller.getFadList());
         fadTable = new TableView<>(fadListe);
         fadTable.setPrefHeight(300);
+        fadTable.setItems(fadListe);
 
         TableColumn<Fad, String> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getId())));
@@ -115,6 +116,7 @@ public class FadTab {
 
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             btnFlytTilLager.setDisable(selected == null);
+            btnTapFad.setDisable(selected == null);
         });
 
         btnTapFad.setOnAction(e -> openTapningsVindue());
