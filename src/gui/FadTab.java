@@ -15,6 +15,9 @@ import application.model.Fad;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.PrintWriter;
+import java.security.PrivateKey;
+
 public class FadTab {
     private TableView<Fad> fadTable;
     private ObservableList<Fad> fadListe;
@@ -91,23 +94,24 @@ public class FadTab {
         TableColumn<Fad, String> colFyldt = new TableColumn<>("Fyldt (L)");
         colFyldt.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getFyldt())));
 
-        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
 //        TableColumn<Fad, String> colAar = new TableColumn<>("Lagringsår");
 //        colAar.setCellValueFactory(data ->
 //                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
-        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
-        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+
+//        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
+        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadListe()));
 
         root.setCenter(fadTable);
 
-//        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
-//            if (selected == null) {
-//                btnTapFad.setDisable(true);
-//            } else {
-//                btnTapFad.setDisable(selected.getLagringsAar() < 3); // <--- KRAV: minimum 3 år
-//            }
-//        });
+        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
+            if (selected == null) {
+                btnTapFad.setDisable(true);
+            } else {
+                btnTapFad.setDisable(selected.udregnLagringsÅr() < 3); // <--- KRAV: minimum 3 år
+            }
+        });
 
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             btnFlytTilLager.setDisable(selected == null);

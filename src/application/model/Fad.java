@@ -3,6 +3,7 @@ package application.model;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,11 +106,20 @@ public class Fad {
     public int getId(){
         return id;
     }
-
+//        if (påfyldning.getStartDato() == null || påfyldning.getSlutDato() == null) {
+//            return 0; // Eller kast exception, eller returnér -1 hvis du vil indikere "ukendt"
+//        }
 
     public double udregnLagringsÅr(){
+        if (påfyldning == null || påfyldning.getStartDato() == null) {
+            return 0;
+        }
 
-        return 0;
+        LocalDate slut = (påfyldning.getSlutDato() != null)
+                ? påfyldning.getSlutDato()
+                : LocalDate.now();
+
+        return Period.between(påfyldning.getStartDato(), slut).getYears();
     }
 
     public double beregnAlkoholProcent(){

@@ -2,6 +2,7 @@ package gui;
 
 import application.controller.Controller;
 import application.model.Lager;
+import storage.Storage;
 
 import java.time.LocalDate;
 
@@ -18,8 +19,11 @@ public class App {
         Controller.createFad(0,1, "Bourbon", "Jim Beam", "Nyt fad oprettet",200);
         Controller.createFad(1, 1,"Sherry", "Andalusien", "Brugt én gang",200);
 
-        Controller.createDestilat(80,200,50,"Larsens","Byg",1, LocalDate.of(2030,10,10),"","");
-        Controller.createDestilat(70,150,50,"Larsens","Byg",2, LocalDate.of(2029,7,20),"","");
+        Controller.createDestilat(80,200,50,"Larsens","Byg",1, LocalDate.of(2010,10,10),"","");
+        Controller.createDestilat(70,150,50,"Larsens","Byg",2, LocalDate.of(20024,7,20),"","");
+
+        Controller.påfyldDestillatPåFad(0,80, LocalDate.now().minusYears(5));
+       // Controller.påfyldDestillatPåFad(1, 70, LocalDate.now().minusYears(1));
     }
 
 }
