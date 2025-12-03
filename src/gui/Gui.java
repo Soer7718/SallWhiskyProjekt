@@ -44,6 +44,6 @@ public class Gui extends Application{
         stage.setTitle("Multi-tab App");
         stage.show();
 
-        tabPane.setOnMouseClicked();
+
     }
 }
