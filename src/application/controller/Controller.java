@@ -93,8 +93,9 @@
 
             Påfyldning påfyldning = destilat.opretPåfyldning(dato);
             destilat.addPåfyldning(påfyldning);
-
+            Storage.addPåfyldning(påfyldning);
             fad.setFyldt(destilat.getMængde());
+            fad.setPåfyldning(påfyldning);
 
             return påfyldning;
         }

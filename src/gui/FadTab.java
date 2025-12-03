@@ -15,9 +15,9 @@ import application.model.Fad;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class FadTab {
+public class FadTab{
 
-    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadList());
+    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadListe());
     private TableView<Fad> fadTable = new TableView<>(fadListe);
 
 
@@ -96,8 +96,8 @@ public class FadTab {
 //        colAar.setCellValueFactory(data ->
 //                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
-        //fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
-        // fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+        fadTable.setItems(Controller.getFadListe());
 
         root.setCenter(fadTable);
 
@@ -174,6 +174,7 @@ public class FadTab {
             }
         });
 
+
         return root;
     }
 
@@ -217,6 +218,11 @@ public class FadTab {
             }
         }
         return null;
+    }
+
+    public void refreshTable() {
+        fadListe.setAll(Controller.getFadListe());
+        fadTable.refresh();
     }
 
     private void openTapningsVindue() {

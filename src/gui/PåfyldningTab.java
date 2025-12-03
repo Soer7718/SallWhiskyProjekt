@@ -13,13 +13,19 @@ import application.model.Påfyldning;
 import application.controller.Controller;
 
 
-public class PåfyldningTab {
+public class PåfyldningTab{
+    private FadTab fadTab;
+
+    public PåfyldningTab(FadTab fadTab) {
+        this.fadTab = fadTab;
+    }
+
     public Node getContent() {
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
 
         ComboBox<Fad> fadCombo = new ComboBox<>();
-        fadCombo.getItems().addAll(Controller.getFadList());
+        fadCombo.getItems().addAll(Controller.getFadListe());
         fadCombo.setPromptText("Vælg fad");
 
         ComboBox<Destilat> destilatCombo = new ComboBox<>();
@@ -47,7 +53,10 @@ public class PåfyldningTab {
                                 + " • Destillat #" + valgtDestilat.getId()
                                 + " • Dato: " + valgtDato
                 );
-                //Controller.getFadListe();
+                opdaterFadCombo(fadCombo);
+                if (fadTab != null) {
+                    fadTab.refreshTable();
+                }
 
             } catch (IllegalStateException ex) {
                 // Kommer fra Controller, når fadet ikke er tomt
@@ -71,5 +80,8 @@ public class PåfyldningTab {
         );
 
         return root;
+    }
+    private void opdaterFadCombo(ComboBox<Fad> fadCombo) {
+        fadCombo.getItems().setAll(Controller.getFadListe());
     }
 }
