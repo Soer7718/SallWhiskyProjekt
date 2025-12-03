@@ -72,4 +72,7 @@ public class PåfyldningTab {
 
         return root;
     }
+
+    public void refresh() {
+    }
 }

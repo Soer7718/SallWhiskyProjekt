@@ -203,4 +203,7 @@ public class LagerTab {
 
         return root;
     }
+
+    public void refresh() {
+    }
 }

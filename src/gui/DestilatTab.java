@@ -198,4 +198,7 @@ public class DestilatTab {
         rygeMaterialeInput.clear();
         kommentarInput.clear();
     }
+
+    public void refresh() {
+    }
 }

@@ -61,9 +61,19 @@ package application.controller;
 
 
 
-        public static Tapning createTapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double mængde, List<WhiskyType> typer){
+        public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand,
+                                            String vandOprindelse, double mængde, List<WhiskyType> typer) {
+            // Opret tapningen
             Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
+
+            // Gem i Storage
             Storage.addTapning(tapning);
+
+            // Tilføj tapningen til fadet
+            if (fad != null) {
+                fad.addTapning(tapning);
+            }
+
             return tapning;
         }
 

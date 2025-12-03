@@ -9,7 +9,6 @@ import application.model.Fad;
 import application.controller.Controller;
 
 
-
 public class FadOversigtTab {
     public Node getContent() {
         TableView<Fad> table = new TableView<>();
@@ -36,5 +35,8 @@ public class FadOversigtTab {
         layout.setSpacing(10);
         layout.setPadding(new javafx.geometry.Insets(10));
         return layout;
+    }
+
+    public void refresh() {
     }
 }

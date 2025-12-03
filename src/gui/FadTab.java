@@ -100,7 +100,7 @@ public class FadTab {
 //                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
         fadTable.getColumns().clear();
-        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
+        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse,colFyldt);
         fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
 
         root.setCenter(fadTable);
@@ -246,16 +246,24 @@ public class FadTab {
     }
 
     private void openTapningsVindue() {
+        Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
+        if (valgtFad == null) return;
+
         Stage stage = new Stage();
         stage.setTitle("Tapning");
 
-        TapningTab tapningTab = new TapningTab();
+        TapningTab tapningTab = new TapningTab(valgtFad);
 
         Scene scene = new Scene((Parent) tapningTab.getContent(), 600, 500);
         stage.setScene(scene);
-
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+    }
+
+
+    public void refresh() {
+        fadListe.setAll(Controller.getFadList()); // opdater ObservableList
+        fadTable.refresh();                        // refresher TableView
     }
 
 

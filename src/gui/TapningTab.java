@@ -1,6 +1,7 @@
 
 package gui;
 
+import application.model.Fad;
 import application.model.WhiskyType;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -15,6 +16,11 @@ import java.util.stream.Collectors;
 
 public class TapningTab {
     private TableView<Tapning> tapningTable;
+    private Fad fad;
+
+    public TapningTab(Fad fad) {
+        this.fad = fad;
+    }
 
     public Node getContent() {
         BorderPane root = new BorderPane();
@@ -84,10 +90,14 @@ public class TapningTab {
                 ));
 
         tapningTable.getColumns().addAll(colAlkohol, colHistorik, colMængde, colTyper);
-        tapningTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getTapningList()));
+        tapningTable.setItems(FXCollections.observableArrayList(
+                fad.getTapninger() != null ? fad.getTapninger() : List.of()
+        ));
         tapningTable.setPrefHeight(300);
 
         root.setCenter(tapningTable);
+
+
 
         btnOpret.setOnAction(e -> {
             try {
@@ -101,15 +111,19 @@ public class TapningTab {
                                 .stream().collect(Collectors.toList());
 
 
-                Controller.getInstance().createTapning(alkohol, historik, vand, vandOprindelse, mængde, typer);
-                tapningTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getTapningList()));
+                Controller.createTapning(fad, alkohol, historik, vand, vandOprindelse, mængde, typer);
+                tapningTable.setItems(FXCollections.observableArrayList(
+                        fad.getTapninger() != null ? fad.getTapninger() : List.of()
+                ));
 
+                // Ryd felter
                 txtAlkohol.clear();
                 txtHistorik.clear();
                 txtVand.clear();
                 txtVandOprindelse.clear();
                 txtMængde.clear();
                 lstTyper.getSelectionModel().clearSelection();
+
             } catch (NumberFormatException ex) {
                 new Alert(Alert.AlertType.ERROR, "Alle talfelter skal være gyldige tal!").showAndWait();
             }
