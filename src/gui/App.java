@@ -25,5 +25,4 @@ public class App {
         Controller.påfyldDestillatPåFad(0,80, LocalDate.now().minusYears(5));
        // Controller.påfyldDestillatPåFad(1, 70, LocalDate.now().minusYears(1));
     }
-
 }

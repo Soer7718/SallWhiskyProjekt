@@ -15,12 +15,11 @@ import application.model.Fad;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.PrintWriter;
-import java.security.PrivateKey;
-
 public class FadTab {
-    private TableView<Fad> fadTable;
-    private ObservableList<Fad> fadListe;
+
+    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadList());
+    private TableView<Fad> fadTable = new TableView<>(fadListe);
+
 
     public Node getContent() {
         BorderPane root = new BorderPane();
@@ -69,9 +68,8 @@ public class FadTab {
         root.setTop(formPane);
 
         // === TableView til liste ===
-        fadListe = FXCollections.observableArrayList(Controller.getFadList());
-        fadTable = new TableView<>(fadListe);
         fadTable.setPrefHeight(300);
+        fadTable.setItems(fadListe);
 
         TableColumn<Fad, String> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getId())));
@@ -98,10 +96,8 @@ public class FadTab {
 //        colAar.setCellValueFactory(data ->
 //                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
-        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
-
-//        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
-        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadListe()));
+        //fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal);
+        // fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
 
         root.setCenter(fadTable);
 
@@ -121,6 +117,7 @@ public class FadTab {
 
         // === Eventhandler til knappen ===
         btnOpret.setOnAction(e -> {
+
             String type = txtType.getText().trim();
             String leverandør = txtLeverandør.getText().trim();
             String historik = txtHistorik.getText().trim();
@@ -151,11 +148,10 @@ public class FadTab {
                 return;
             }
 
-            fadListe = FXCollections.observableArrayList(Controller.getFadList());
-            fadTable = new TableView<>(fadListe);
-
             // Opret fad
-            Fad nytFad = Controller.createFad(-1, antal, type, leverandør, historik, -1);
+            int id = nextFadId();
+            double liter = 200.0;
+            Fad nytFad = Controller.createFad(id, antal, type, leverandør, historik, liter);
 
             // Opdater oversigt
             fadListe.add(nytFad);
@@ -193,6 +189,15 @@ public class FadTab {
         }
         return false; // ingen plads
     }
+
+    private int nextFadId() {
+        return Controller.getFadList()
+                .stream()
+                .map(Fad::getId)
+                .max(java.util.Comparator.naturalOrder())
+                .orElse(0) + 1;
+    }
+
 
     private Palle findLedigPalle(Fad fad) {
         int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
