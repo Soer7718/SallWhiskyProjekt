@@ -184,7 +184,7 @@ public class DestilatTab {
         // --- Opret destilat via controller ---
 
         Destilat destilat = Controller.createDestilat(
-                alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar
+               1, alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar
         );
         // Tilføj direkte til ObservableList
         destilater.add(destilat);
