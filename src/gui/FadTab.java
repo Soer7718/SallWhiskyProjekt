@@ -245,6 +245,11 @@ public class FadTab {
         return null;
     }
 
+    public void refreshTable() {
+        fadListe.setAll(Controller.getFadListe());
+        fadTable.refresh();
+    }
+
     private void openTapningsVindue() {
         Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
         if (valgtFad == null) return;

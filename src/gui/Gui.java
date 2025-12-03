@@ -16,78 +16,71 @@ import application.controller.Controller;
 
 public class Gui extends Application{
 
-
-    private FadTab fadTabContent;
-    private DestilatTab destilleriTabContent;
-    private LagerTab lagerTabContent;
-    private PåfyldningTab påfyldningTabContent;
-    private FadOversigtTab fadOversigtTabContent;
-
-
+    private FadTab fadTabInstance;
     @Override
     public void start(Stage stage) {
         TabPane tabPane = new TabPane();
 
-
-        // Gem referencer til tab-indhold, så vi kan opdatere dem
-        fadTabContent = new FadTab();
-        destilleriTabContent = new DestilatTab();
-        lagerTabContent = new LagerTab();
-        påfyldningTabContent = new PåfyldningTab();
-        fadOversigtTabContent = new FadOversigtTab();
-
         // Lav tabs fra dine egne klasser
-        fadTabContent = new FadTab();
+        fadTabInstance = new FadTab();
         Tab fadTab = new Tab("Fad");
-        fadTab.setContent(fadTabContent.getContent());
+        fadTab.setContent(new FadTab().getContent());
 
-        destilleriTabContent = new DestilatTab();
         Tab destilleriTab = new Tab("Destilleri");
-        destilleriTab.setContent(destilleriTabContent.getContent());
+        destilleriTab.setContent(new DestilatTab().getContent());
 
-        lagerTabContent = new LagerTab();
         Tab lagerTap = new Tab("Lager");
-        lagerTap.setContent(lagerTabContent.getContent());
+        lagerTap.setContent(new LagerTab().getContent());
 
-        påfyldningTabContent = new PåfyldningTab();
         Tab PåfyldningTab = new Tab("Påfyldning");
-        PåfyldningTab.setContent(påfyldningTabContent.getContent());
+        PåfyldningTab.setContent(new PåfyldningTab(fadTabInstance).getContent());
 
-        fadOversigtTabContent = new FadOversigtTab();
         Tab FadOversigtTab = new Tab("Oversigt");
-        FadOversigtTab.setContent(fadOversigtTabContent.getContent());
+        FadOversigtTab.setContent(new FadOversigtTab().getContent());
 
         tabPane.getTabs().addAll(fadTab, destilleriTab,lagerTap, PåfyldningTab, FadOversigtTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
-
-        tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
-            if (newTab != null) {
-                updateViews(newTab);
-            }
-        });
 
         Scene scene = new Scene(tabPane, 1200, 800);
         stage.setScene(scene);
         stage.setTitle("Multi-tab App");
         stage.show();
 
-
     }
 
-    /**
-     * Opdaterer viewet for den valgte tab.
-     */
-    private void updateViews(Tab selectedTab) {
-        if (selectedTab.getText().equals("Fad")) {
-            fadTabContent.refresh(); // Antag at du laver en refresh-metode i FadTab
-        } else if (selectedTab.getText().equals("Destilleri")) {
-            destilleriTabContent.refresh();
-        } else if (selectedTab.getText().equals("Lager")) {
-            lagerTabContent.refresh();
-        } else if (selectedTab.getText().equals("Påfyldning")) {
-            påfyldningTabContent.refresh();
-        } else if (selectedTab.getText().equals("Oversigt")) {
-            fadOversigtTabContent.refresh();
+    public void refreshFadListe() {
+        if (fadTabInstance != null) {
+            fadTabInstance.refreshTable();
         }
+
+
     }
 }
+//tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+//        if (newTab != null) {
+//updateListForTab(newTab);
+//        }
+//                });
+//private void updateListForTab(Tab tab) {
+//    tab.
+//
+//
+//            ListView<String> listView = (ListView<String>) ((VBox) tab.getContent()).getChildren().get(0);
+//    ObservableList<String> items = listView.getItems();
+//    items.clear();
+//
+//    switch (tab.getText()) {
+//        case "Tab 1":
+//            items.addAll("A1", "A2", "A3");
+//            break;
+//        case "Tab 2":
+//            items.addAll("B1", "B2", "B3");
+//            break;
+//        case "Tab 3":
+//            items.addAll("C1", "C2", "C3");
+//            break;
+//        case "Tab 4":
+//            items.addAll("D1", "D2", "D3");
+//            break;
+//    }
+//}
