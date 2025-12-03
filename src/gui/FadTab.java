@@ -104,13 +104,13 @@ public class FadTab {
 
         root.setCenter(fadTable);
 
-//        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
-//            if (selected == null) {
-//                btnTapFad.setDisable(true);
-//            } else {
-//                btnTapFad.setDisable(selected.getLagringsAar() < 3); // <--- KRAV: minimum 3 år
-//            }
-//        });
+        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
+            if (selected == null) {
+                btnTapFad.setDisable(true);
+            } else {
+                btnTapFad.setDisable(selected.getLagringsAar() < 3); // <--- KRAV: minimum 3 år
+            }
+        });
 
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             btnFlytTilLager.setDisable(selected == null);
