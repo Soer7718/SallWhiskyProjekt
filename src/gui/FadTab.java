@@ -111,6 +111,7 @@ public class FadTab {
 
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             btnFlytTilLager.setDisable(selected == null);
+            btnTapFad.setDisable(selected == null);
         });
 
         btnTapFad.setOnAction(e -> openTapningsVindue());
