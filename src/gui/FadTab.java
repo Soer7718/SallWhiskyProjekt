@@ -16,8 +16,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class FadTab {
-    private TableView<Fad> fadTable;
-    private ObservableList<Fad> fadListe;
+
+    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadList());
+    private TableView<Fad> fadTable = new TableView<>(fadListe);
+
 
     public Node getContent() {
         BorderPane root = new BorderPane();
@@ -148,11 +150,10 @@ public class FadTab {
                 return;
             }
 
-            fadListe = FXCollections.observableArrayList(Controller.getFadList());
-            fadTable = new TableView<>(fadListe);
-
             // Opret fad
-            Fad nytFad = Controller.createFad(-1, antal, type, leverandør, historik, -1);
+            int id = nextFadId();
+            double liter = 200.0;
+            Fad nytFad = Controller.createFad(id, antal, type, leverandør, historik, liter);
 
             // Opdater oversigt
             fadListe.add(nytFad);
@@ -181,6 +182,48 @@ public class FadTab {
             }
         });
         return root;
+    }
+
+    private boolean placerFad(Fad fad) {
+        Palle ledigPalle = findLedigPalle(fad);
+        if (ledigPalle != null) {
+            for (int i = 0; i < ledigPalle.getPallePlads().length; i++) {
+                if (ledigPalle.getPallePlads()[i] == null) {
+                    ledigPalle.getPallePlads()[i] = fad;
+                    return true; // fad placeret
+                }
+            }
+        }
+        return false; // ingen plads
+    }
+
+    private int nextFadId() {
+        return Controller.getFadList()
+                .stream()
+                .map(Fad::getId)
+                .max(java.util.Comparator.naturalOrder())
+                .orElse(0) + 1;
+    }
+
+
+    private Palle findLedigPalle(Fad fad) {
+        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
+
+        for (Lager lager : Controller.getLagerList()) {
+            for (Gang gang : lager.getGangList()) {
+                for (Reol reol : gang.getReolList()) {
+                    for (Hylde hylde : reol.getHyldeList()) {
+                        for (Palle palle : hylde.getPalleList()) {
+                            int ledigePladser = palle.getLedigePladser();
+                            if (ledigePladser >= pladserBehov) {
+                                return palle;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private void openTapningsVindue() {

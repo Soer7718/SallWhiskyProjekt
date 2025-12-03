@@ -21,5 +21,4 @@ public class App {
         Controller.createDestilat(80,200,50,"Larsens","Byg",1, LocalDate.of(2030,10,10),"","");
         Controller.createDestilat(70,150,50,"Larsens","Byg",2, LocalDate.of(2029,7,20),"","");
     }
-
 }
