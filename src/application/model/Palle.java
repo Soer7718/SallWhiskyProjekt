@@ -31,4 +31,14 @@ public class Palle {
         }
         return count;
     }
+
+    public boolean placerFad(Fad fad) {
+        for (int i = 0; i < pallePlads.length; i++) {
+            if (pallePlads[i] == null) {
+                pallePlads[i] = fad;
+                return true;
+            }
+        }
+        return false;
+    }
 }

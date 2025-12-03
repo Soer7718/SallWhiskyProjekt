@@ -1,5 +1,7 @@
 
 package application.model;
+import application.controller.Controller;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,13 +85,72 @@ public class Lager {
     }
 
     public int udregnAntalPladser() {
-        //TODO
-        return -1;
+        int totalPladser = 0;
+        for (Gang gang : gangList) {
+            for (Reol reol : gang.getReolList()) {
+                for (Hylde hylde : reol.getHyldeList()) {
+                    totalPladser += hylde.getPalleList().length;
+                }
+            }
+        }
+        return totalPladser;
     }
 
-    public int udregnLedigePladser() {
-        //TODO
-        return -1;
+    public int getLedigePaller() {
+        int ledigePaller = 0;
+
+        for (Gang gang : gangList) {
+            for (Reol reol : gang.getReolList()) {
+                for (Hylde hylde : reol.getHyldeList()) {
+                    for (Palle palle : hylde.getPalleList()) {
+                        boolean erLedig = true;
+                        for (Fad fad : palle.getPallePlads()) {
+                            if (fad != null) erLedig = false;
+                        }
+                        if (erLedig) ledigePaller++;
+                    }
+                }
+            }
+        }
+
+        return ledigePaller;
     }
+
+    public Palle findLedigPalle(Fad fad) {
+        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
+
+        for (Gang gang : gangList) {
+            for (Reol reol : gang.getReolList()) {
+                for (Hylde hylde : reol.getHyldeList()) {
+                    for (Palle palle : hylde.getPalleList()) {
+                        int ledigePladser = palle.getLedigePladser();
+                        if (ledigePladser >= pladserBehov) {
+                            return palle;
+                        }
+                    }
+                }
+            }
+        }
+        return null; // ingen ledig palle
+    }
+
+    public boolean placerFad(Fad fad) {
+        for (Gang gang : gangList) {
+            for (Reol reol : gang.getReolList()) {
+                for (Hylde hylde : reol.getHyldeList()) {
+                    for (Palle palle : hylde.getPalleList()) {
+                        if (palle.placerFad(fad)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+
 
 }

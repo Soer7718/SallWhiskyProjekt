@@ -135,6 +135,18 @@ public class Fad {
     }
 
 
+    public boolean placerPåLager(Lager lager) {
+        Palle ledigPalle = lager.findLedigPalle(this); // findLedigPalle skal være public i Lager
+        if (ledigPalle != null) {
+            for (int i = 0; i < ledigPalle.getPallePlads().length; i++) {
+                if (ledigPalle.getPallePlads()[i] == null) {
+                    ledigPalle.getPallePlads()[i] = this;
+                    return true; // fad placeret
+                }
+            }
+        }
+        return false; // ingen plads
+    }
 
     @Override
     public String toString(){

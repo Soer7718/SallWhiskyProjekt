@@ -89,27 +89,9 @@ public class LagerTab {
         });
 
         TableColumn<Lager, String> colLedigePladser = new TableColumn<>("Ledige Paller");
-        colLedigePladser.setCellValueFactory(data -> {
-            int ledigePaller = 0;
-
-            for (Gang gang : data.getValue().getGangList()) {
-                for (Reol reol : gang.getReolList()) {
-                    for (Hylde hylde : reol.getHyldeList()) {
-                        for (Palle palle : hylde.getPalleList()) {
-                            boolean erLedig = true;
-                            for (Fad fad : palle.getPallePlads()) {
-                                erLedig = erLedig && (fad == null);
-                            }
-                            if (erLedig) {
-                                ledigePaller++;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return new SimpleStringProperty(String.valueOf(ledigePaller));
-        });
+        colLedigePladser.setCellValueFactory(data ->
+                new SimpleStringProperty(String.valueOf(data.getValue().getLedigePaller()))
+        );
 
         lagerTable.getColumns().addAll(colNavn, colAdresse, colGange ,colPladser, colLedigePladser);
         lagerTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getLagerList()));
@@ -213,6 +195,8 @@ public class LagerTab {
             lagerTable.refresh();
 
         });
+
+
 
 
 

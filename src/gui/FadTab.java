@@ -166,49 +166,21 @@ public class FadTab {
 
         btnFlytTilLager.setOnAction(e -> {
             Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
-            if (placerFad(valgtFad)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fad placeret på lager!");
+            if (valgtFad == null) return;
+
+            boolean succes = Controller.placerFadPåFørsteLedigeLager(valgtFad);
+            if (succes) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fadet er placeret på lager!");
                 alert.showAndWait();
+
+                // opdater FadTable, evt. LagerTable i LagerTab
+                fadTable.refresh();
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Ingen ledige paller til fadet!");
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Ingen ledige paller i nogen lager!");
                 alert.showAndWait();
             }
         });
-
         return root;
-    }
-
-    private boolean placerFad(Fad fad) {
-        Palle ledigPalle = findLedigPalle(fad);
-        if (ledigPalle != null) {
-            for (int i = 0; i < ledigPalle.getPallePlads().length; i++) {
-                if (ledigPalle.getPallePlads()[i] == null) {
-                    ledigPalle.getPallePlads()[i] = fad;
-                    return true; // fad placeret
-                }
-            }
-        }
-        return false; // ingen plads
-    }
-
-    private Palle findLedigPalle(Fad fad) {
-        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
-
-        for (Lager lager : Controller.getLagerList()) {
-            for (Gang gang : lager.getGangList()) {
-                for (Reol reol : gang.getReolList()) {
-                    for (Hylde hylde : reol.getHyldeList()) {
-                        for (Palle palle : hylde.getPalleList()) {
-                            int ledigePladser = palle.getLedigePladser();
-                            if (ledigePladser >= pladserBehov) {
-                                return palle;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     private void openTapningsVindue() {
