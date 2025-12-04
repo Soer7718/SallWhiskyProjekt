@@ -16,30 +16,42 @@ import application.controller.Controller;
 
 public class Gui extends Application{
 
-    private FadTab fadTabInstance;
+    private FadTab fadTab;
+    private DestilatTab destilleriTab;
+    private LagerTab lagerTab;
+    private PåfyldningTab påfyldningTab;
+    private FadOversigtTab fadOversigtTab;
+
     @Override
     public void start(Stage stage) {
         TabPane tabPane = new TabPane();
 
         // Lav tabs fra dine egne klasser
-        fadTabInstance = new FadTab();
-        Tab fadTab = new Tab("Fad");
-        fadTab.setContent(new FadTab().getContent());
+        fadTab = new FadTab();
+        Tab tab1 = new Tab("Fad");
+        tab1.setContent(fadTab.getContent());
 
-        Tab destilleriTab = new Tab("Destilleri");
-        destilleriTab.setContent(new DestilatTab().getContent());
+        destilleriTab = new DestilatTab();
+        Tab tab2 = new Tab("Destilleri");
+        tab2.setContent(destilleriTab.getContent());
 
-        Tab lagerTap = new Tab("Lager");
-        lagerTap.setContent(new LagerTab().getContent());
+        lagerTab = new LagerTab();
+        Tab tab3 = new Tab("Lager");
+        tab3.setContent(lagerTab.getContent());
 
-        Tab PåfyldningTab = new Tab("Påfyldning");
-        PåfyldningTab.setContent(new PåfyldningTab(fadTabInstance).getContent());
+        påfyldningTab = new PåfyldningTab();
+        Tab tab4 = new Tab("Påfyldning");
+        tab4.setContent(påfyldningTab.getContent());
 
-        Tab FadOversigtTab = new Tab("Oversigt");
-        FadOversigtTab.setContent(new FadOversigtTab().getContent());
+        fadOversigtTab = new FadOversigtTab();
+        Tab tab5 = new Tab("Oversigt");
+        tab5.setContent(fadOversigtTab.getContent());
 
-        tabPane.getTabs().addAll(fadTab, destilleriTab,lagerTap, PåfyldningTab, FadOversigtTab);
+        tabPane.getTabs().addAll(tab1, tab2,tab3, tab4, tab5);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
+tabPane.setOnMouseClicked((event) -> {
+    this.updateListViews();
+});
 
         Scene scene = new Scene(tabPane, 1200, 800);
         stage.setScene(scene);
@@ -48,13 +60,15 @@ public class Gui extends Application{
 
     }
 
-    public void refreshFadListe() {
-        if (fadTabInstance != null) {
-            fadTabInstance.refreshTable();
-        }
-
-
+    private void updateListViews() {
+    fadTab.updateControls();
+    destilleriTab.updateControls();
+    lagerTab.updateControls();
+    påfyldningTab.updateControls();
+    fadOversigtTab.updateControls();
     }
+
+
 }
 //tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
 //        if (newTab != null) {
