@@ -4,6 +4,7 @@ import application.controller.Controller;
 import application.model.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -11,6 +12,8 @@ import javafx.scene.layout.*;
 
 
 public class LagerTab {
+    private ObservableList<Lager> lagerlist = FXCollections.observableArrayList(Controller.getLagerList());
+
     private TableView<Lager> lagerTable;
 
     public Node getContent() {
@@ -61,7 +64,7 @@ public class LagerTab {
         root.setTop(formPane);
 
         // === TableView til liste ===
-        lagerTable = new TableView<>();
+        lagerTable = new TableView<>(lagerlist);
         lagerTable.setPrefHeight(300);
 
         TableColumn<Lager, String> colNavn = new TableColumn<>("Navn");
@@ -205,5 +208,10 @@ public class LagerTab {
     }
 
     public void refresh() {
+    }
+
+    public void updateControls() {
+        lagerlist.setAll(Controller.getLagerList());
+        lagerTable.refresh();
     }
 }
