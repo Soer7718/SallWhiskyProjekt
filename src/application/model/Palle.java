@@ -6,11 +6,13 @@ public class Palle {
     private int palleNummer;
     private Fad[] pallePlads = new Fad[2];
     private Hylde hylde;
+    private static int seq = 1;
 
     public Palle(Hylde hylde) {
         this.hylde = hylde;
-        this.palleNummer = palleNummer;
+        this.palleNummer = seq++;
     }
+    public int getPalleNummer() { return palleNummer; }
 
     public Hylde getHylde() {
         return hylde;

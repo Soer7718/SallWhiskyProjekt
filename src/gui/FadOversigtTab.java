@@ -11,11 +11,14 @@ import application.controller.Controller;
 
 
 public class FadOversigtTab {
+    private TableView<Fad> table;
     private ObservableList<Fad> fadList = FXCollections.observableArrayList(Controller.getFadList());
     TableView<Fad> table = new TableView<>(fadList);
 
     public Node getContent() {
-        table.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+
+        table = new TableView<>();
+        table.setItems(Controller.getFadListe());
 
         TableColumn<Fad, String> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getId())));
@@ -32,7 +35,7 @@ public class FadOversigtTab {
         TableColumn<Fad, String> colHistorik = new TableColumn<>("Historik");
         colHistorik.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getHistorik()));
 
-        table.getColumns().addAll(colId, colType, colLiter, colLeverandør, colHistorik);
+        table.getColumns().setAll(colId, colType, colLiter, colLeverandør, colHistorik);
 
         VBox layout = new VBox(table);
         layout.setSpacing(10);
@@ -41,6 +44,7 @@ public class FadOversigtTab {
     }
 
     public void refresh() {
+        if (table != null) table.refresh();
     }
 
     public void updateControls() {

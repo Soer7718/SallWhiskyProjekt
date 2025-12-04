@@ -16,6 +16,10 @@ import application.controller.Controller;
 
 public class Gui extends Application{
 
+    private FadTab fadTabInstance;
+    private PåfyldningTab påfyldningTabInstance;
+    private FadOversigtTab fadOversigtTabInstance;
+
     private FadTab fadTab;
     private DestilatTab destilleriTab;
     private LagerTab lagerTab;
@@ -27,14 +31,19 @@ public class Gui extends Application{
         TabPane tabPane = new TabPane();
 
         // Lav tabs fra dine egne klasser
+        fadTabInstance = new FadTab();
+        Tab fadTab = new Tab("Fad", fadTabInstance.getContent());
+
         fadTab = new FadTab();
         Tab tab1 = new Tab("Fad");
         tab1.setContent(fadTab.getContent());
 
+        Tab destilleriTab = new Tab("Destilleri", new DestilatTab().getContent());
         destilleriTab = new DestilatTab();
         Tab tab2 = new Tab("Destilleri");
         tab2.setContent(destilleriTab.getContent());
 
+        Tab lagerTap = new Tab("Lager", new LagerTab().getContent());
         lagerTab = new LagerTab();
         Tab tab3 = new Tab("Lager");
         tab3.setContent(lagerTab.getContent());
@@ -43,10 +52,17 @@ public class Gui extends Application{
         Tab tab4 = new Tab("Påfyldning");
         tab4.setContent(påfyldningTab.getContent());
 
+        påfyldningTabInstance = new PåfyldningTab(fadTabInstance);
+        Tab påfyldningTab = new Tab("Påfyldning", påfyldningTabInstance.getContent());
         fadOversigtTab = new FadOversigtTab();
         Tab tab5 = new Tab("Oversigt");
         tab5.setContent(fadOversigtTab.getContent());
 
+        fadOversigtTabInstance = new FadOversigtTab();
+        Tab FadOversigtTab = new Tab("Oversigt", fadOversigtTabInstance.getContent());
+
+
+        tabPane.getTabs().addAll(fadTab, destilleriTab,lagerTap, påfyldningTab, FadOversigtTab);
         tabPane.getTabs().addAll(tab1, tab2,tab3, tab4, tab5);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
 tabPane.setOnMouseClicked((event) -> {
@@ -60,6 +76,11 @@ tabPane.setOnMouseClicked((event) -> {
 
     }
 
+    public void refreshFadListe() {
+        if (fadTabInstance != null) fadTabInstance.refreshTable();
+        if (fadOversigtTabInstance != null)
+            fadOversigtTabInstance.refresh();
+
     private void updateListViews() {
     fadTab.updateControls();
     destilleriTab.updateControls();
@@ -69,32 +90,5 @@ tabPane.setOnMouseClicked((event) -> {
     }
 
 
+    }
 }
-//tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
-//        if (newTab != null) {
-//updateListForTab(newTab);
-//        }
-//                });
-//private void updateListForTab(Tab tab) {
-//    tab.
-//
-//
-//            ListView<String> listView = (ListView<String>) ((VBox) tab.getContent()).getChildren().get(0);
-//    ObservableList<String> items = listView.getItems();
-//    items.clear();
-//
-//    switch (tab.getText()) {
-//        case "Tab 1":
-//            items.addAll("A1", "A2", "A3");
-//            break;
-//        case "Tab 2":
-//            items.addAll("B1", "B2", "B3");
-//            break;
-//        case "Tab 3":
-//            items.addAll("C1", "C2", "C3");
-//            break;
-//        case "Tab 4":
-//            items.addAll("D1", "D2", "D3");
-//            break;
-//    }
-//}

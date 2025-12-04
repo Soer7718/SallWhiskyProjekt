@@ -10,8 +10,13 @@ package application.controller;
     import java.util.List;
 
     public class Controller {
-        private static ObservableList<Fad> fadListe = FXCollections.observableArrayList(Storage.getFadList());
+        private static final ObservableList<Fad> fadListe = FXCollections.observableArrayList(Storage.getFadList());
+        private static final ObservableList<Destilat> destillatListe = FXCollections.observableArrayList(Storage.getDestilatList());
         private static Controller instance;
+
+        public static ObservableList<Fad> getFadListe() {
+            return fadListe;
+        }
 
 
         public static Controller getInstance() {
@@ -25,20 +30,23 @@ package application.controller;
             return new ArrayList<>(Storage.getDestilatList()) ;
         }
 
-        public static ObservableList<Fad> getFadListe() {
-            return fadListe;
+        public static ObservableList<Destilat> getDestillatListeObs() {
+            return destillatListe;
         }
 
-    //    public static Påfyldning createPåfyldning(LocalDate startDato, Destilat destilat){
+
+        //    public static Påfyldning createPåfyldning(LocalDate startDato, Destilat destilat){
     //        Påfyldning p = new Påfyldning(startDato, destilat);
     //        Storage.addPåfyldning(p);
     //        return p;
     //    }
 
-        public static Destilat createDestilat(int id, double alkoholProcent, double mængde, String mark, String kornSort,
+        public static Destilat createDestilat(double alkoholProcent, double mængde, String mark, String kornSort,
                                               int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
+            int id = Storage.nextDestilatId();
             Destilat objektDestilat = new Destilat(id, alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar);
             Storage.addDestilat(objektDestilat);
+            destillatListe.add(objektDestilat);
             return objektDestilat;
         }
 
@@ -46,7 +54,8 @@ package application.controller;
             return new ArrayList<Fad>(Storage.getFadList());
         }
 
-        public static Fad createFad(int id, int antal, String type, String leverandør, String historik, double størrelseLiter) {
+        public static Fad createFad( int antal, String type, String leverandør, String historik, double størrelseLiter) {
+            int id = Storage.nextFadId();
             Fad fad = new Fad(id, antal,type,leverandør,historik, størrelseLiter);
             Storage.addFad(fad);
             fadListe.add(fad);
@@ -70,13 +79,21 @@ package application.controller;
             Storage.addTapning(tapning);
 
             // Tilføj tapningen til fadet
+
             if (fad != null) {
                 fad.addTapning(tapning);
-            }
 
+                // ↓ Reducer fadets aktuelle mængde
+                double rest = Math.max(0.0, fad.getFyldt() - mængde);
+                fad.setFyldt(rest);
+
+                // Sæt slutdato på påfyldningen, hvis fadet er tømt
+                if (rest == 0.0 && fad.getPåfyldning() != null) {
+                    fad.getPåfyldning().setSlutDato(java.time.LocalDate.now());
+                }
+            }
             return tapning;
         }
-
 
 
         public static Tapning createTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
@@ -86,11 +103,11 @@ package application.controller;
         }
 
         public static List<Tapning> getTapningList(){
-            return new ArrayList<>( Storage.getTapningList());
+            return Storage.getTapningList();
         }
 
         public static List<Lager> getLagerList() {
-            return new ArrayList<>(Storage.getLagerList());
+            return Storage.getLagerList();
         }
 
         public static Påfyldning påfyldDestillatPåFad(int fadID, int destillatID, LocalDate dato){
@@ -121,9 +138,7 @@ package application.controller;
 
                                 int ledige = 0;
                                 for (Fad f : palle.getPallePlads()) {
-                                    if (f == null) {
-                                        ledige++;
-                                    }
+                                    if (f == null) ledige++;
                                 }
 
                             if (ledige >= krævedePladser) {

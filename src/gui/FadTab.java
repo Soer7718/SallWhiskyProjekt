@@ -17,9 +17,8 @@ import javafx.stage.Stage;
 
 public class FadTab {
 
-    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadList());
-    private TableView<Fad> fadTable = new TableView<>(fadListe);
-
+    private final ObservableList<Fad> fadListe = Controller.getFadListe();
+    private final TableView<Fad> fadTable = new TableView<>(fadListe);
 
     public Node getContent() {
         BorderPane root = new BorderPane();
@@ -68,10 +67,8 @@ public class FadTab {
         root.setTop(formPane);
 
         // === TableView til liste ===
-        fadListe = FXCollections.observableArrayList(Controller.getFadList());
-        fadTable = new TableView<>(fadListe);
-        fadTable.setPrefHeight(300);
         fadTable.setItems(fadListe);
+        fadTable.setPrefHeight(300);
 
         TableColumn<Fad, String> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getId())));
@@ -100,10 +97,11 @@ public class FadTab {
 //                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
         fadTable.getColumns().clear();
-        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse,colFyldt);
-        fadTable.setItems(FXCollections.observableArrayList(Controller.getFadList()));
+        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+
 
         root.setCenter(fadTable);
+
 
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             btnFlytTilLager.setDisable(selected == null);
@@ -113,7 +111,6 @@ public class FadTab {
                 btnTapFad.setDisable(selected.udregnLagringsÅr() < 3); // <--- KRAV: minimum 3 år
             }
         });
-
         btnTapFad.setOnAction(e -> openTapningsVindue());
 
         // === Eventhandler til knappen ===
@@ -141,21 +138,14 @@ public class FadTab {
             if (historik.isEmpty()) fejl.append("- Historik skal udfyldes.\n");
 
             if (fejl.length() > 0) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Valideringsfejl");
-                alert.setHeaderText("Ret venligst følgende:");
-                alert.setContentText(fejl.toString());
-                alert.showAndWait();
+                new Alert(Alert.AlertType.ERROR, fejl.toString()).showAndWait();
                 return;
             }
 
             // Opret fad
             int id = nextFadId();
             double liter = 200.0;
-            Fad nytFad = Controller.createFad(id, antal, type, leverandør, historik, liter);
-
-            // Opdater oversigt
-            fadListe.add(nytFad);
+            Controller.createFad(antal, type, leverandør, historik, liter);
 
             // Ryd felter
             txtAntal.clear();
@@ -167,9 +157,12 @@ public class FadTab {
         btnFlytTilLager.setOnAction(e -> {
             // Hent det valgte fad fra TableView
             Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
+
+            if (valgtFad == null) return;
+
             if (placerFad(valgtFad)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fad placeret på lager!");
-                alert.showAndWait();
+                new Alert(Alert.AlertType.INFORMATION, "Fad placeret på lager!").showAndWait();
+                fadTable.refresh();
                 return;
             }
 
@@ -182,16 +175,14 @@ public class FadTab {
 
             // Popup baseret på resultat
             if (succes) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                        "Fadet er placeret på lager! Ledige pladser nu: " +
-                                Controller.getLagerList().get(0).getLedigePladser());
-                alert.showAndWait();
 
-                // Opdater TableView hvis du vil reflektere ændringer
+                new Alert(Alert.AlertType.INFORMATION,
+                        "Fadet er placeret på lager! Ledige pladser nu: " +
+                                Controller.getLagerList().get(0).getLedigePladser())
+                        .showAndWait();
                 fadTable.refresh();
             } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Ingen ledige paller til fadet!");
-                alert.showAndWait();
+                new Alert(Alert.AlertType.WARNING, "Ingen ledige paller til fadet!").showAndWait();
             }
         });
 
@@ -260,12 +251,15 @@ public class FadTab {
         stage.showAndWait();
     }
 
-
-
-
-
     public void updateControls() {
         fadListe.setAll(Controller.getFadList());
+        fadTable.refresh();
+    }
+    public void refreshTable() {
+        fadTable.refresh();
+    }
+
+    public void refresh() {
         fadTable.refresh();
     }
 }

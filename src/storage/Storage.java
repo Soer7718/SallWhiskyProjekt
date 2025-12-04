@@ -20,6 +20,11 @@ public class Storage {
     // public static void addDestilat(Destilat destilat) {
        // destilatList.add(destilat);
     //}
+
+
+    public static int nextDestilatId() { return destilatSeq++; }
+    public static int nextFadId()      { return fadSeq++; }
+
     public static void addDestilat(Destilat d){
         destilatList.add(d);
     }
