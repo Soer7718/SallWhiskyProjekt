@@ -25,11 +25,25 @@ public class PåfyldningTab{
         root.setPadding(new Insets(10));
 
         ComboBox<Fad> fadCombo = new ComboBox<>();
-        fadCombo.getItems().addAll(Controller.getFadListe());
+        fadCombo.setItems(Controller.getFadListe());
         fadCombo.setPromptText("Vælg fad");
 
+
+        fadCombo.setCellFactory(lv -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad fad, boolean empty) {
+                super.updateItem(fad, empty);
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    setText("Fad #" + fad.getId() + " (" + fad.getType() + ")");
+                }
+            }
+        });
+
+
         ComboBox<Destilat> destilatCombo = new ComboBox<>();
-        destilatCombo.getItems().addAll(Controller.getDestillatListe());
+        destilatCombo.setItems(Controller.getDestillatListeObs());
         destilatCombo.setPromptText("Vælg destillat");
 
         DatePicker datoPicker = new DatePicker(LocalDate.now());
@@ -82,6 +96,6 @@ public class PåfyldningTab{
         return root;
     }
     private void opdaterFadCombo(ComboBox<Fad> fadCombo) {
-        fadCombo.getItems().setAll(Controller.getFadListe());
+        fadCombo.setItems(Controller.getFadListe());
     }
 }

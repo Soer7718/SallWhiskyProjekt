@@ -17,28 +17,31 @@ import application.controller.Controller;
 public class Gui extends Application{
 
     private FadTab fadTabInstance;
+    private PåfyldningTab påfyldningTabInstance;
+    private FadOversigtTab fadOversigtTabInstance;
+
     @Override
     public void start(Stage stage) {
         TabPane tabPane = new TabPane();
 
         // Lav tabs fra dine egne klasser
         fadTabInstance = new FadTab();
-        Tab fadTab = new Tab("Fad");
-        fadTab.setContent(new FadTab().getContent());
+        Tab fadTab = new Tab("Fad", fadTabInstance.getContent());
 
-        Tab destilleriTab = new Tab("Destilleri");
-        destilleriTab.setContent(new DestilatTab().getContent());
 
-        Tab lagerTap = new Tab("Lager");
-        lagerTap.setContent(new LagerTab().getContent());
+        Tab destilleriTab = new Tab("Destilleri", new DestilatTab().getContent());
 
-        Tab PåfyldningTab = new Tab("Påfyldning");
-        PåfyldningTab.setContent(new PåfyldningTab(fadTabInstance).getContent());
+        Tab lagerTap = new Tab("Lager", new LagerTab().getContent());
 
-        Tab FadOversigtTab = new Tab("Oversigt");
-        FadOversigtTab.setContent(new FadOversigtTab().getContent());
 
-        tabPane.getTabs().addAll(fadTab, destilleriTab,lagerTap, PåfyldningTab, FadOversigtTab);
+        påfyldningTabInstance = new PåfyldningTab(fadTabInstance);
+        Tab påfyldningTab = new Tab("Påfyldning", påfyldningTabInstance.getContent());
+
+        fadOversigtTabInstance = new FadOversigtTab();
+        Tab FadOversigtTab = new Tab("Oversigt", fadOversigtTabInstance.getContent());
+
+
+        tabPane.getTabs().addAll(fadTab, destilleriTab,lagerTap, påfyldningTab, FadOversigtTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE); //gør så fanerne ikke kan lukkes
 
         Scene scene = new Scene(tabPane, 1200, 800);
@@ -49,9 +52,10 @@ public class Gui extends Application{
     }
 
     public void refreshFadListe() {
-        if (fadTabInstance != null) {
-            fadTabInstance.refreshTable();
-        }
+        if (fadTabInstance != null) fadTabInstance.refreshTable();
+        if (fadOversigtTabInstance != null)
+            fadOversigtTabInstance.refresh();
+
 
 
     }
