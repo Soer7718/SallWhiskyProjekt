@@ -72,7 +72,7 @@ public class Fad {
     }
 
     // --- Hjælpe-metoder ---
-    public double udregnLagringsÅr() {
+    public int udregnLagringsÅr() {
         if (påfyldning == null || påfyldning.getStartDato() == null) {
             return 0;
         }

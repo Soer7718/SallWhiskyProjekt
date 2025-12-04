@@ -1,6 +1,7 @@
 package gui;
 
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -11,6 +12,9 @@ import application.controller.Controller;
 
 public class FadOversigtTab {
     private TableView<Fad> table;
+    private ObservableList<Fad> fadList = FXCollections.observableArrayList(Controller.getFadList());
+    TableView<Fad> table = new TableView<>(fadList);
+
     public Node getContent() {
 
         table = new TableView<>();
@@ -41,5 +45,10 @@ public class FadOversigtTab {
 
     public void refresh() {
         if (table != null) table.refresh();
+    }
+
+    public void updateControls() {
+        fadList.setAll(Controller.getFadList());
+        table.refresh();
     }
 }

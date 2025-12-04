@@ -104,11 +104,10 @@ public class Tapning {
     public void tilføjFad(Fad fad) {
         if (fad != null && !fadList.contains(fad)) {
             fadList.add(fad);
-            fad.addTapning(this); // Tilføjer tapningen til fadet samtidig
+            fad.addTapning(this);
         }
     }
 
-    // --- Hjælpe-metoder ---
     public int udregnWhiskyBeholdere(double væskemængde, double flaskeStørrelse) {
         return (int) Math.floor(væskemængde / flaskeStørrelse);
     }

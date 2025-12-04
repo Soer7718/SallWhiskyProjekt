@@ -14,18 +14,16 @@ import application.controller.Controller;
 
 
 public class PåfyldningTab{
-    private FadTab fadTab;
+    private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadList());
+    ComboBox<Fad> fadCombo = new ComboBox<>(fadListe);
 
-    public PåfyldningTab(FadTab fadTab) {
-        this.fadTab = fadTab;
-    }
+
 
     public Node getContent() {
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
 
-        ComboBox<Fad> fadCombo = new ComboBox<>();
-        fadCombo.setItems(Controller.getFadListe());
+        fadCombo.getItems().addAll(Controller.getFadListe());
         fadCombo.setPromptText("Vælg fad");
 
 
@@ -67,10 +65,7 @@ public class PåfyldningTab{
                                 + " • Destillat #" + valgtDestilat.getId()
                                 + " • Dato: " + valgtDato
                 );
-                opdaterFadCombo(fadCombo);
-                if (fadTab != null) {
-                    fadTab.refreshTable();
-                }
+
 
             } catch (IllegalStateException ex) {
                 // Kommer fra Controller, når fadet ikke er tomt
@@ -95,7 +90,8 @@ public class PåfyldningTab{
 
         return root;
     }
-    private void opdaterFadCombo(ComboBox<Fad> fadCombo) {
-        fadCombo.setItems(Controller.getFadListe());
+
+    public void updateControls() {
+        fadListe.setAll(Controller.getFadList());
     }
 }

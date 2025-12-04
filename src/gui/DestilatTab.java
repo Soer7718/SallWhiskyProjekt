@@ -13,6 +13,7 @@ import java.time.LocalDate;
 
 public class DestilatTab {
 
+
     // --- Labels og inputfelter ---
     Label kornSortLabel = new Label("Korn Sort:");
     Label slutDatoLabel = new Label("Slut Dato:");
@@ -199,5 +200,10 @@ public class DestilatTab {
     }
 
     public void refresh() {
+    }
+
+    public void updateControls() {
+        destilater.setAll(Controller.getDestillatListe());
+        destilatLW.refresh();
     }
 }

@@ -103,19 +103,14 @@ public class FadTab {
         root.setCenter(fadTable);
 
 
-        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, old, selected) -> {
+        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
+            btnFlytTilLager.setDisable(selected == null);
             if (selected == null) {
                 btnTapFad.setDisable(true);
             } else {
                 btnTapFad.setDisable(selected.udregnLagringsÅr() < 3); // <--- KRAV: minimum 3 år
             }
         });
-
-        fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
-            btnFlytTilLager.setDisable(selected == null);
-            btnTapFad.setDisable(selected == null);
-        });
-
         btnTapFad.setOnAction(e -> openTapningsVindue());
 
         // === Eventhandler til knappen ===
@@ -150,6 +145,7 @@ public class FadTab {
 
 
             // Opret fad
+            int id = nextFadId();
             double liter = 200.0;
             Controller.createFad(antal, type, leverandør, historik, liter);
 
@@ -171,7 +167,6 @@ public class FadTab {
                 fadTable.refresh();
                 return;
             }
-
 
             // Gennemløb alle lagre og placer fadet
             boolean succes = false;
@@ -196,7 +191,6 @@ public class FadTab {
         return root;
     }
 
-
     private boolean placerFad(Fad fad) {
         Palle ledigPalle = findLedigPalle(fad);
         if (ledigPalle != null) {
@@ -211,7 +205,8 @@ public class FadTab {
     }
 
     private int nextFadId() {
-        return fadListe.stream()
+        return Controller.getFadList()
+                .stream()
                 .map(Fad::getId)
                 .max(java.util.Comparator.naturalOrder())
                 .orElse(0) + 1;
@@ -238,6 +233,11 @@ public class FadTab {
         return null;
     }
 
+    public void refreshTable() {
+        fadListe.setAll(Controller.getFadListe());
+        fadTable.refresh();
+    }
+
     private void openTapningsVindue() {
         Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
         if (valgtFad == null) return;
@@ -253,7 +253,10 @@ public class FadTab {
         stage.showAndWait();
     }
 
-
+    public void updateControls() {
+        fadListe.setAll(Controller.getFadList());
+        fadTable.refresh();
+    }
     public void refreshTable() {
         fadTable.refresh();
     }
