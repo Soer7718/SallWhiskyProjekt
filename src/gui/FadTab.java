@@ -43,6 +43,11 @@ public class FadTab {
         Label lblHistorik = new Label("Historik:");
         TextField txtHistorik = new TextField();
 
+        Label lblStørrelse = new Label("Størrelse (L):");
+        ComboBox<Integer> cbStørrelse = new ComboBox<>();
+        cbStørrelse.getItems().addAll(50, 100, 200, 500);
+        cbStørrelse.setValue(200);
+
         Button btnOpret = new Button("Opret Fad");
 
         Button btnTapFad = new Button("Tap Fad");
@@ -60,8 +65,10 @@ public class FadTab {
         formPane.add(txtLeverandør, 1, 2);
         formPane.add(lblHistorik, 0, 3);
         formPane.add(txtHistorik, 1, 3);
-        formPane.add(btnOpret, 1, 4);
+        formPane.add(btnOpret, 1, 7);
         formPane.add(btnTapFad, 1, 5);
+        formPane.add(lblStørrelse, 0, 4);
+        formPane.add(cbStørrelse, 1, 4);
 
         formPane.add(btnFlytTilLager, 1, 6);
 
@@ -162,7 +169,7 @@ public class FadTab {
 
             // Opret fad
             int id = nextFadId();
-            double liter = 200.0;
+            int liter = cbStørrelse.getValue();
             Controller.createFad(antal, type, leverandør, historik, liter);
 
             // Ryd felter
