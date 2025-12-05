@@ -124,12 +124,33 @@ public class Tapning {
         return tempMængde;
     }
 
-    public int udregnWhiskyBeholdere(double væskemængde, double flaskeStørrelse) {
-        return (int) Math.floor(væskemængde / flaskeStørrelse);
+    public int udregnWhiskyBeholdere(double flaskeStørrelse) {
+        return (int) Math.floor(udregnFuldMængde() / flaskeStørrelse);
     }
 
     public int tælProdukt() {
         return whiskyList.size();
+    }
+
+    public List<Whisky> opretWhisky(double flaskeStørrelse) {
+        int antalFlasker = udregnWhiskyBeholdere(flaskeStørrelse);
+
+        for (int i = 0; i < antalFlasker; i++) {
+            int nummer = tælProdukt() + 1;
+
+            Whisky w = new Whisky(
+                    flaskeStørrelse,                    // mængde pr flaske
+                    "Whisky #" + nummer,            // simpelt navn
+                    nummer,
+                    alkoholProcent,                     // samme procent som tapning
+                    "Standard Label",                   // placeholder label
+                    typer.isEmpty() ? null : typer.get(0), // type fra tapning
+                    this
+            );
+
+            whiskyList.add(w);
+        }
+        return whiskyList;
     }
 
     @Override

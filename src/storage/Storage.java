@@ -12,6 +12,7 @@ public class Storage {
     private static List<Lager> lagerList = new ArrayList<>();
     private static List<Tapning> tapningList = new ArrayList<>();
     private static List<Påfyldning> påfyldningList = new ArrayList<>();
+    private static List<Whisky> whiskyList = new ArrayList<>();
     private static int destilatSeq = 1;
     private static int fadSeq = 1;
 
@@ -71,4 +72,13 @@ public class Storage {
     public static List<Tapning> getTapningList() {
         return tapningList;
     }
+
+    public static List<Whisky> getWhiskyList() {
+        return whiskyList;
+    }
+
+    public static void addWhisky(Whisky whisky) {
+        whiskyList.add(whisky);
+    }
+
 }
