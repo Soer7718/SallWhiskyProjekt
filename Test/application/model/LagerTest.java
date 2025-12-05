@@ -98,7 +98,7 @@ class LagerTest {
 
     @Test
     void TestGetLedigePladser() {
-        // Kæden er lidt tung; vi kan mocke, men her bruger vi simple konstruktorer
+        // Kæden er lidt tung; vi kan mocke, men her bruger vi simple konstruktører
         Lager lager = new Lager("Testlager", "Adresse");
         Gang gang = new Gang(lager, 1);
         Reol reol = new Reol(gang, 1, 1);
