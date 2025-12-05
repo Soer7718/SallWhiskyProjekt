@@ -1,8 +1,6 @@
 
 package gui;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -28,8 +26,22 @@ public class PåfyldningTab{
         fadCombo.getItems().addAll(Controller.getFadListe());
         fadCombo.setPromptText("Vælg fad");
 
+
+        fadCombo.setCellFactory(lv -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad fad, boolean empty) {
+                super.updateItem(fad, empty);
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    setText("Fad #" + fad.getId() + " (" + fad.getType() + ")");
+                }
+            }
+        });
+
+
         ComboBox<Destilat> destilatCombo = new ComboBox<>();
-        destilatCombo.getItems().addAll(Controller.getDestillatListe());
+        destilatCombo.setItems(Controller.getDestillatListeObs());
         destilatCombo.setPromptText("Vælg destillat");
 
         DatePicker datoPicker = new DatePicker(LocalDate.now());
