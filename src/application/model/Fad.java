@@ -17,6 +17,7 @@ public class Fad {
     private double fyldt;
     private List<Tapning> tapninger;
     private Påfyldning påfyldning;
+    private String placering;
 
     // --- Konstruktører ---
     public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter) {
@@ -59,6 +60,9 @@ public class Fad {
     public void setFyldt(double fyldt) { this.fyldt = fyldt; }
     public Påfyldning getPåfyldning() { return påfyldning; }
     public void setPåfyldning(Påfyldning påfyldning) { this.påfyldning = påfyldning; }
+    public String getPlacering() {return placering;}
+
+    public void setPlacering(String placering) {this.placering = placering;}
 
     // --- Tapninger ---
     public List<Tapning> getTapninger() {
@@ -113,6 +117,10 @@ public class Fad {
             total += t.getFuldMængde();
         }
         return total;
+    }
+
+    public void setFadPåLager() {
+
     }
 
     @Override

@@ -131,14 +131,34 @@ public class Lager {
     }
 
     public boolean placerFad(Fad fad) {
-        for (Gang gang : gangList) {
-            for (Reol reol : gang.getReolList()) {
-                for (Hylde hylde : reol.getHyldeList()) {
-                    for (Palle palle : hylde.getPalleList()) {
-                        if (palle.placerFad(fad)) {
-                            return true;
-                        }
-                    }
+        Palle ledigPalle = findLedigPalle(fad);
+
+        if (ledigPalle != null) {
+
+            for (int i = 0; i < ledigPalle.getPallePlads().length; i++) {
+
+                if (ledigPalle.getPallePlads()[i] == null) {
+                    ledigPalle.getPallePlads()[i] = fad;
+
+                    // FORMATERET PLACERING MED 0-FYLD
+                    Lager lager = ledigPalle.getHylde().getReol().getGang().getLager();
+                    Gang gang = ledigPalle.getHylde().getReol().getGang();
+                    Reol reol = ledigPalle.getHylde().getReol();
+                    Hylde hylde = ledigPalle.getHylde();
+
+                    String placering = String.format(
+                            "Lager %02d, Gang %02d, Reol %02d, Hylde %02d, Palle %02d, Plads %d",
+                            lager.getNavn(),
+                            gang.getGangNummer(),
+                            reol.getReolNummer(),
+                            hylde.getHyldeNummer(),
+                            ledigPalle.getPalleNummer(),
+                            i + 1
+                    );
+
+                    fad.setPlacering(placering);
+
+                    return true;
                 }
             }
         }
