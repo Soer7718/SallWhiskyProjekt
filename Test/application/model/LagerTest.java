@@ -80,8 +80,8 @@ class LagerTest {
     @Test
     void TestAfUC5FyldDestilatPåFad() {
         // Arrange: Opret fad og destillat
-        Fad fad = Controller.createFad(200, 1, "Bourbon", "Jim Beam", "Nyt", 200.0);
-        Destilat dest = Controller.createDestilat(300, 70.0, 50.0, "Larsens", "Byg", 2,
+        Fad fad = Controller.createFad(200, "Sherry", "Bourbon", "Jim Beam",  200.0);
+        Destilat dest = Controller.createDestilat(300, 70.0, "Larsens", "Byg", 1,
                 LocalDate.of(2030, 6, 1), "", "");
 
         assertTrue(fad.erTomt(), "Forudsætning: fad er tomt");
@@ -130,8 +130,8 @@ class LagerTest {
     void TestOpretterPåfyldning() {
         // arrange
         //opretter fad og destilat
-        Fad fad = Controller.createFad(100, 1, "Bourbon", "Jim Beam", "Nyt fad", 200.0);
-        Destilat dest = Controller.createDestilat(80, 70.0, 50.0, "Larsens", "Byg", 2,
+        Fad fad = Controller.createFad(100, "Bourbon", "Bourbon", "Jim Beam",  200.0);
+        Destilat dest = Controller.createDestilat(80, 70.0, "Larsens", "Byg", 1,
                 LocalDate.of(2030, 1, 1), "", "");
 
         // tjekker om fadet er tomt
