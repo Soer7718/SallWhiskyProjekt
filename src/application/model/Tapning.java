@@ -26,9 +26,17 @@ public class Tapning {
         this.fadList = new ArrayList<>();
     }
 
-    public Tapning(double alkoholProcent, String historik, double fuldMængde, List<WhiskyType> typer) {
-        this(alkoholProcent, historik, 0.0, null, fuldMængde, typer);
+    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, List<WhiskyType> typer) {
+        this.alkoholProcent = alkoholProcent;
+        this.historik = historik;
+        this.mængdeVand = mængdeVand;
+        this.vandOprindelse = vandOprindelse;
+        this.typer = typer != null ? new ArrayList<>(typer) : new ArrayList<>();
+        this.whiskyList = new ArrayList<>();
+        this.fadList = new ArrayList<>();
     }
+
+
     public double getAlkoholProcent() {
         return alkoholProcent;
     }
@@ -106,6 +114,14 @@ public class Tapning {
             fadList.add(fad);
             fad.addTapning(this);
         }
+    }
+
+    public double udregnFuldMængde(){
+        double tempMængde = mængdeVand;
+        for (Fad f : fadList){
+            tempMængde += f.getFyldt();
+        }
+        return tempMængde;
     }
 
     public int udregnWhiskyBeholdere(double væskemængde, double flaskeStørrelse) {

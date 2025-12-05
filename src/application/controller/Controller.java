@@ -71,15 +71,17 @@ package application.controller;
 
 
         public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand,
-                                            String vandOprindelse, double mængde, List<WhiskyType> typer) {
+                                            String vandOprindelse, List<WhiskyType> typer) {
             // Opret tapningen
-            Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
+            Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, typer);
+
+            tapning.setFuldMængde(tapning.udregnFuldMængde());
 
             // Gem i Storage
             Storage.addTapning(tapning);
 
             // Tilføj tapningen til fadet
-
+            double mængde = tapning.udregnFuldMængde();
             if (fad != null) {
                 fad.addTapning(tapning);
 
@@ -96,11 +98,11 @@ package application.controller;
         }
 
 
-        public static Tapning createTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
-            Tapning tapning = new Tapning(alkoholProcent, historik, mængde, typer);
-            Storage.addTapning(tapning);
-            return tapning;
-        }
+//        public static Tapning createTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
+//            Tapning tapning = new Tapning(alkoholProcent, historik, mængde, typer);
+//            Storage.addTapning(tapning);
+//            return tapning;
+//        }
 
         public static List<Tapning> getTapningList(){
             return Storage.getTapningList();

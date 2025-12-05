@@ -17,9 +17,11 @@ import java.util.stream.Collectors;
 public class TapningTab {
     private TableView<Tapning> tapningTable;
     private Fad fad;
+    private List<Fad> fadList;
 
     public TapningTab(Fad fad) {
         this.fad = fad;
+        //fadList.add(fad);
     }
 
     public Node getContent() {
@@ -43,8 +45,29 @@ public class TapningTab {
         Label lblVandOprindelse = new Label("Vand oprindelse:");
         TextField txtVandOprindelse = new TextField();
 
-        Label lblMængde = new Label("Mængde:");
+        Label lblMængde = new Label("Fuld mængde:");
         TextField txtMængde = new TextField();
+        txtMængde.setEditable(false);
+        txtMængde.setFocusTraversable(false);
+
+        Label lblFlereFade = new Label("Tilføj fad:");
+        ComboBox<Fad> cbFade = new ComboBox<>();
+        cbFade.setItems(FXCollections.observableArrayList(Controller.getFadListe()));
+
+        ListView<Fad> lstValgteFade = new ListView<>();
+        lstValgteFade.setPrefHeight(100);
+
+        Button btnTilføjFad = new Button("Tilføj fad");
+
+        txtVand.textProperty().addListener((obs, oldVal, newVal) -> {
+            try {
+                double vand = Double.parseDouble(newVal);
+                double beregnet = vand + fad.getFyldt(); // Hvis 1 fad = brug fyldt direkte
+                txtMængde.setText(String.valueOf(beregnet));
+            } catch (NumberFormatException ignored) {
+                txtMængde.setText(""); // Tøm felt hvis ugyldigt input
+            }
+        });
 
         Label lblTyper = new Label("Typer:");
         ListView<WhiskyType> lstTyper = new ListView<>();
@@ -67,6 +90,11 @@ public class TapningTab {
         formPane.add(lblTyper, 0, 5);
         formPane.add(lstTyper, 1, 5);
         formPane.add(btnOpret, 1, 6);
+
+        formPane.add(lblFlereFade, 0, 6);
+        formPane.add(cbFade, 1, 6);
+        formPane.add(btnTilføjFad, 1, 7);
+        formPane.add(lstValgteFade, 1, 8);
 
         root.setTop(formPane);
 
@@ -97,7 +125,12 @@ public class TapningTab {
 
         root.setCenter(tapningTable);
 
-
+        btnTilføjFad.setOnAction(e -> {
+            Fad valgt = cbFade.getValue();
+            if (valgt != null && !lstValgteFade.getItems().contains(valgt)) {
+                lstValgteFade.getItems().add(valgt);
+            }
+        });
 
         btnOpret.setOnAction(e -> {
             try {
@@ -105,13 +138,12 @@ public class TapningTab {
                 String historik = txtHistorik.getText();
                 double vand = Double.parseDouble(txtVand.getText());
                 String vandOprindelse = txtVandOprindelse.getText();
-                double mængde = Double.parseDouble(txtMængde.getText());
                 List<WhiskyType> typer =
                         lstTyper.getSelectionModel().getSelectedItems()
                                 .stream().collect(Collectors.toList());
 
 
-                Controller.createTapning(fad, alkohol, historik, vand, vandOprindelse, mængde, typer);
+                Controller.createTapning(fad, alkohol, historik, vand, vandOprindelse, typer);
                 tapningTable.setItems(FXCollections.observableArrayList(
                         fad.getTapninger() != null ? fad.getTapninger() : List.of()
                 ));

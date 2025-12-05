@@ -11,14 +11,14 @@ import application.controller.Controller;
 
 
 public class FadOversigtTab {
-    private TableView<Fad> table;
     private ObservableList<Fad> fadList = FXCollections.observableArrayList(Controller.getFadList());
-    TableView<Fad> table = new TableView<>(fadList);
+    private TableView<Fad> table = new TableView<>(fadList);
+    //TableView<Fad> table = new TableView<>(fadList);
 
     public Node getContent() {
 
-        table = new TableView<>();
-        table.setItems(Controller.getFadListe());
+//        table = new TableView<>();
+//        table.setItems(Controller.getFadListe());
 
         TableColumn<Fad, String> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getId())));

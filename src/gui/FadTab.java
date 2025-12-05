@@ -92,13 +92,9 @@ public class FadTab {
         colFyldt.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getFyldt())));
 
         fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
-//        TableColumn<Fad, String> colAar = new TableColumn<>("Lagringsår");
-//        colAar.setCellValueFactory(data ->
-//                new SimpleStringProperty("" + data.getValue().udregnLagringsÅr()));
 
         fadTable.getColumns().clear();
         fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
-
 
         root.setCenter(fadTable);
 
@@ -108,9 +104,10 @@ public class FadTab {
             if (selected == null) {
                 btnTapFad.setDisable(true);
             } else {
-                btnTapFad.setDisable(selected.udregnLagringsÅr() < 3); // <--- KRAV: minimum 3 år
+                btnTapFad.setDisable(selected.udregnLagringsÅr() < 3);
             }
         });
+
         btnTapFad.setOnAction(e -> openTapningsVindue());
 
         // === Eventhandler til knappen ===
@@ -137,12 +134,10 @@ public class FadTab {
             if (leverandør.isEmpty()) fejl.append("- Leverandør skal udfyldes.\n");
             if (historik.isEmpty()) fejl.append("- Historik skal udfyldes.\n");
 
-
             if (fejl.length() > 0) {
                 new Alert(Alert.AlertType.ERROR, fejl.toString()).showAndWait();
                 return;
             }
-
 
             // Opret fad
             int id = nextFadId();
@@ -233,10 +228,6 @@ public class FadTab {
         return null;
     }
 
-    public void refreshTable() {
-        fadListe.setAll(Controller.getFadListe());
-        fadTable.refresh();
-    }
 
     private void openTapningsVindue() {
         Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
