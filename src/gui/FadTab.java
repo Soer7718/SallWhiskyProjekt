@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import application.model.Fad;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.util.stream.Collectors;
 
 public class FadTab {
 
@@ -91,10 +92,30 @@ public class FadTab {
         TableColumn<Fad, String> colFyldt = new TableColumn<>("Fyldt (L)");
         colFyldt.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getFyldt())));
 
-//        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+
+        TableColumn<Fad, String> colTapninger   = new TableColumn<>("Tapninger");
+        colTapninger.setCellValueFactory(data ->
+                new SimpleStringProperty(String.valueOf(data.getValue().getTapninger().size()))
+        );
+
+        TableColumn<Fad, String> colTapningstyper = new TableColumn<>("Tapningstyper");
+        colTapningstyper.setCellValueFactory(data ->
+                new SimpleStringProperty(
+                        data.getValue().getTapninger().stream()
+                                .flatMap(t -> t.getTyper().stream())
+                                .map(Enum::name)
+                                .distinct()
+                                .collect(Collectors.joining(", "))));
+
+        TableColumn<Fad, String> colKlarTilTapning = new TableColumn<>("Klar til tapning?");
+        colKlarTilTapning.setCellValueFactory(data -> {
+            Fad f = data.getValue();
+            String svar = (f.udregnLagringsÅr() >= 3) ? "Ja" : "Nej";
+            return new SimpleStringProperty(svar);
+        });
 
         fadTable.getColumns().clear();
-        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+        fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt, colTapninger, colTapningstyper, colKlarTilTapning);
 
         root.setCenter(fadTable);
 
@@ -242,6 +263,7 @@ public class FadTab {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        fadTable.refresh();
     }
 
     public void updateControls() {

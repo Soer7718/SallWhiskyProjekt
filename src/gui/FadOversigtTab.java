@@ -8,6 +8,8 @@ import javafx.scene.layout.*;
 import javafx.collections.FXCollections;
 import application.model.Fad;
 import application.controller.Controller;
+import java.util.stream.Collectors;
+
 
 
 public class FadOversigtTab {
@@ -35,7 +37,28 @@ public class FadOversigtTab {
         TableColumn<Fad, String> colHistorik = new TableColumn<>("Historik");
         colHistorik.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getHistorik()));
 
-        table.getColumns().setAll(colId, colType, colLiter, colLeverandør, colHistorik);
+        TableColumn<Fad, String> colTapninger = new TableColumn<>("Tapninger");
+        colTapninger.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getTapninger().size()))
+        );
+
+        TableColumn<Fad, String> colTapningstyper = new TableColumn<>("Tapningstyper");
+        colTapningstyper.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getTapninger().stream()
+                                .flatMap(t -> t.getTyper().stream())
+                                .map(Enum::name)
+                                .distinct()
+                                .collect(Collectors.joining(", "))));
+
+        TableColumn<Fad, String> colKlarTilTapning = new TableColumn<>("Klar til tapning?");
+        colKlarTilTapning.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().udregnLagringsÅr() >= 3 ? "Ja" : "Nej"
+                )
+        );
+
+        table.getColumns().setAll(colId, colType, colLiter, colLeverandør, colHistorik, colTapninger, colTapningstyper, colKlarTilTapning);
 
         VBox layout = new VBox(table);
         layout.setSpacing(10);
