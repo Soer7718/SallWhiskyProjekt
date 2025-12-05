@@ -124,7 +124,7 @@ public class FadTab {
         colLager.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getPlacering())));
 
         fadTable.getColumns().clear();
-        fadTable.getColumns().addAll(colId ,colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt, colLager);
+        fadTable.getColumns().addAll(colId ,colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt,colTapninger, colTapningstyper,colKlarTilTapning, colLager);
 
         root.setCenter(fadTable);
 
@@ -247,7 +247,7 @@ public class FadTab {
                 Hylde hylde = ledigPalle.getHylde();
 
                 String placering = String.format(
-                        "%s, Gang %02d, Reol %02d, Hylde %02d, Palle %02d, Plads %d",
+                        "%s,  %02d,  %02d,  %02d,  %02d,  %02d",
                         lager.getNavn(),
                         gang.getGangNummer(),
                         reol.getReolNummer(),

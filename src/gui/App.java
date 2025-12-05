@@ -35,10 +35,10 @@ public class App {
         Controller.påfyldDestillatPåFad(f1.getId(), d1.getId(), LocalDate.now().minusYears(5));
         Controller.påfyldDestillatPåFad(f3.getId(), d3.getId(), LocalDate.now().minusYears(5));
 
-//        List<Fad> fadList = new ArrayList<>();
-//        fadList.add(f1);
+        List<Fad> fadList = new ArrayList<>();
+        fadList.add(f1);
 
-        Controller.createTapning(f1, 46.0, "Første tapning", 0.0, null,
-                java.util.List.of(application.model.WhiskyType.singleMalt));
+        Controller.createTapning(fadList, 46.0, "Første tapning", 0.0, null,
+                0.7, java.util.List.of(application.model.WhiskyType.singleMalt));
     }
 }
