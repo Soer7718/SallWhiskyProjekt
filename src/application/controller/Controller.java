@@ -70,32 +70,57 @@ package application.controller;
 
 
 
-        public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand,
-                                            String vandOprindelse, List<WhiskyType> typer) {
+        public static Tapning createTapning(List<Fad> fade, double alkoholProcent, String historik, double mængdeVand,
+                                            String vandOprindelse, double flaskeStørrelse, List<WhiskyType> typer) {
             // Opret tapningen
             Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, typer);
+
+            for (Fad fad : fade){
+                tapning.tilføjFad(fad);
+            }
 
             tapning.setFuldMængde(tapning.udregnFuldMængde());
 
             // Gem i Storage
             Storage.addTapning(tapning);
 
-            // Tilføj tapningen til fadet
-            double mængde = tapning.udregnFuldMængde();
-            if (fad != null) {
-                fad.addTapning(tapning);
-
-                // ↓ Reducer fadets aktuelle mængde
-                double rest = Math.max(0.0, fad.getFyldt() - mængde);
+            for (Fad fad : fade){
+                double rest = Math.max(0.0, fad.getFyldt() - tapning.getFuldMængde());
                 fad.setFyldt(rest);
 
-                // Sæt slutdato på påfyldningen, hvis fadet er tømt
-                if (rest == 0.0 && fad.getPåfyldning() != null) {
-                    fad.getPåfyldning().setSlutDato(java.time.LocalDate.now());
+                // Sæt slutdato på påfyldningen
+                if (fad.getPåfyldning() != null) {
+                    fad.getPåfyldning().setSlutDato(LocalDate.now());
+                    fad.setPåfyldning(null);
                 }
+
+                fad.addTapning(tapning);
             }
+
+            List<Whisky> whiskyer = tapning.opretWhisky(flaskeStørrelse);
+            for (Whisky w : whiskyer) {
+                Storage.addWhisky(w);
+            }
+
             return tapning;
         }
+
+//        public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand,
+//                                            String vandOprindelse, double mængde, List<WhiskyType> typer) {
+//            // Opret tapningen
+//            Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
+//
+//            tapning.setFuldMængde(tapning.udregnFuldMængde());
+//            // Gem i Storage
+//            Storage.addTapning(tapning);
+//
+//            // Tilføj tapningen til fadet
+//            if (fad != null) {
+//                fad.addTapning(tapning);
+//            }
+//
+//            return tapning;
+//        }
 
 
 //        public static Tapning createTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){

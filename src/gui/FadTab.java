@@ -91,7 +91,7 @@ public class FadTab {
         TableColumn<Fad, String> colFyldt = new TableColumn<>("Fyldt (L)");
         colFyldt.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getFyldt())));
 
-        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
+//        fadTable.getColumns().addAll(colId, colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
 
         fadTable.getColumns().clear();
         fadTable.getColumns().addAll(colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt);
