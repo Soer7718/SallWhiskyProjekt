@@ -24,13 +24,13 @@ public class App {
         Fad f2 = Controller.createFad(1, "Sherry", "Andalusien", "Brugt én gang", 200);
 
 
-        Destilat d1 = Controller.createDestilat(75, 200, "Larsens", "Byg", 1, LocalDate.of(2024, 10, 10), "", "");
+        Destilat d1 = Controller.createDestilat(75, 200, "Larsens", "Byg", 1, LocalDate.of(2014, 10, 10), "", "");
         Destilat d2 = Controller.createDestilat(72, 150, "Larsens", "Byg", 2, LocalDate.of(2024, 7, 20), "", "");
 
         Controller.påfyldDestillatPåFad(f1.getId(), d1.getId(), LocalDate.now().minusYears(5));
 
 
-        Controller.createTapning(f1, 46.0, "Første tapning", 0.0, null, 50.0,
+        Controller.createTapning(f1, 46.0, "Første tapning", 0.0, null,
                 java.util.List.of(application.model.WhiskyType.singleMalt));
     }
 }
