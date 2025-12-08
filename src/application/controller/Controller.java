@@ -35,6 +35,11 @@ package application.controller;
         }
 
 
+        public static List<Whisky> getWhiskyList() {
+            return new ArrayList<>(Storage.getWhiskyList());
+        }
+
+
         //    public static Påfyldning createPåfyldning(LocalDate startDato, Destilat destilat){
     //        Påfyldning p = new Påfyldning(startDato, destilat);
     //        Storage.addPåfyldning(p);
@@ -71,9 +76,9 @@ package application.controller;
 
 
         public static Tapning createTapning(List<Fad> fade, double alkoholProcent, String historik, double mængdeVand,
-                                            String vandOprindelse, double flaskeStørrelse, List<WhiskyType> typer) {
+                                            String vandOprindelse, double flaskeStørrelse, List<WhiskyType> typer, String navn) {
             // Opret tapningen
-            Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, typer);
+            Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, typer, navn);
 
             for (Fad fad : fade){
                 tapning.tilføjFad(fad);
@@ -105,29 +110,6 @@ package application.controller;
             return tapning;
         }
 
-//        public static Tapning createTapning(Fad fad, double alkoholProcent, String historik, double mængdeVand,
-//                                            String vandOprindelse, double mængde, List<WhiskyType> typer) {
-//            // Opret tapningen
-//            Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, mængde, typer);
-//
-//            tapning.setFuldMængde(tapning.udregnFuldMængde());
-//            // Gem i Storage
-//            Storage.addTapning(tapning);
-//
-//            // Tilføj tapningen til fadet
-//            if (fad != null) {
-//                fad.addTapning(tapning);
-//            }
-//
-//            return tapning;
-//        }
-
-
-//        public static Tapning createTapning(double alkoholProcent, String historik, double mængde, List<WhiskyType> typer){
-//            Tapning tapning = new Tapning(alkoholProcent, historik, mængde, typer);
-//            Storage.addTapning(tapning);
-//            return tapning;
-//        }
 
         public static List<Tapning> getTapningList(){
             return Storage.getTapningList();
@@ -153,31 +135,6 @@ package application.controller;
 
             return påfyldning;
         }
-
-        public static Palle findLedigPalle(Fad fad) {
-            int krævedePladser = fad.getStørrelseLiter() < 51 ? 1 : 2;
-
-            for (Lager lager : getInstance().getLagerList()) {
-                for (Gang gang : lager.getGangList()) {
-                    for (Reol reol : gang.getReolList()) {
-                        for (Hylde hylde : reol.getHyldeList()) {
-                            for (Palle palle : hylde.getPalleList()) {
-
-                                int ledige = 0;
-                                for (Fad f : palle.getPallePlads()) {
-                                    if (f == null) ledige++;
-                                }
-
-                            if (ledige >= krævedePladser) {
-                                return palle; // Den første der passer
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return null; // Ingen paller ledige
-    }
 
         public static boolean flytFadTilLager(Fad fad) {
             if (fad.getPlacering() != null) return false;

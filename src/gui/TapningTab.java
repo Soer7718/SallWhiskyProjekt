@@ -24,6 +24,8 @@ public class TapningTab {
     }
 
     public Node getContent() {
+        tapningTable = new TableView<>();
+
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
 
@@ -31,6 +33,9 @@ public class TapningTab {
         formPane.setHgap(10);
         formPane.setVgap(10);
         formPane.setPadding(new Insets(10));
+
+        Label lblNavn = new Label("Navn:");
+        TextField txtNavn = new TextField();
 
         Label lblAlkohol = new Label("Alkohol %:");
         TextField txtAlkohol = new TextField();
@@ -65,13 +70,6 @@ public class TapningTab {
         Button btnTilføjFad = new Button("Tilføj fad");
 
         txtVand.textProperty().addListener((obs, oldVal, newVal) -> {
-//            try {
-//                double vand = Double.parseDouble(newVal);
-//                double beregnet = vand + fad.getFyldt(); // Hvis 1 fad = brug fyldt direkte
-//                txtMængde.setText(String.valueOf(beregnet));
-//            } catch (NumberFormatException ignored) {
-//                txtMængde.setText(""); // Tøm felt hvis ugyldigt input
-//            }
             opdaterMængde(txtMængde, txtVand, lstValgteFade);
         });
 
@@ -96,18 +94,10 @@ public class TapningTab {
         formPane.add(txtVand, 1, 2);
         formPane.add(lblVandOprindelse, 0, 3);
         formPane.add(txtVandOprindelse, 1, 3);
-        //formPane.add(lblMængde, 0, 4);
-        //formPane.add(txtMængde, 1, 4);
-        //formPane.add(lblTyper, 0, 5);
-        //formPane.add(lstTyper, 1, 5);
-        //formPane.add(btnOpret, 1, 6);
-
-        //formPane.add(lblFlereFade, 0, 6);
-        //formPane.add(cbFade, 1, 6);
-        //formPane.add(btnTilføjFad, 1, 7);
-        //formPane.add(lstValgteFade, 1, 8);
         formPane.add(lblFlaskeStr, 2, 0);
         formPane.add(cbFlaskeStr, 3, 0);
+        formPane.add(lblNavn,2,1);
+        formPane.add(txtNavn,3,1);
 
         formPane.add(lblFlereFade, 0, 4);
         formPane.add(cbFade, 1, 4);
@@ -121,34 +111,6 @@ public class TapningTab {
         formPane.add(btnOpret, 1, 9);
 
         root.setTop(formPane);
-
-//        tapningTable = new TableView<>();
-//        TableColumn<Tapning, String> colAlkohol = new TableColumn<>("Alkohol %");
-//        colAlkohol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getAlkoholProcent())));
-//
-//        TableColumn<Tapning, String> colHistorik = new TableColumn<>("Historik");
-//        colHistorik.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getHistorik()));
-//
-//        TableColumn<Tapning, String> colMængde = new TableColumn<>("Mængde");
-//        colMængde.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getFuldMængde())));
-//
-//
-//        TableColumn<Tapning, String> colTyper = new TableColumn<>("Typer");
-//        colTyper.setCellValueFactory(data ->
-//                new javafx.beans.property.SimpleStringProperty(
-//                        data.getValue().getTyper()
-//                                .stream()
-//                                .map(Enum::name)
-//                                .collect(Collectors.joining(", "))
-//                ));
-//
-//        tapningTable.getColumns().addAll(colAlkohol, colHistorik, colMængde, colTyper);
-//        tapningTable.setItems(FXCollections.observableArrayList(
-//                fad.getTapninger() != null ? fad.getTapninger() : List.of()
-//        ));
-//        tapningTable.setPrefHeight(300);
-//
-//        root.setCenter(tapningTable);
 
         btnTilføjFad.setOnAction(e -> {
             Fad valgt = cbFade.getValue();
@@ -167,31 +129,7 @@ public class TapningTab {
 
         btnOpret.setOnAction(e -> {
             try {
-//                double alkohol = Double.parseDouble(txtAlkohol.getText());
-//                String historik = txtHistorik.getText();
-//                double vand = Double.parseDouble(txtVand.getText());
-//                String vandOprindelse = txtVandOprindelse.getText();
-//                List<WhiskyType> typer =
-//                        lstTyper.getSelectionModel().getSelectedItems()
-//                                .stream().collect(Collectors.toList());
-//
-//
-//                Controller.createTapning(fad, alkohol, historik, vand, vandOprindelse, typer);
-//                tapningTable.setItems(FXCollections.observableArrayList(
-//                        fad.getTapninger() != null ? fad.getTapninger() : List.of()
-//                ));
-//
-//                // Ryd felter
-//                txtAlkohol.clear();
-//                txtHistorik.clear();
-//                txtVand.clear();
-//                txtVandOprindelse.clear();
-//                txtMængde.clear();
-//                lstTyper.getSelectionModel().clearSelection();
-//
-//            } catch (NumberFormatException ex) {
-//                new Alert(Alert.AlertType.ERROR, "Alle talfelter skal være gyldige tal!").showAndWait();
-//            }
+                String navn = txtNavn.getText();
                 double alkohol = Double.parseDouble(txtAlkohol.getText());
                 String historik = txtHistorik.getText();
                 double vand = Double.parseDouble(txtVand.getText());
@@ -203,7 +141,7 @@ public class TapningTab {
 
                 List<Fad> valgteFade = lstValgteFade.getItems();
 
-                Controller.createTapning(valgteFade, alkohol, historik, vand, vandOprindelse, flaskeStr, typer);
+                Controller.createTapning(valgteFade, alkohol, historik, vand, vandOprindelse, flaskeStr, typer, navn);
 
                 tapningTable.setItems(FXCollections.observableArrayList(
                         valgteFade.stream()
@@ -212,6 +150,7 @@ public class TapningTab {
                                 .toList()
                 ));
 
+                txtNavn.clear();
                 txtAlkohol.clear();
                 txtHistorik.clear();
                 txtVand.clear();
@@ -219,10 +158,6 @@ public class TapningTab {
                 txtMængde.clear();
                 lstTyper.getSelectionModel().clearSelection();
                 lstValgteFade.getItems().clear();
-
-
-// Find FadTab og opdater tabellen
-
 
             } catch (NumberFormatException ex) {
                 new Alert(Alert.AlertType.ERROR, "Alle talfelter skal være gyldige tal!").showAndWait();

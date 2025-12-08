@@ -40,6 +40,6 @@ public class App {
         fadList.add(f1);
 
         Controller.createTapning(fadList, 46.0, "Første tapning", 0.0, null,
-                0.7, java.util.List.of(application.model.WhiskyType.singleMalt));
+                0.7, java.util.List.of(application.model.WhiskyType.singleMalt),"WhiskyTest");
     }
 }

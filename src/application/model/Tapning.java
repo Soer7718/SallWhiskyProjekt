@@ -12,10 +12,11 @@ public class Tapning {
     private List<WhiskyType> typer;
     private List<Whisky> whiskyList;
     private List<Fad> fadList;
+    private String whiskyNavn;
 
 
     public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse,
-                   double fuldMængde, List<WhiskyType> typer) {
+                   double fuldMængde, List<WhiskyType> typer, String navn) {
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
         this.mængdeVand = mængdeVand;
@@ -24,9 +25,10 @@ public class Tapning {
         this.typer = typer != null ? new ArrayList<>(typer) : new ArrayList<>();
         this.whiskyList = new ArrayList<>();
         this.fadList = new ArrayList<>();
+        this.whiskyNavn = navn;
     }
 
-    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, List<WhiskyType> typer) {
+    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, List<WhiskyType> typer, String navn) {
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
         this.mængdeVand = mængdeVand;
@@ -34,6 +36,7 @@ public class Tapning {
         this.typer = typer != null ? new ArrayList<>(typer) : new ArrayList<>();
         this.whiskyList = new ArrayList<>();
         this.fadList = new ArrayList<>();
+        this.whiskyNavn = navn;
     }
 
 
@@ -93,6 +96,14 @@ public class Tapning {
         this.whiskyList = whiskyList != null ? new ArrayList<>(whiskyList) : new ArrayList<>();
     }
 
+    public String getWhiskyNavn() {
+        return whiskyNavn;
+    }
+
+    public void setWhiskyNavn(String whiskyNavn) {
+        this.whiskyNavn = whiskyNavn;
+    }
+
     public void tilføjWhisky(Whisky whisky) {
         if (whisky != null && !whiskyList.contains(whisky)) {
             whiskyList.add(whisky);
@@ -139,12 +150,13 @@ public class Tapning {
             int nummer = tælProdukt() + 1;
 
             Whisky w = new Whisky(
-                    flaskeStørrelse,                    // mængde pr flaske
-                    "Whisky #" + nummer,            // simpelt navn
+
+                    flaskeStørrelse,
+                    whiskyNavn,
                     nummer,
-                    alkoholProcent,                     // samme procent som tapning
-                    "Standard Label",                   // placeholder label
-                    typer.isEmpty() ? null : typer.get(0), // type fra tapning
+                    alkoholProcent,
+                    "Standard Label",
+                    typer.isEmpty() ? null : typer.get(0),
                     this
             );
 

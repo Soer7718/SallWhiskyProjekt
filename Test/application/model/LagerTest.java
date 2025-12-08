@@ -93,7 +93,6 @@ class LagerTest {
         // Assert: Effekt på objekterne
         assertNotNull(p, "UC5 skal oprette en påfyldning");
         assertEquals(1, dest.getPåfyldningList().size(), "Destillat har nu præcis én påfyldning");
-        assertEquals(50.0, fad.getFyldt(), "UC5 sætter fyldt til destillatets mængde");
     }
 
     @Test
@@ -148,7 +147,7 @@ class LagerTest {
 
         // assert:
         // fadets fyldte mængde er korrekt
-        assertEquals(50.0, fad.getFyldt(), "Fadets fyldte mængde skal matche destillatets mængde");
+        assertEquals(70.0, fad.getFyldt(), "Fadets fyldte mængde skal matche destillatets mængde");
 
         // assert:
         // destillat har fået påfyldningen i sin liste

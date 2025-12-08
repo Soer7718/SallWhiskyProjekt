@@ -1,27 +1,64 @@
 package gui;
 
 
+import application.model.Tapning;
+import application.model.Whisky;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.collections.FXCollections;
 import application.model.Fad;
 import application.controller.Controller;
-import java.util.stream.Collectors;
-
-
 
 public class FadOversigtTab {
+    private TableView<Fad> fadTable;
+    private TableView<Tapning> whiskyTable;
+
+
     private ObservableList<Fad> fadList = FXCollections.observableArrayList(Controller.getFadList());
-    private TableView<Fad> table = new TableView<>(fadList);
-    //TableView<Fad> table = new TableView<>(fadList);
+    private ObservableList<Tapning> whiskyList = FXCollections.observableArrayList(Controller.getTapningList()); // antag at du har en metode til at hente whiskyer
+
 
     public Node getContent() {
+        // --- ComboBox til at vælge visning ---
+        ComboBox<String> cbVisning = new ComboBox<>();
+        cbVisning.setItems(FXCollections.observableArrayList("Fade", "Whiskyprodukter"));
+        cbVisning.getSelectionModel().select(0); // standard: Fade
 
-//        table = new TableView<>();
-//        table.setItems(Controller.getFadListe());
+        // --- TableView til fade ---
+        fadTable = new TableView<>(fadList);
+        setupFadTable();
 
+        // --- TableView til whiskyer ---
+        whiskyTable = new TableView<>(whiskyList);
+        setupWhiskyTable();
+        whiskyTable.setVisible(false); // skjul whiskytabellen i starten
+
+
+        StackPane tableStack = new StackPane(fadTable, whiskyTable);
+        tableStack.setPrefHeight(400);
+
+
+        // --- Lyt til ComboBox ændringer ---
+        cbVisning.setOnAction(e -> {
+            String valg = cbVisning.getSelectionModel().getSelectedItem();
+            if (valg.equals("Fade")) {
+                fadTable.setVisible(true);
+                whiskyTable.setVisible(false);
+            } else {
+                fadTable.setVisible(false);
+                whiskyTable.setVisible(true);
+            }
+        });
+
+        VBox layout = new VBox(10, cbVisning, tableStack);
+        layout.setPadding(new Insets(10));
+        return layout;
+    }
+
+    private void setupFadTable() {
         TableColumn<Fad, String> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getId())));
 
@@ -34,44 +71,39 @@ public class FadOversigtTab {
         TableColumn<Fad, String> colLeverandør = new TableColumn<>("Leverandør");
         colLeverandør.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLeverandør()));
 
-        TableColumn<Fad, String> colHistorik = new TableColumn<>("Historik");
-        colHistorik.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getHistorik()));
-
-        TableColumn<Fad, String> colTapninger = new TableColumn<>("Tapninger");
-        colTapninger.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getTapninger().size()))
-        );
-
-        TableColumn<Fad, String> colTapningstyper = new TableColumn<>("Tapningstyper");
-        colTapningstyper.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(
-                        data.getValue().getTapninger().stream()
-                                .flatMap(t -> t.getTyper().stream())
-                                .map(Enum::name)
-                                .distinct()
-                                .collect(Collectors.joining(", "))));
-
-        TableColumn<Fad, String> colKlarTilTapning = new TableColumn<>("Klar til tapning?");
-        colKlarTilTapning.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(
-                        data.getValue().udregnLagringsÅr() >= 3 ? "Ja" : "Nej"
-                )
-        );
-
-        table.getColumns().setAll(colId, colType, colLiter, colLeverandør, colHistorik, colTapninger, colTapningstyper, colKlarTilTapning);
-
-        VBox layout = new VBox(table);
-        layout.setSpacing(10);
-        layout.setPadding(new javafx.geometry.Insets(10));
-        return layout;
+        fadTable.getColumns().setAll(colId, colType, colLiter, colLeverandør);
     }
 
-    public void refresh() {
-        if (table != null) table.refresh();
-    }
+    private void setupWhiskyTable() {
+        // Kolonne: Tapningsnavn
+        TableColumn<Tapning, String> colNavn = new TableColumn<>("Tapning");
+        colNavn.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getWhiskyNavn())
+        );
 
+        // Kolonne: Antal flasker i tapningen
+        TableColumn<Tapning, String> colAntalFlasker = new TableColumn<>("Antal flasker");
+        colAntalFlasker.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getWhiskyList().size()))
+        );
+
+        // Kolonne: Samlet mængde alkohol
+        TableColumn<Tapning, String> colAlkohol = new TableColumn<>("Samlet alkohol %");
+        colAlkohol.setCellValueFactory(data -> {
+            double gennemsnitAlkohol = data.getValue().getWhiskyList().stream()
+                    .mapToDouble(Whisky::getAlkoholProcent)
+                    .average()
+                    .orElse(0);
+            return new javafx.beans.property.SimpleStringProperty(String.format("%.2f", gennemsnitAlkohol));
+        });
+
+        // Sæt kolonnerne
+        whiskyTable.getColumns().setAll(colNavn, colAntalFlasker, colAlkohol);
+    }
     public void updateControls() {
         fadList.setAll(Controller.getFadList());
-        table.refresh();
+        whiskyList.setAll(Controller.getTapningList());
+        fadTable.refresh();
+        whiskyTable.refresh();
     }
 }
