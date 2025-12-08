@@ -121,8 +121,18 @@ public class FadOversigtTab {
             return new javafx.beans.property.SimpleStringProperty(String.format("%.2f", gennemsnitAlkohol));
         });
 
+        TableColumn<Tapning, String> colTapningstyper = new TableColumn<>("Tapningstyper");
+        colTapningstyper.setCellValueFactory(data -> {
+            if (data.getValue().getTyper().isEmpty()) {
+                return new javafx.beans.property.SimpleStringProperty("");
+            } else {
+                return new javafx.beans.property.SimpleStringProperty(data.getValue().getTyper().get(0).name());
+            }
+        });
+
+
         // Sæt kolonnerne
-        whiskyTable.getColumns().setAll(colNavn, colAntalFlasker, colAlkohol);
+        whiskyTable.getColumns().setAll(colNavn, colAntalFlasker, colAlkohol, colTapningstyper);
     }
     public void updateControls() {
         fadList.setAll(Controller.getFadList());
