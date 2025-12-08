@@ -1,6 +1,8 @@
 
 package application.model;
 
+import application.controller.Controller;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,53 +114,69 @@ public class Lager {
         return ledigePaller;
     }
 
-    public Palle findLedigPalle(Fad fad) {
+    private Object[] findLedigPlads(Fad fad, Lager lager) {
+        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
+
+        for (Gang gang : lager.getGangList()) {
+            for (Reol reol : gang.getReolList()) {
+                for (Hylde hylde : reol.getHyldeList()) {
+                    for (Palle palle : hylde.getPalleList()) {
+                        Fad[] pladser = palle.getPallePlads();
+
+                        for (int i = 0; i < pladser.length; i++) {
+                            if (pladser[i] == null) {
+                                if (pladserBehov == 2 && (i + 1 >= pladser.length || pladser[i + 1] != null)) {
+                                    continue;
+                                }
+                                return new Object[]{palle, i};
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean placerFad(Fad fad) {
         int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
 
         for (Gang gang : gangList) {
             for (Reol reol : gang.getReolList()) {
                 for (Hylde hylde : reol.getHyldeList()) {
                     for (Palle palle : hylde.getPalleList()) {
-                        int ledigePladser = palle.getLedigePladser();
-                        if (ledigePladser >= pladserBehov) {
-                            return palle;
+                        Fad[] pladser = palle.getPallePlads();
+
+                        for (int i = 0; i <= pladser.length - pladserBehov; i++) {
+                            boolean kanPlaceres = true;
+                            for (int j = 0; j < pladserBehov; j++) {
+                                if (pladser[i + j] != null) {
+                                    kanPlaceres = false;
+                                    break;
+                                }
+                            }
+
+                            if (kanPlaceres) {
+                                for (int j = 0; j < pladserBehov; j++) {
+                                    pladser[i + j] = fad;
+                                }
+
+                                // Sæt korrekt placering
+                                String placering = String.format(
+                                        "%s,%02d,%02d,%02d,%02d,%02d",
+                                        palle.getHylde().getReol().getGang().getLager().getNavn(),
+                                        palle.getHylde().getReol().getGang().getGangNummer(),
+                                        palle.getHylde().getReol().getReolNummer(),
+                                        palle.getHylde().getHyldeNummer(),
+                                        palle.getPalleNummer(),
+                                        i + 1
+                                );
+
+                                fad.setPlacering(placering);
+                                return true;
+                            }
                         }
                     }
-                }
-            }
-        }
-        return null; // ingen ledig palle
-    }
-
-    public boolean placerFad(Fad fad) {
-        Palle ledigPalle = findLedigPalle(fad);
-
-        if (ledigPalle != null) {
-
-            for (int i = 0; i < ledigPalle.getPallePlads().length; i++) {
-
-                if (ledigPalle.getPallePlads()[i] == null) {
-                    ledigPalle.getPallePlads()[i] = fad;
-
-                    // FORMATERET PLACERING MED 0-FYLD
-                    Lager lager = ledigPalle.getHylde().getReol().getGang().getLager();
-                    Gang gang = ledigPalle.getHylde().getReol().getGang();
-                    Reol reol = ledigPalle.getHylde().getReol();
-                    Hylde hylde = ledigPalle.getHylde();
-
-                    String placering = String.format(
-                            "Lager %02d, Gang %02d, Reol %02d, Hylde %02d, Palle %02d, Plads %d",
-                            lager.getNavn(),
-                            gang.getGangNummer(),
-                            reol.getReolNummer(),
-                            hylde.getHyldeNummer(),
-                            ledigPalle.getPalleNummer(),
-                            i + 1
-                    );
-
-                    fad.setPlacering(placering);
-
-                    return true;
                 }
             }
         }

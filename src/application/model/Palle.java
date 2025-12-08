@@ -19,7 +19,7 @@ public class Palle {
     }
 
     public Fad[] getPallePlads() {
-        return Arrays.copyOf(pallePlads, pallePlads.length);
+        return pallePlads;
     }
 
     public void setPallePlads(Fad[] pallePlads) {
@@ -32,16 +32,5 @@ public class Palle {
             if (f == null) count++;
         }
         return count;
-    }
-
-    public boolean placerFad(Fad fad) {
-        for (int i = 0; i < pallePlads.length; i++) {
-            if (pallePlads[i] == null) {
-                pallePlads[i] = fad;
-                return true;
-            }
-        }
-
-        return false; // ingen ledige pladser
     }
 }

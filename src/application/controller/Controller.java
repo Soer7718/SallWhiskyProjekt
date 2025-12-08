@@ -178,4 +178,15 @@ package application.controller;
         }
         return null; // Ingen paller ledige
     }
+
+        public static boolean flytFadTilLager(Fad fad) {
+            if (fad.getPlacering() != null) return false;
+
+            for (Lager lager : getLagerList()) {
+                if (lager.placerFad(fad)) {
+                    return true;
+                }
+            }
+            return false;
+        }
 }

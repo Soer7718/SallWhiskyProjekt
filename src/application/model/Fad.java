@@ -88,20 +88,6 @@ public class Fad {
         return fyldt == 0.0;
     }
 
-    public boolean placerPåLager(Lager lager) {
-        Palle ledigPalle = lager.findLedigPalle(this);
-        if (ledigPalle != null) {
-            for (int i = 0; i < ledigPalle.getPallePlads().length; i++) {
-                if (ledigPalle.getPallePlads()[i] == null) {
-                    ledigPalle.getPallePlads()[i] = this;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
     public double beregnAlkoholProcent() {
         if (tapninger.isEmpty()) return 0.0;
         double total = 0.0;

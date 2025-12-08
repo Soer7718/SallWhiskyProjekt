@@ -182,120 +182,24 @@ public class FadTab {
         });
 
         btnFlytTilLager.setOnAction(e -> {
-            // Hent det valgte fad fra TableView
             Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
 
             if (valgtFad == null) return;
-            if (valgtFad.getPlacering()!= null) return;
 
-            if (placerFad(valgtFad)) {
-                new Alert(Alert.AlertType.INFORMATION, "Fad placeret på lager!").showAndWait();
-                fadTable.refresh();
-                return;
-            }
+            boolean succes = Controller.flytFadTilLager(valgtFad);
 
-            // Gennemløb alle lagre og placer fadet
-            boolean succes = false;
-            for (Lager lager : Controller.getLagerList()) {
-                succes = lager.placerFad(valgtFad);
-                if (succes) break; // Stop når fadet er placeret
-            }
-
-            // Popup baseret på resultat
             if (succes) {
-
                 new Alert(Alert.AlertType.INFORMATION,
-                        "Fadet er placeret på lager! Ledige pladser nu: " +
-                                Controller.getLagerList().get(0).getLedigePladser())
-                        .showAndWait();
+                        "Fadet er placeret på lager!").showAndWait();
                 fadTable.refresh();
             } else {
-                new Alert(Alert.AlertType.WARNING, "Ingen ledige paller til fadet!").showAndWait();
+                new Alert(Alert.AlertType.WARNING,
+                        "Kunne ikke placere fadet — enten mangler plads eller fadet står allerede på en placering.")
+                        .showAndWait();
             }
         });
 
         return root;
-    }
-
-    public boolean placerFad(Fad fad) {
-        Palle ledigPalle = findLedigPalle(fad);
-        if (ledigPalle == null) return false;
-
-        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
-        Fad[] pallePladser = ledigPalle.getPallePlads();
-
-        // Find første sammenhængende ledige slot(er)
-        for (int i = 0; i <= pallePladser.length - pladserBehov; i++) {
-            boolean kanPlaceres = true;
-            for (int j = 0; j < pladserBehov; j++) {
-                if (pallePladser[i + j] != null) {
-                    kanPlaceres = false;
-                    break;
-                }
-            }
-
-            if (kanPlaceres) {
-                // Placer fadet
-                for (int j = 0; j < pladserBehov; j++) {
-                    pallePladser[i + j] = fad;
-                }
-
-                // FORMATERET PLACERING MED 0-FYLD
-                Lager lager = ledigPalle.getHylde().getReol().getGang().getLager();
-                Gang gang = ledigPalle.getHylde().getReol().getGang();
-                Reol reol = ledigPalle.getHylde().getReol();
-                Hylde hylde = ledigPalle.getHylde();
-
-                String placering = String.format(
-                        "%s,  %02d,  %02d,  %02d,  %02d,  %02d",
-                        lager.getNavn(),
-                        gang.getGangNummer(),
-                        reol.getReolNummer(),
-                        hylde.getHyldeNummer(),
-                        ledigPalle.getPalleNummer(),
-                        i + 1
-                );
-                fad.setPlacering(placering);
-                return true;
-            }
-        }
-
-        return false; // ingen plads
-    }
-
-    private Palle findLedigPalle(Fad fad) {
-        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
-
-        for (Lager lager : Controller.getLagerList()) {
-            for (Gang gang : lager.getGangList()) {
-                for (Reol reol : gang.getReolList()) {
-                    for (Hylde hylde : reol.getHyldeList()) {
-                        for (Palle palle : hylde.getPalleList()) {
-                            Fad[] pallePladser = palle.getPallePlads();
-                            int ledige = palle.getLedigePladser();
-
-                            if (ledige >= pladserBehov) {
-                                // tjek om der er sammenhængende ledige pladser
-                                for (int i = 0; i <= pallePladser.length - pladserBehov; i++) {
-                                    boolean kanPlaceres = true;
-                                    for (int j = 0; j < pladserBehov; j++) {
-                                        if (pallePladser[i + j] != null) {
-                                            kanPlaceres = false;
-                                            break;
-                                        }
-                                    }
-                                    if (kanPlaceres) {
-                                        return palle; // vi har fundet en palle med plads
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return null; // ingen paller med nok ledige pladser
     }
 
     private int nextFadId() {
@@ -304,36 +208,6 @@ public class FadTab {
                 .map(Fad::getId)
                 .max(java.util.Comparator.naturalOrder())
                 .orElse(0) + 1;
-    }
-
-
-    private Object[] findLedigPlads(Fad fad) {
-        int pladserBehov = fad.getStørrelseLiter() <= 50 ? 1 : 2;
-
-        for (Lager lager : Controller.getLagerList()) {
-            for (Gang gang : lager.getGangList()) {
-                for (Reol reol : gang.getReolList()) {
-                    for (Hylde hylde : reol.getHyldeList()) {
-                        for (Palle palle : hylde.getPalleList()) {
-                            int ledigePladser = palle.getLedigePladser();
-                            if (ledigePladser >= pladserBehov) {
-                                Fad[] pladser = palle.getPallePlads();
-                                for (int i = 0; i < pladser.length; i++) {
-                                    if (pladser[i] == null) {
-                                        // Hvis fadet fylder 2 pladser, tjek næste plads også
-                                        if (pladserBehov == 2 && (i + 1 >= pladser.length || pladser[i + 1] != null)) {
-                                            continue;
-                                        }
-                                        return new Object[]{palle, i}; // her returnerer vi pallen og pladsindex
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return null;
     }
 
 

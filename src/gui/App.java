@@ -24,8 +24,9 @@ public class App {
 
         Fad f1 = Controller.createFad(1, "Bourbon", "Jim Beam", "Nyt fad oprettet", 200);
         Fad f2 = Controller.createFad(1, "Sherry", "Andalusien", "Brugt én gang", 200);
-        Fad f3 = Controller.createFad(1, "Bourbon", "Bent", "Brugt to gang", 50);
+        Fad f3 = Controller.createFad(1, "Bourbon", "Bent", "Brugt to gang", 200);
         Fad f4 = Controller.createFad(1, "Sherry", "Lars", "Brugt tre gang", 50);
+        Fad f5 = Controller.createFad(1, "Bourbon", "Champagne", "Nyt fad", 50);
 
 
         Destilat d1 = Controller.createDestilat(75, 200, "Larsens", "Byg", 1, LocalDate.of(2014, 10, 10), "", "");
