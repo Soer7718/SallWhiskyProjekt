@@ -12,6 +12,8 @@ import javafx.collections.FXCollections;
 import application.model.Fad;
 import application.controller.Controller;
 
+import java.util.stream.Collectors;
+
 public class FadOversigtTab {
     private TableView<Fad> fadTable;
     private TableView<Tapning> whiskyTable;
@@ -71,7 +73,29 @@ public class FadOversigtTab {
         TableColumn<Fad, String> colLeverandør = new TableColumn<>("Leverandør");
         colLeverandør.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getLeverandør()));
 
-        fadTable.getColumns().setAll(colId, colType, colLiter, colLeverandør);
+        TableColumn<Fad, String> colHistorik = new TableColumn<>("Historik");
+        colHistorik.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getHistorik()));
+
+        TableColumn<Fad, String> colTapninger = new TableColumn<>("Tapninger");
+        colTapninger.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getTapninger().size())));
+
+        TableColumn<Fad, String> colTapningstyper = new TableColumn<>("Tapningstyper");
+        colTapningstyper.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getTapninger().stream()
+                                .flatMap(t -> t.getTyper().stream())
+                                .map(Enum::name)
+                                .distinct()
+                                .collect(Collectors.joining(", "))));
+
+        TableColumn<Fad, String> colKlarTilTapning = new TableColumn<>("Klar til tapning?");
+        colKlarTilTapning.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().udregnLagringsÅr() >= 3 ? "Ja" : "Nej"
+                )
+        );
+
+        fadTable.getColumns().setAll(colId, colType, colLiter, colLeverandør, colHistorik, colTapninger, colTapningstyper, colKlarTilTapning);
     }
 
     private void setupWhiskyTable() {
