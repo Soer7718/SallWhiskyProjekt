@@ -226,10 +226,35 @@ public class FadTab {
             }
         });
 
-        btnOmhældTilFad.setOnAction(e->{
+        btnOmhældTilFad.setOnAction(e -> {
+            // Hent det valgte fad fra tabellen
             Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
-            if (valgtFad == null) return;
-            boolean success = false;
+            double liter = 0.0;
+
+            // Hent det fad, man vil omhælde til
+            Fad tilFad = cbFade.getValue();
+            StringBuilder fejl = new StringBuilder();
+
+            // Valider
+            try {
+                liter = Double.parseDouble(txtLiter.getText().trim());
+                if (liter <= 0) {
+                    fejl.append("- Antal liter skal være større end 0.\n");
+                }
+            } catch (NumberFormatException ex) {
+                fejl.append("- Liter skal være et tal.\n");
+            }
+
+            // viser hvis der er fejl
+            if (fejl.length() > 0) {
+                new Alert(Alert.AlertType.ERROR, fejl.toString()).showAndWait();
+                return;
+            }
+
+            // Kør omhældning
+            valgtFad.omhældTilAndetFad(tilFad, liter);
+
+            txtLiter.clear();
         });
 
         return root;
