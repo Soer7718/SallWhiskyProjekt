@@ -64,9 +64,9 @@ package application.controller;
             return lager;
         }
 
-        public static Tapning createTapning(List<Fad> fade, double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double flaskeStørrelse, List<WhiskyType> typer, String navn) {
+        public static Tapning createTapning(List<Fad> fade, double alkoholProcent, double mængdeVand, String vandOprindelse, double flaskeStørrelse, List<WhiskyType> typer, String navn) {
             // Opret tapningen
-            Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, typer, navn);
+            Tapning tapning = new Tapning(alkoholProcent, mængdeVand, vandOprindelse, typer, navn);
 
             for (Fad fad : fade){
                 tapning.tilføjFad(fad);
