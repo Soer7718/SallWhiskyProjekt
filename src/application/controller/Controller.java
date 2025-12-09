@@ -14,49 +14,40 @@ package application.controller;
         private static final ObservableList<Destilat> destillatListe = FXCollections.observableArrayList(Storage.getDestilatList());
         private static Controller instance;
 
+        //Getters og Setters
         public static ObservableList<Fad> getFadListe() {
             return fadListe;
         }
-
-
         public static Controller getInstance() {
             if (instance == null) {
                 instance = new Controller();
             }
             return instance;
         }
-
         public static List<Destilat> getDestillatListe() {
             return new ArrayList<>(Storage.getDestilatList()) ;
         }
-
         public static ObservableList<Destilat> getDestillatListeObs() {
             return destillatListe;
         }
-
-
-        public static List<Whisky> getWhiskyList() {
-            return new ArrayList<>(Storage.getWhiskyList());
+        public static List<Whisky> getWhiskyList() {return new ArrayList<>(Storage.getWhiskyList()); }
+        public static List<Fad> getFadList() {
+            return new ArrayList<Fad>(Storage.getFadList());
+        }
+        public static List<Tapning> getTapningList(){
+            return Storage.getTapningList();
+        }
+        public static List<Lager> getLagerList() {
+            return Storage.getLagerList();
         }
 
-
-        //    public static Påfyldning createPåfyldning(LocalDate startDato, Destilat destilat){
-    //        Påfyldning p = new Påfyldning(startDato, destilat);
-    //        Storage.addPåfyldning(p);
-    //        return p;
-    //    }
-
-        public static Destilat createDestilat(double alkoholProcent, double mængde, String mark, String kornSort,
-                                              int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
+        //Hjælpe-Metoder
+        public static Destilat createDestilat(double alkoholProcent, double mængde, String mark, String kornSort, int maltBatch, LocalDate slutDato, String rygeMateriale, String kommentar) {
             int id = Storage.nextDestilatId();
             Destilat objektDestilat = new Destilat(id, alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar);
             Storage.addDestilat(objektDestilat);
             destillatListe.add(objektDestilat);
             return objektDestilat;
-        }
-
-        public static List<Fad> getFadList() {
-            return new ArrayList<Fad>(Storage.getFadList());
         }
 
         public static Fad createFad( int antal, String type, String leverandør, String historik, double størrelseLiter) {
@@ -73,10 +64,7 @@ package application.controller;
             return lager;
         }
 
-
-
-        public static Tapning createTapning(List<Fad> fade, double alkoholProcent, String historik, double mængdeVand,
-                                            String vandOprindelse, double flaskeStørrelse, List<WhiskyType> typer, String navn) {
+        public static Tapning createTapning(List<Fad> fade, double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double flaskeStørrelse, List<WhiskyType> typer, String navn) {
             // Opret tapningen
             Tapning tapning = new Tapning(alkoholProcent, historik, mængdeVand, vandOprindelse, typer, navn);
 
@@ -102,21 +90,12 @@ package application.controller;
                 fad.addTapning(tapning);
             }
 
-            List<Whisky> whiskyer = tapning.opretWhisky(flaskeStørrelse);
-            for (Whisky w : whiskyer) {
+            List<Whisky> whiskyList = tapning.opretWhisky(flaskeStørrelse);
+            for (Whisky w : whiskyList) {
                 Storage.addWhisky(w);
             }
 
             return tapning;
-        }
-
-
-        public static List<Tapning> getTapningList(){
-            return Storage.getTapningList();
-        }
-
-        public static List<Lager> getLagerList() {
-            return Storage.getLagerList();
         }
 
         public static Påfyldning påfyldDestillatPåFad(int fadID, int destillatID, LocalDate dato){

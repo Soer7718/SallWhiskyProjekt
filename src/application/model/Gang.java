@@ -14,18 +14,20 @@ public class Gang {
 
     }
 
+    //Getters og Setters
     public int getGangNummer() {
         return gangNummer;
     }
-
     public List<Reol> getReolList() {
         return new ArrayList<>(reolList);
     }
-
     public Lager getLager() {
         return lager;
     }
 
+
+    //Alle Metoder
+    //---Reoler---
     public void createReol(int antalReoler, int antalHylder) {
         for (int i = 0; i < antalReoler; i++) {
             Reol reol = new Reol(this, reolList.size()+1, antalHylder);

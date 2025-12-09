@@ -30,102 +30,82 @@ public class Destilat {
         this.kommentar = kommentar;
     }
 
+    //Getters og setters
     public int getId(){
         return id;
     }
-
     public double getAlkoholProcent() {
         return alkoholProcent;
     }
-
     public void setAlkoholProcent(double alkoholProcent) {
         this.alkoholProcent = alkoholProcent;
     }
-
     public double getMængde() {
         return mængde;
     }
-
     public void setMængde(double mængde) {
         this.mængde = mængde;
     }
-
     public String getMark() {
         return mark;
     }
-
     public void setMark(String mark) {
         this.mark = mark;
     }
-
     public String getKornSort() {
         return kornSort;
     }
-
     public void setKornSort(String kornSort) {
         this.kornSort = kornSort;
     }
-
     public int getMaltBatch() {
         return maltBatch;
     }
-
     public void setMaltBatch(int maltBatch) {
         this.maltBatch = maltBatch;
     }
-
     public LocalDate getStartDato() {
         return startDato;
     }
-
     public void setStartDato(LocalDate startDato) {
         this.startDato = startDato;
     }
-
     public LocalDate getSlutDato() {
         return slutDato;
     }
-
     public void setSlutDato(LocalDate slutDato) {
         this.slutDato = slutDato;
     }
-
     public String getRygeMateriale() {
         return rygeMateriale;
     }
-
     public void setRygeMateriale(String rygeMateriale) {
         this.rygeMateriale = rygeMateriale;
     }
-
     public String getKommentar() {
         return kommentar;
     }
-
     public void setKommentar(String kommentar) {
         this.kommentar = kommentar;
     }
-
     public List<Påfyldning> getPåfyldningList() {
         return new ArrayList<>(påfyldningList);
     }
-    
+
+    //Alle Metoder
+    //---Påfyldninger---
     public void addPåfyldning(Påfyldning påfyldning) {
         if (!påfyldningList.contains(påfyldning)) {
             påfyldningList.add(påfyldning);
         }
     }
-    
-    public void removePåfyldning(Påfyldning påfyldning) {
-        påfyldningList.remove(påfyldning);
-    }
-
 
     public Påfyldning opretPåfyldning(LocalDate localDate) {
         Påfyldning påfyldning = new Påfyldning(localDate,this);
         return påfyldning;
     }
 
+    //Hjælpemetode
     @Override
     public String toString() {
         return kornSort + " (" + alkoholProcent + "%, " + mængde + "L)";

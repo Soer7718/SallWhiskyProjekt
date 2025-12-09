@@ -28,8 +28,7 @@ public class Fad {
         this.tapninger = new ArrayList<>();
     }
 
-    public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter,
-               double fyldt, List<Tapning> tapninger, Påfyldning påfyldning) {
+    public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter, double fyldt, List<Tapning> tapninger, Påfyldning påfyldning) {
         this.id = id;
         this.antalGangeBrugt = antalGangeBrugt;
         this.type = type;
@@ -37,6 +36,13 @@ public class Fad {
         this.historik = historik;
         this.størrelseLiter = liter;
         this.fyldt = fyldt;
+        /*
+        * if (tapninger != null) {
+        * this.tapninger = tapninger;
+        * } else {
+        * this.tapninger = new ArrayList<>();
+        * } samme som under
+        * */
         this.tapninger = tapninger != null ? tapninger : new ArrayList<>();
         this.påfyldning = påfyldning;
     }
@@ -58,8 +64,9 @@ public class Fad {
     public Påfyldning getPåfyldning() { return påfyldning; }
     public void setPåfyldning(Påfyldning påfyldning) { this.påfyldning = påfyldning; }
     public String getPlacering() {return placering;}
-
     public void setPlacering(String placering) {this.placering = placering;}
+
+    //Alle Metoder
 
     // --- Tapninger ---
     public List<Tapning> getTapninger() {

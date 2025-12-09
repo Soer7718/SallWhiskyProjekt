@@ -15,8 +15,7 @@ public class Tapning {
     private String whiskyNavn;
 
 
-    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse,
-                   double fuldMængde, List<WhiskyType> typer, String navn) {
+    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, double fuldMængde, List<WhiskyType> typer, String navn) {
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
         this.mængdeVand = mængdeVand;

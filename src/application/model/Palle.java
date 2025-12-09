@@ -8,24 +8,22 @@ public class Palle {
     private Hylde hylde;
     private static int seq = 1;
 
+    //constructor
     public Palle(Hylde hylde) {
         this.hylde = hylde;
         this.palleNummer = seq++;
     }
+    //Getters og Setters
     public int getPalleNummer() { return palleNummer; }
-
     public Hylde getHylde() {
         return hylde;
     }
-
-    public Fad[] getPallePlads() {
-        return pallePlads;
-    }
-
+    public Fad[] getPallePlads() {return pallePlads; }
     public void setPallePlads(Fad[] pallePlads) {
         this.pallePlads = pallePlads;
     }
 
+    //Hjælpe-Metode
     public int getLedigePladser() {
         int count = 0;
         for (Fad f : pallePlads) {
