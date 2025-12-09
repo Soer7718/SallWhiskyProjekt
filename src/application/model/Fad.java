@@ -13,7 +13,7 @@ public class Fad {
     private double størrelseLiter;
     private double fyldt;
     private List<Tapning> tapninger;
-    private Påfyldning påfyldning;
+    private List<Påfyldning> påfyldninger;
     private String placering;
 
     // --- Konstruktører ---
@@ -44,7 +44,7 @@ public class Fad {
         * } samme som under
         * */
         this.tapninger = tapninger != null ? tapninger : new ArrayList<>();
-        this.påfyldning = påfyldning;
+        //this.påfyldning = påfyldning;
     }
 
     // --- Getters & Setters ---
@@ -61,8 +61,14 @@ public class Fad {
     public void setStørrelseLiter(double størrelseLiter) { this.størrelseLiter = størrelseLiter; }
     public double getFyldt() { return fyldt; }
     public void setFyldt(double fyldt) { this.fyldt = fyldt; }
-    public Påfyldning getPåfyldning() { return påfyldning; }
-    public void setPåfyldning(Påfyldning påfyldning) { this.påfyldning = påfyldning; }
+    public List<Påfyldning> getPåfyldninger() { return new ArrayList<>(påfyldninger); }
+    public void setPåfyldning(List<Påfyldning> påfyldninger) {
+        this.påfyldninger = påfyldninger != null ? new ArrayList<>(påfyldninger) : new ArrayList<>(); }
+    public void addPåfyldning (Påfyldning påfyldning) {
+        if (påfyldning != null && !påfyldninger.contains(påfyldninger)){
+            påfyldninger.add(påfyldning);
+        }
+    }
     public String getPlacering() {return placering;}
     public void setPlacering(String placering) {this.placering = placering;}
 
@@ -81,15 +87,42 @@ public class Fad {
 
     // --- Hjælpe-metoder ---
     public int udregnLagringsÅr() {
-        if (påfyldning == null || påfyldning.getStartDato() == null) {
+        if (påfyldninger.isEmpty()) {
             return 0;
         }
-        LocalDate slut = (påfyldning.getSlutDato() != null) ? påfyldning.getSlutDato() : LocalDate.now();
-        return Period.between(påfyldning.getStartDato(), slut).getYears();
+
+        Påfyldning nyeste = påfyldninger.get(0);
+        for (Påfyldning p : påfyldninger){
+            if (p.getStartDato().isBefore(nyeste.getStartDato())){
+                nyeste = p;
+            }
+        }
+
+        LocalDate slut = (nyeste.getSlutDato() != null) ? nyeste.getSlutDato() : LocalDate.now();
+        return Period.between(nyeste.getStartDato(), slut).getYears();
     }
 
     public boolean erTomt() {
         return fyldt == 0.0;
+    }
+
+    public void omhældTilAndetFad(Fad f, double mængdeOverført){
+        if (mængdeOverført <= 0){
+            return;
+        }
+
+        if (f.getFyldt() + mængdeOverført > f.getStørrelseLiter()){
+            return;
+        }
+
+        this.setFyldt(this.getFyldt()-mængdeOverført);
+        f.setFyldt(f.getFyldt()+mængdeOverført);
+        for (Påfyldning p : påfyldninger){
+            f.addPåfyldning(p);
+        }
+        if (this.erTomt()){
+            this.setPåfyldning(null);
+        }
     }
 
     public double beregnAlkoholProcent() {
@@ -107,10 +140,6 @@ public class Fad {
             total += t.getFuldMængde();
         }
         return total;
-    }
-
-    public void setFadPåLager() {
-
     }
 
     @Override

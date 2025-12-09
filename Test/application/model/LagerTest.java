@@ -4,6 +4,8 @@ import application.controller.Controller;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,8 +75,10 @@ class LagerTest {
 
         // påfyldning felt kan sættes/læses (kun strukturel test)
         Påfyldning p = null; // vi tester ikke selve Påfyldning her
-        f.setPåfyldning(p);
-        assertNull(f.getPåfyldning());
+        List<Påfyldning> påfyldninger = new ArrayList<>();
+        påfyldninger.add(p);
+        f.setPåfyldning(påfyldninger);
+        assertNull(f.getPåfyldninger());
     }
 
     @Test
