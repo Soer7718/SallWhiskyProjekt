@@ -2,6 +2,7 @@ package gui;
 
 import application.controller.Controller;
 import application.model.*;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,8 @@ import javafx.scene.layout.*;
 import application.model.Fad;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+
 import java.util.stream.Collectors;
 
 public class FadTab {
@@ -41,14 +44,66 @@ public class FadTab {
         Label lblHistorik = new Label("Historik:");
         TextField txtHistorik = new TextField();
         Label lblStørrelse = new Label("Størrelse (L):");
+        Label lblValgteFad = new Label("Omhæld til andet Fad");
+        TextField txtLiter = new TextField();
+        txtLiter.setPromptText("Liter");
+
+        //Combobox
         ComboBox<Integer> cbStørrelse = new ComboBox<>();
         cbStørrelse.getItems().addAll(50, 100, 200, 500);
         cbStørrelse.setValue(200);
+
+        ComboBox<Fad> cbFade = new ComboBox<>();
+        cbFade.getItems().addAll(Controller.getFadList());
+        //ændrer listens tekst i comboboxen
+        cbFade.setCellFactory(lv -> new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad fad, boolean empty) {
+                super.updateItem(fad, empty);
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    setText("Fad #" + fad.getId() + " (" + fad.getType() + ")");
+                }
+            }
+        });
+        //ændrer knappens tekst
+        cbFade.setButtonCell(new ListCell<Fad>() {
+            @Override
+            protected void updateItem(Fad fad, boolean empty) {
+                super.updateItem(fad, empty);
+                if (empty || fad == null) {
+                    setText(null);
+                } else {
+                    setText("Fad #" + fad.getId() + " (" + fad.getType() + ")");
+                }
+            }
+        });
+        cbFade.setValue(Controller.getFadList().getFirst());
+
+        //Buttons
         Button btnOpret = new Button("Opret Fad");
         Button btnTapFad = new Button("Tap Fad");
-        btnTapFad.setDisable(true);
         Button btnFlytTilLager = new Button("Flyt til Lager");
+        Button btnOmhældTilFad = new Button("Omhæld til Fad");
+
+        btnTapFad.setDisable(true);
         btnFlytTilLager.setDisable(true);
+        //gør btnOmhældning disabled indtil tal er udfyldt
+        btnOmhældTilFad.disableProperty().bind(
+                fadTable.getSelectionModel().selectedItemProperty().isNull()
+                        .or(cbFade.valueProperty().isNull())
+                        .or(txtLiter.textProperty().isEmpty())
+                        .or(Bindings.createBooleanBinding(() -> {
+            try {
+                double liter = Double.parseDouble(txtLiter.getText().trim());
+                Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
+                return valgtFad == null || liter <= 0 || valgtFad.getFyldt() < liter;
+            } catch (NumberFormatException e) {
+                return true;
+            }
+        }, txtLiter.textProperty(), fadTable.getSelectionModel().selectedItemProperty()))
+        );
 
         // Tilføj felter til GridPane
         formPane.add(lblAntal, 0, 0);
@@ -63,8 +118,14 @@ public class FadTab {
         formPane.add(btnTapFad, 1, 5);
         formPane.add(lblStørrelse, 0, 4);
         formPane.add(cbStørrelse, 1, 4);
-
         formPane.add(btnFlytTilLager, 1, 6);
+
+        //Laver box "2"
+        formPane.add(lblValgteFad,3,0);
+        formPane.add(txtLiter,3,1);
+        formPane.add(cbFade,3,2);
+        formPane.add(btnOmhældTilFad,3,3);
+
 
         root.setTop(formPane);
 
@@ -179,6 +240,38 @@ public class FadTab {
                         "Kunne ikke placere fadet — enten mangler plads eller fadet står allerede på en placering.")
                         .showAndWait();
             }
+        });
+
+        btnOmhældTilFad.setOnAction(e -> {
+            // Hent det valgte fad fra tabellen
+            Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
+            double liter = 0.0;
+
+            // Hent det fad, man vil omhælde til
+            Fad tilFad = cbFade.getValue();
+            StringBuilder fejl = new StringBuilder();
+
+            // Valider
+            try {
+                liter = Double.parseDouble(txtLiter.getText().trim());
+                if (liter <= 0) {
+                    fejl.append("- Antal liter skal være større end 0.\n");
+                }
+            } catch (NumberFormatException ex) {
+                fejl.append("- Liter skal være et tal.\n");
+            }
+
+            // viser hvis der er fejl
+            if (fejl.length() > 0) {
+                new Alert(Alert.AlertType.ERROR, fejl.toString()).showAndWait();
+                return;
+            }
+
+            // Kør omhældning
+            valgtFad.omhældTilAndetFad(tilFad, liter);
+
+            txtLiter.clear();
+            updateControls();
         });
 
         return root;
