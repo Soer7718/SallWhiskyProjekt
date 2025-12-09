@@ -14,20 +14,6 @@ public class Tapning {
     private List<Fad> fadList;
     private String whiskyNavn;
 
-
-    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse,
-                   double fuldMængde, List<WhiskyType> typer, String navn) {
-        this.alkoholProcent = alkoholProcent;
-        this.historik = historik;
-        this.mængdeVand = mængdeVand;
-        this.vandOprindelse = vandOprindelse;
-        this.fuldMængde = fuldMængde;
-        this.typer = typer != null ? new ArrayList<>(typer) : new ArrayList<>();
-        this.whiskyList = new ArrayList<>();
-        this.fadList = new ArrayList<>();
-        this.whiskyNavn = navn;
-    }
-
     public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, List<WhiskyType> typer, String navn) {
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
