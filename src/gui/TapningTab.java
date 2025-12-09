@@ -34,27 +34,30 @@ public class TapningTab {
         formPane.setVgap(10);
         formPane.setPadding(new Insets(10));
 
+        //Labels og TextFields
         Label lblNavn = new Label("Navn:");
         TextField txtNavn = new TextField();
-
         Label lblAlkohol = new Label("Alkohol %:");
         TextField txtAlkohol = new TextField();
-
         Label lblHistorik = new Label("Historik:");
         TextField txtHistorik = new TextField();
-
         Label lblVand = new Label("Mængde vand:");
         TextField txtVand = new TextField();
-
         Label lblVandOprindelse = new Label("Vand oprindelse:");
         TextField txtVandOprindelse = new TextField();
-
         Label lblMængde = new Label("Fuld mængde:");
         TextField txtMængde = new TextField();
         txtMængde.setEditable(false);
         txtMængde.setFocusTraversable(false);
-
         Label lblFlereFade = new Label("Tilføj fad:");
+        Label lblTyper = new Label("Typer:");
+        Label lblFlaskeStr = new Label("Flaskestørrelse:");
+
+        //Buttons
+        Button btnTilføjFad = new Button("Tilføj fad");
+        Button btnOpret = new Button("Opret Tapning");
+
+        //ComboBoxes
         ComboBox<Fad> cbFade = new ComboBox<>();
         cbFade.setItems(FXCollections.observableArrayList(
                 Controller.getFadListe().stream()
@@ -64,28 +67,27 @@ public class TapningTab {
                         .toList()));
         cbFade.setPrefWidth(200);
 
+        ComboBox<Double> cbFlaskeStr = new ComboBox<>();
+        cbFlaskeStr.setItems(FXCollections.observableArrayList(0.5, 0.7));
+        cbFlaskeStr.getSelectionModel().select(1);
+
+
+        //ListViews
         ListView<Fad> lstValgteFade = new ListView<>();
         lstValgteFade.setPrefHeight(100);
-
-        Button btnTilføjFad = new Button("Tilføj fad");
 
         txtVand.textProperty().addListener((obs, oldVal, newVal) -> {
             opdaterMængde(txtMængde, txtVand, lstValgteFade);
         });
 
-        Label lblTyper = new Label("Typer:");
         ListView<WhiskyType> lstTyper = new ListView<>();
         lstTyper.setItems(FXCollections.observableArrayList(WhiskyType.values()));
         lstTyper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         lstTyper.setPrefHeight(100);
 
-        Label lblFlaskeStr = new Label("Flaskestørrelse:");
-        ComboBox<Double> cbFlaskeStr = new ComboBox<>();
-        cbFlaskeStr.setItems(FXCollections.observableArrayList(0.5, 0.7));
-        cbFlaskeStr.getSelectionModel().select(1);
 
-        Button btnOpret = new Button("Opret Tapning");
 
+        //Tilføjer til formpane
         formPane.add(lblAlkohol, 0, 0);
         formPane.add(txtAlkohol, 1, 0);
         formPane.add(lblHistorik, 0, 1);
@@ -112,6 +114,7 @@ public class TapningTab {
 
         root.setTop(formPane);
 
+        //events
         btnTilføjFad.setOnAction(e -> {
             Fad valgt = cbFade.getValue();
             if (valgt != null && !lstValgteFade.getItems().contains(valgt)) {
@@ -127,6 +130,7 @@ public class TapningTab {
             cbFade.getSelectionModel().select(fad);
         }
 
+        //events
         btnOpret.setOnAction(e -> {
             try {
                 String navn = txtNavn.getText();
@@ -167,6 +171,7 @@ public class TapningTab {
         return root;
     }
 
+    //hjælpe metode
     private void opdaterMængde(TextField txtMængde, TextField txtVand, ListView<Fad> lstValgteFade) {
         try {
             double vand = Double.parseDouble(txtVand.getText());

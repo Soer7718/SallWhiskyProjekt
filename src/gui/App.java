@@ -17,6 +17,7 @@ public class App {
         Gui.launch(Gui.class);
     }
 
+    //Test-Data til visuelt program
     public static void initStorage() {
         Lager lager = Controller.createLager("Sall Whisky Lager", "Sallvej 123");
         lager.createGang(2, 3);

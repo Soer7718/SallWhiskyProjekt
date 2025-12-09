@@ -20,20 +20,17 @@ public class LagerTab {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
 
-        // === Formular til oprettelse ===
+        //Formular til oprettelse
         GridPane formPane = new GridPane();
         formPane.setHgap(10);
         formPane.setVgap(10);
         formPane.setPadding(new Insets(10));
 
+        //Labels og TextFields
         Label lblNavn = new Label("Lager navn:");
         TextField txtNavn = new TextField();
-
         Label lblAdresse = new Label("Adresse:");
         TextField txtAdresse = new TextField();
-
-        Button btnLagerOpret = new Button("Opret Lager");
-
         Label lblValgteLager = new Label("Valgt lager:");
         Label lblValgteLagerNavn = new Label("(Ingen)");
         Label lblAntalReoler = new Label("Antal Reoler pr gang");
@@ -41,41 +38,38 @@ public class LagerTab {
         Label lblAntalHylderPrReol = new Label("Antal Hylder Pr reol");
         TextField txtAntalHylderPrReol = new TextField();
 
+        //Buttons
+        Button btnLagerOpret = new Button("Opret Lager");
         Button btnGangOpret = new Button("Opret Gang");
 
 
-
+        //Add alle Labels, TextFields og Buttons
         formPane.add(lblNavn, 0, 0);
         formPane.add(txtNavn, 1, 0);
         formPane.add(lblAdresse, 0, 1);
         formPane.add(txtAdresse, 1, 1);
         formPane.add(btnLagerOpret, 1, 3);
-
-
         formPane.add(lblValgteLager,3,0);
         formPane.add(lblValgteLagerNavn,4,0);
         formPane.add(lblAntalReoler,3,1);
         formPane.add(txtAntalReoler,4,1);
         formPane.add(lblAntalHylderPrReol,3,2);
         formPane.add(txtAntalHylderPrReol,4,2);
-
         formPane.add(btnGangOpret,4,3);
 
         root.setTop(formPane);
 
-        // === TableView til liste ===
+        //TableView til liste
         lagerTable = new TableView<>(lagerlist);
         lagerTable.setPrefHeight(300);
 
+        //TableColumns
         TableColumn<Lager, String> colNavn = new TableColumn<>("Navn");
         colNavn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNavn()));
-
         TableColumn<Lager, String> colAdresse = new TableColumn<>("Adresse");
         colAdresse.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAdresse()));
-
         TableColumn<Lager, String> colGange = new TableColumn<>("Gange");
         colGange.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getGangList().size())));
-
         TableColumn<Lager, String> colPladser = new TableColumn<>("Paller");
         colPladser.setCellValueFactory(data -> {
             int totalPladser = 0;
@@ -90,18 +84,18 @@ public class LagerTab {
             }
             return new SimpleStringProperty(String.valueOf(totalPladser));
         });
-
         TableColumn<Lager, String> colLedigePladser = new TableColumn<>("Ledige Paller");
         colLedigePladser.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getLedigePladser()))
         );
 
+        //Tilføjer TableColumns
         lagerTable.getColumns().addAll(colNavn, colAdresse, colGange ,colPladser, colLedigePladser);
         lagerTable.setItems(FXCollections.observableArrayList(Controller.getInstance().getLagerList()));
 
         root.setCenter(lagerTable);
 
-
+        //Gør så man kan vælge i tableViews
         lagerTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 lblValgteLagerNavn.setText(newVal.getNavn());
@@ -112,7 +106,7 @@ public class LagerTab {
 
 
 
-        // === Eventhandler til knappen ===
+        //Eventhandler til knappen
         btnLagerOpret.setOnAction(e -> {
             String navn = txtNavn.getText().trim();
             String adresse = txtAdresse.getText().trim();
@@ -132,7 +126,7 @@ public class LagerTab {
                 return;
             }
 
-            // Opret lager via Controller
+            // Opretter Lager
             Lager lager = Controller.getInstance().createLager(navn, adresse);
             lager.setPladser(pladser);
 
@@ -143,6 +137,7 @@ public class LagerTab {
             txtNavn.clear();
             txtAdresse.clear();
         });
+
 
         btnGangOpret.setOnAction(e -> {
             Lager valgt = lagerTable.getSelectionModel().getSelectedItem();
@@ -156,7 +151,7 @@ public class LagerTab {
                 return;
             }
 
-            // --- Læs og valider input ---
+            // Error handler
             int antalReoler;
             int antalHylder;
 
@@ -181,16 +176,16 @@ public class LagerTab {
                 return;
             }
 
-            // --- Opret gang gennem Lager (komposition) ---
+            // Opretter en gang igennem valgt lager
             valgt.createGang(antalReoler, antalHylder);
 
-            // --- Opdater UI med detaljer ---
+            // Opdatere UI
             lblValgteLagerNavn.setText(valgt.getNavn() +
                     " (Gange: " + valgt.getGangList().size() +
                     ", Reoler pr gang: " + antalReoler +
                     ", Hylder pr reol: " + antalHylder + ")");
 
-            // --- Ryd felter ---
+            //Ryd felter
             txtAntalReoler.clear();
             txtAntalHylderPrReol.clear();
 
@@ -199,15 +194,7 @@ public class LagerTab {
 
         });
 
-
-
-
-
-
         return root;
-    }
-
-    public void refresh() {
     }
 
     public void updateControls() {

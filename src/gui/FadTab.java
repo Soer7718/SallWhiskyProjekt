@@ -25,36 +25,30 @@ public class FadTab {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
 
-        // === Formular til oprettelse ===
+        // Formular til oprettelse
         GridPane formPane = new GridPane();
         formPane.setHgap(10);
         formPane.setVgap(10);
         formPane.setPadding(new Insets(10));
 
+        //Labels og TextFields
         Label lblAntal = new Label("Antal gange brugt:");
         TextField txtAntal = new TextField();
-
         Label lblType = new Label("Type:");
         TextField txtType = new TextField();
-
         Label lblLeverandør = new Label("Leverandør:");
         TextField txtLeverandør = new TextField();
-
         Label lblHistorik = new Label("Historik:");
         TextField txtHistorik = new TextField();
-
         Label lblStørrelse = new Label("Størrelse (L):");
         ComboBox<Integer> cbStørrelse = new ComboBox<>();
         cbStørrelse.getItems().addAll(50, 100, 200, 500);
         cbStørrelse.setValue(200);
-
         Button btnOpret = new Button("Opret Fad");
-
         Button btnTapFad = new Button("Tap Fad");
         btnTapFad.setDisable(true);
-
         Button btnFlytTilLager = new Button("Flyt til Lager");
-        btnFlytTilLager.setDisable(true); // deaktiveret indtil et fad er valgt
+        btnFlytTilLager.setDisable(true);
 
         // Tilføj felter til GridPane
         formPane.add(lblAntal, 0, 0);
@@ -74,37 +68,29 @@ public class FadTab {
 
         root.setTop(formPane);
 
-        // === TableView til liste ===
+        // TableView til liste
         fadTable.setItems(fadListe);
         fadTable.setPrefHeight(300);
 
+        //---TableColumns---
         TableColumn<Fad, String> colId = new TableColumn<>("ID");
         colId.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getId())));
-
         TableColumn<Fad, String> colType = new TableColumn<>("Type");
         colType.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getType()));
-
         TableColumn<Fad, String> colLeverandør = new TableColumn<>("Leverandør");
         colLeverandør.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLeverandør()));
-
         TableColumn<Fad, String> colHistorik = new TableColumn<>("Historik");
         colHistorik.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getHistorik()));
-
         TableColumn<Fad, String> colAntal = new TableColumn<>("Antal gange brugt");
         colAntal.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getAntalGangeBrugt())));
-
         TableColumn<Fad, String> colStørrelse = new TableColumn<>("Størrelse (L)");
         colStørrelse.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getStørrelseLiter())));
-
         TableColumn<Fad, String> colFyldt = new TableColumn<>("Fyldt (L)");
         colFyldt.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getFyldt())));
-
-
         TableColumn<Fad, String> colTapninger   = new TableColumn<>("Tapninger");
         colTapninger.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getTapninger().size()))
         );
-
         TableColumn<Fad, String> colTapningstyper = new TableColumn<>("Tapningstyper");
         colTapningstyper.setCellValueFactory(data ->
                 new SimpleStringProperty(
@@ -113,7 +99,6 @@ public class FadTab {
                                 .map(Enum::name)
                                 .distinct()
                                 .collect(Collectors.joining(", "))));
-
         TableColumn<Fad, String> colKlarTilTapning = new TableColumn<>("Klar til tapning?");
         colKlarTilTapning.setCellValueFactory(data -> {
             Fad f = data.getValue();
@@ -122,12 +107,9 @@ public class FadTab {
         });
         TableColumn<Fad, String> colLager = new TableColumn<>("placering");
         colLager.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getPlacering())));
-
         fadTable.getColumns().clear();
         fadTable.getColumns().addAll(colId ,colType, colLeverandør, colHistorik, colAntal, colStørrelse, colFyldt,colTapninger, colTapningstyper,colKlarTilTapning, colLager);
-
         root.setCenter(fadTable);
-
 
         fadTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             btnFlytTilLager.setDisable(selected == null);
@@ -140,7 +122,7 @@ public class FadTab {
 
         btnTapFad.setOnAction(e -> openTapningsVindue());
 
-        // === Eventhandler til knappen ===
+        //Eventhandler
         btnOpret.setOnAction(e -> {
 
             String type = txtType.getText().trim();
@@ -229,13 +211,6 @@ public class FadTab {
 
     public void updateControls() {
         fadListe.setAll(Controller.getFadList());
-        fadTable.refresh();
-    }
-    public void refreshTable() {
-        fadTable.refresh();
-    }
-
-    public void refresh() {
         fadTable.refresh();
     }
 }

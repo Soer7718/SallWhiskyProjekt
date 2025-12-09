@@ -18,7 +18,7 @@ public class FadOversigtTab {
     private TableView<Fad> fadTable;
     private TableView<Tapning> whiskyTable;
 
-
+    //observable Lists
     private ObservableList<Fad> fadList = FXCollections.observableArrayList(Controller.getFadList());
     private ObservableList<Tapning> whiskyList = FXCollections.observableArrayList(Controller.getTapningList()); // antag at du har en metode til at hente whiskyer
 
@@ -34,16 +34,16 @@ public class FadOversigtTab {
         setupFadTable();
 
         // --- TableView til whiskyer ---
+        // WhiskyTable er skult fra starten
         whiskyTable = new TableView<>(whiskyList);
         setupWhiskyTable();
-        whiskyTable.setVisible(false); // skjul whiskytabellen i starten
+        whiskyTable.setVisible(false);
 
 
         StackPane tableStack = new StackPane(fadTable, whiskyTable);
         tableStack.setPrefHeight(400);
 
-
-        // --- Lyt til ComboBox ændringer ---
+        // --- eventListener ---
         cbVisning.setOnAction(e -> {
             String valg = cbVisning.getSelectionModel().getSelectedItem();
             if (valg.equals("Fade")) {
@@ -99,19 +99,16 @@ public class FadOversigtTab {
     }
 
     private void setupWhiskyTable() {
-        // Kolonne: Tapningsnavn
         TableColumn<Tapning, String> colNavn = new TableColumn<>("Tapning");
         colNavn.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getWhiskyNavn())
         );
 
-        // Kolonne: Antal flasker i tapningen
         TableColumn<Tapning, String> colAntalFlasker = new TableColumn<>("Antal flasker");
         colAntalFlasker.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getWhiskyList().size()))
         );
 
-        // Kolonne: Samlet mængde alkohol
         TableColumn<Tapning, String> colAlkohol = new TableColumn<>("Samlet alkohol %");
         colAlkohol.setCellValueFactory(data -> {
             double gennemsnitAlkohol = data.getValue().getWhiskyList().stream()
@@ -130,10 +127,10 @@ public class FadOversigtTab {
             }
         });
 
-
-        // Sæt kolonnerne
         whiskyTable.getColumns().setAll(colNavn, colAntalFlasker, colAlkohol, colTapningstyper);
     }
+
+    //Update metode
     public void updateControls() {
         fadList.setAll(Controller.getFadList());
         whiskyList.setAll(Controller.getTapningList());

@@ -14,6 +14,8 @@ public class Tapning {
     private List<Fad> fadList;
     private String whiskyNavn;
 
+
+    //Constructor
     public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, List<WhiskyType> typer, String navn) {
         this.alkoholProcent = alkoholProcent;
         this.historik = historik;
@@ -25,71 +27,60 @@ public class Tapning {
         this.whiskyNavn = navn;
     }
 
-
+    //Getters og Setters
     public double getAlkoholProcent() {
         return alkoholProcent;
     }
-
     public void setAlkoholProcent(double alkoholProcent) {
         this.alkoholProcent = alkoholProcent;
     }
-
     public String getHistorik() {
         return historik;
     }
-
     public void setHistorik(String historik) {
         this.historik = historik;
     }
-
     public double getMængdeVand() {
         return mængdeVand;
     }
-
     public void setMængdeVand(double mængdeVand) {
         this.mængdeVand = mængdeVand;
     }
-
     public String getVandOprindelse() {
         return vandOprindelse;
     }
-
     public void setVandOprindelse(String vandOprindelse) {
         this.vandOprindelse = vandOprindelse;
     }
-
     public double getFuldMængde() {
         return fuldMængde;
     }
-
     public void setFuldMængde(double fuldMængde) {
         this.fuldMængde = fuldMængde;
     }
-
     public List<WhiskyType> getTyper() {
         return new ArrayList<>(typer);
     }
-
     public void setTyper(List<WhiskyType> typer) {
         this.typer = typer != null ? new ArrayList<>(typer) : new ArrayList<>();
     }
-
     public List<Whisky> getWhiskyList() {
         return new ArrayList<>(whiskyList);
     }
-
     public void setWhiskyList(List<Whisky> whiskyList) {
         this.whiskyList = whiskyList != null ? new ArrayList<>(whiskyList) : new ArrayList<>();
     }
-
     public String getWhiskyNavn() {
         return whiskyNavn;
     }
-
     public void setWhiskyNavn(String whiskyNavn) {
         this.whiskyNavn = whiskyNavn;
     }
+    public List<Fad> getFadList() {
+        return new ArrayList<>(fadList);
+    }
 
+    //Hjælpe Metoder
     public void tilføjWhisky(Whisky whisky) {
         if (whisky != null && !whiskyList.contains(whisky)) {
             whiskyList.add(whisky);
@@ -100,10 +91,6 @@ public class Tapning {
         if (whisky != null) {
             whiskyList.remove(whisky);
         }
-    }
-
-    public List<Fad> getFadList() {
-        return new ArrayList<>(fadList);
     }
 
     public void tilføjFad(Fad fad) {

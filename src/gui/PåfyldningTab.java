@@ -1,4 +1,3 @@
-
 package gui;
 
 import javafx.collections.FXCollections;
@@ -7,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.geometry.Insets;
+
 import java.time.LocalDate;
 
 import application.model.Fad;
@@ -15,19 +15,17 @@ import application.model.Påfyldning;
 import application.controller.Controller;
 
 
-public class PåfyldningTab{
+public class PåfyldningTab {
     private ObservableList<Fad> fadListe = FXCollections.observableArrayList(Controller.getFadList());
     ComboBox<Fad> fadCombo = new ComboBox<>(fadListe);
-
-
 
     public Node getContent() {
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
 
+        //liste med fade
         fadCombo.getItems().addAll(Controller.getFadListe());
         fadCombo.setPromptText("Vælg fad");
-
 
         fadCombo.setCellFactory(lv -> new ListCell<Fad>() {
             @Override
@@ -41,7 +39,7 @@ public class PåfyldningTab{
             }
         });
 
-
+        //Man kan vælge destillater
         ComboBox<Destilat> destilatCombo = new ComboBox<>();
         destilatCombo.setItems(Controller.getDestillatListeObs());
         destilatCombo.setPromptText("Vælg destillat");
@@ -50,6 +48,7 @@ public class PåfyldningTab{
 
         Button påfyldKnap = new Button("Påfyld destillat på fad");
         Label feedbackLabel = new Label();
+
 
         påfyldKnap.setOnAction(e -> {
             Fad valgtFad = fadCombo.getValue();
@@ -89,7 +88,6 @@ public class PåfyldningTab{
                 påfyldKnap,
                 feedbackLabel
         );
-
         return root;
     }
 

@@ -134,7 +134,6 @@ public class DestilatTab {
             }
         });
 
-
         // --- Tilføj alle bokse til row ---
         row.getChildren().addAll(box1, box2, box3);
         layout.getChildren().add(row);
@@ -142,7 +141,7 @@ public class DestilatTab {
         return layout;
     }
 
-    // --- Opret destilat metode ---
+    // --- Opret destilat metode til knap ---
     private void opretDestilat() {
         String kornSort = kornSortInput.getText().toLowerCase();
         LocalDate slutDato = slutDatoInput.getValue();
@@ -186,6 +185,7 @@ public class DestilatTab {
 
         Destilat destilat = Controller.createDestilat(alkoholProcent, mængde, mark, kornSort, maltBatch, slutDato, rygeMateriale, kommentar
         );
+
         // Tilføj direkte til ObservableList
         destilater.add(destilat);
 
@@ -197,9 +197,6 @@ public class DestilatTab {
         maltBatchInput.clear();
         rygeMaterialeInput.clear();
         kommentarInput.clear();
-    }
-
-    public void refresh() {
     }
 
     public void updateControls() {
