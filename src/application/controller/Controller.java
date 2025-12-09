@@ -82,8 +82,7 @@ package application.controller;
                 fad.setFyldt(rest);
 
                 // Sæt slutdato på påfyldningen
-                if (fad.getPåfyldning() != null) {
-                    fad.getPåfyldning().setSlutDato(LocalDate.now());
+                if (fad.getPåfyldninger() != null) {
                     fad.setPåfyldning(null);
                 }
 
@@ -110,7 +109,7 @@ package application.controller;
             destilat.addPåfyldning(påfyldning);
             Storage.addPåfyldning(påfyldning);
             fad.setFyldt(destilat.getMængde());
-            fad.setPåfyldning(påfyldning);
+            fad.addPåfyldning(påfyldning);
 
             return påfyldning;
         }

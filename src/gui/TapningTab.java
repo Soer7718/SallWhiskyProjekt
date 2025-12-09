@@ -61,7 +61,7 @@ public class TapningTab {
         ComboBox<Fad> cbFade = new ComboBox<>();
         cbFade.setItems(FXCollections.observableArrayList(
                 Controller.getFadListe().stream()
-                        .filter(f -> f.getPåfyldning() != null)
+                        .filter(f -> f.getPåfyldninger() != null)
                         .filter(f -> f.udregnLagringsÅr() >= 3)
                         .filter(f -> f.getFyldt() > 0)
                         .toList()));
