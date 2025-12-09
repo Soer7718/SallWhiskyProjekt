@@ -1,7 +1,4 @@
 package application.model;
-
-import javafx.collections.ObservableList;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
