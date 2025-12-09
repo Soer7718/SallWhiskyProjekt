@@ -26,6 +26,7 @@ public class Fad {
         this.størrelseLiter = liter;
         this.fyldt = 0.0;
         this.tapninger = new ArrayList<>();
+        this.påfyldninger = new ArrayList<>();
     }
 
     public Fad(int id, int antalGangeBrugt, String type, String leverandør, String historik, double liter, double fyldt, List<Tapning> tapninger, Påfyldning påfyldning) {
@@ -44,7 +45,7 @@ public class Fad {
         * } samme som under
         * */
         this.tapninger = tapninger != null ? tapninger : new ArrayList<>();
-        //this.påfyldning = påfyldning;
+        this.påfyldninger = new ArrayList<>();
     }
 
     // --- Getters & Setters ---
@@ -64,8 +65,9 @@ public class Fad {
     public List<Påfyldning> getPåfyldninger() { return new ArrayList<>(påfyldninger); }
     public void setPåfyldning(List<Påfyldning> påfyldninger) {
         this.påfyldninger = påfyldninger != null ? new ArrayList<>(påfyldninger) : new ArrayList<>(); }
+
     public void addPåfyldning (Påfyldning påfyldning) {
-        if (påfyldning != null && !påfyldninger.contains(påfyldninger)){
+        if (!påfyldninger.contains(påfyldning)){
             påfyldninger.add(påfyldning);
         }
     }
