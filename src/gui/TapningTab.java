@@ -39,8 +39,8 @@ public class TapningTab {
         TextField txtNavn = new TextField();
         Label lblAlkohol = new Label("Alkohol %:");
         TextField txtAlkohol = new TextField();
-        Label lblHistorik = new Label("Historik:");
-        TextField txtHistorik = new TextField();
+//        Label lblHistorik = new Label("Historik:");
+//        TextField txtHistorik = new TextField();
         Label lblVand = new Label("Mængde vand:");
         TextField txtVand = new TextField();
         Label lblVandOprindelse = new Label("Vand oprindelse:");
@@ -90,8 +90,8 @@ public class TapningTab {
         //Tilføjer til formpane
         formPane.add(lblAlkohol, 0, 0);
         formPane.add(txtAlkohol, 1, 0);
-        formPane.add(lblHistorik, 0, 1);
-        formPane.add(txtHistorik, 1, 1);
+//        formPane.add(lblHistorik, 0, 1);
+//        formPane.add(txtHistorik, 1, 1);
         formPane.add(lblVand, 0, 2);
         formPane.add(txtVand, 1, 2);
         formPane.add(lblVandOprindelse, 0, 3);
@@ -135,6 +135,7 @@ public class TapningTab {
             try {
                 String navn = txtNavn.getText();
                 double alkohol = Double.parseDouble(txtAlkohol.getText());
+                //String historik = txtHistorik.getText();
                 double vand = Double.parseDouble(txtVand.getText());
                 String vandOprindelse = txtVandOprindelse.getText();
                 double flaskeStr = cbFlaskeStr.getSelectionModel().getSelectedItem();
@@ -156,7 +157,7 @@ public class TapningTab {
 
                 txtNavn.clear();
                 txtAlkohol.clear();
-                txtHistorik.clear();
+//                txtHistorik.clear();
                 txtVand.clear();
                 txtVandOprindelse.clear();
                 txtMængde.clear();
