@@ -16,9 +16,8 @@ public class Tapning {
 
 
     //Constructor
-    public Tapning(double alkoholProcent, String historik, double mængdeVand, String vandOprindelse, List<WhiskyType> typer, String navn) {
+    public Tapning(double alkoholProcent, double mængdeVand, String vandOprindelse, List<WhiskyType> typer, String navn) {
         this.alkoholProcent = alkoholProcent;
-        this.historik = historik;
         this.mængdeVand = mængdeVand;
         this.vandOprindelse = vandOprindelse;
         this.typer = typer != null ? new ArrayList<>(typer) : new ArrayList<>();
@@ -136,6 +135,24 @@ public class Tapning {
             whiskyList.add(w);
         }
         return whiskyList;
+    }
+
+    public String opretHistorik(){
+        String færdigHistorik = new String();
+
+        for (Fad f : fadList){
+            for (Påfyldning p : f.getPåfyldninger()){
+                færdigHistorik += "Destilleri: " + p.getDestilat().getMaltBatch() + "Mark" + p.getDestilat().getMark() + "Korn sort: " + p.getDestilat().getKornSort();
+
+                if (p.getDestilat().getRygeMateriale() != null){
+                    færdigHistorik += "Ryge materiale: " + p.getDestilat().getRygeMateriale() + "Kommentar: " + p.getDestilat().getKommentar();
+                } else {
+                    færdigHistorik += "Kommentar: " + p.getDestilat().getKommentar() + " ";
+                }
+            }
+        }
+
+        return færdigHistorik;
     }
 
     @Override

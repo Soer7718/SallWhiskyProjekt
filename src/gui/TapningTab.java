@@ -135,7 +135,6 @@ public class TapningTab {
             try {
                 String navn = txtNavn.getText();
                 double alkohol = Double.parseDouble(txtAlkohol.getText());
-                String historik = txtHistorik.getText();
                 double vand = Double.parseDouble(txtVand.getText());
                 String vandOprindelse = txtVandOprindelse.getText();
                 double flaskeStr = cbFlaskeStr.getSelectionModel().getSelectedItem();
@@ -145,7 +144,8 @@ public class TapningTab {
 
                 List<Fad> valgteFade = lstValgteFade.getItems();
 
-                Controller.createTapning(valgteFade, alkohol, historik, vand, vandOprindelse, flaskeStr, typer, navn);
+                Tapning tapning = Controller.createTapning(valgteFade, alkohol, vand, vandOprindelse, flaskeStr, typer, navn);
+                tapning.opretHistorik();
 
                 tapningTable.setItems(FXCollections.observableArrayList(
                         valgteFade.stream()
