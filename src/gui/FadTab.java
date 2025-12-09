@@ -2,6 +2,7 @@ package gui;
 
 import application.controller.Controller;
 import application.model.*;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,7 +89,21 @@ public class FadTab {
 
         btnTapFad.setDisable(true);
         btnFlytTilLager.setDisable(true);
-        btnOmhældTilFad.setDisable(true);
+        //gør btnOmhældning disabled indtil tal er udfyldt
+        btnOmhældTilFad.disableProperty().bind(
+                fadTable.getSelectionModel().selectedItemProperty().isNull()
+                        .or(cbFade.valueProperty().isNull())
+                        .or(txtLiter.textProperty().isEmpty())
+                        .or(Bindings.createBooleanBinding(() -> {
+            try {
+                double liter = Double.parseDouble(txtLiter.getText().trim());
+                Fad valgtFad = fadTable.getSelectionModel().getSelectedItem();
+                return valgtFad == null || liter <= 0 || valgtFad.getFyldt() < liter;
+            } catch (NumberFormatException e) {
+                return true;
+            }
+        }, txtLiter.textProperty(), fadTable.getSelectionModel().selectedItemProperty()))
+        );
 
         // Tilføj felter til GridPane
         formPane.add(lblAntal, 0, 0);
@@ -110,6 +125,7 @@ public class FadTab {
         formPane.add(txtLiter,3,1);
         formPane.add(cbFade,3,2);
         formPane.add(btnOmhældTilFad,3,3);
+
 
         root.setTop(formPane);
 
@@ -255,6 +271,7 @@ public class FadTab {
             valgtFad.omhældTilAndetFad(tilFad, liter);
 
             txtLiter.clear();
+            updateControls();
         });
 
         return root;

@@ -95,6 +95,7 @@ public class FadOversigtTab {
                 )
         );
 
+
         fadTable.getColumns().setAll(colId, colType, colLiter, colLeverandør, colHistorik, colTapninger, colTapningstyper, colKlarTilTapning);
     }
 
@@ -127,7 +128,14 @@ public class FadOversigtTab {
             }
         });
 
-        whiskyTable.getColumns().setAll(colNavn, colAntalFlasker, colAlkohol, colTapningstyper);
+        TableColumn<Tapning, String> colHistorik = new TableColumn<>("Historik");
+        colHistorik.setCellValueFactory(data->
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getHistorik()
+                ));
+
+
+        whiskyTable.getColumns().setAll(colNavn, colAntalFlasker, colAlkohol, colTapningstyper, colHistorik);
     }
 
     //Update metode
