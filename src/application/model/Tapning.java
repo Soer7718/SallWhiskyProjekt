@@ -134,10 +134,11 @@ public class Tapning {
 
             whiskyList.add(w);
         }
+
         return whiskyList;
     }
 
-    public String opretHistorik(){
+    public void opretHistorik(){
         String færdigHistorik = new String();
 
         for (Fad f : fadList){
@@ -151,8 +152,7 @@ public class Tapning {
                 }
             }
         }
-
-        return færdigHistorik;
+        this.setHistorik(færdigHistorik);
     }
 
     @Override
