@@ -48,6 +48,12 @@ public class Fad {
         this.påfyldninger = new ArrayList<>();
     }
 
+    public Tapning createTapning(double alkoholProcent, double mængdeVand, String vandOprindelse, List<WhiskyType> typer, String navn) {
+        Tapning tapning = new Tapning(alkoholProcent, mængdeVand, vandOprindelse, typer, navn);
+        tapninger.add(tapning);
+        return tapning;
+    }
+
     // --- Getters & Setters ---
     public int getId() { return id; }
     public int getAntalGangeBrugt() { return antalGangeBrugt; }
