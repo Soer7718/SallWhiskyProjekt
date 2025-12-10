@@ -44,6 +44,8 @@ public class Påfyldning {
     public void addFad(Fad fad) {
         if (!fadList.contains(fad)) {
             fadList.add(fad);
+            fad.setFyldt(destilat.getMængde());
+            fad.addPåfyldning(this);
         }
     }
 
